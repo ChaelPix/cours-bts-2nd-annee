@@ -1,8 +1,10 @@
 #ifndef _ESMELANGEUR_
 #define _ESMELANGEUR_
-// à modifier suivant architecture locale
-#include "..\..\..\Codes\CPP\Include\NIDAQmx.h"
+
+#include "NIDAQmx.h"
 #include <string>
+#include <iostream>
+
 
 using namespace std;
 
@@ -12,7 +14,7 @@ private:
 		// masse de produit
 	int m_poids;
 		// image des capteurs
-	bool m_capteur_bas_R1;			// réservoir 1
+	bool m_capteur_bas_R1;			// réservoir 1b                                                                                                                                                                                                                                                                                                                                                                       
 	bool m_capteur_bas_R2;			// réservoir 2
 	bool m_capteur_bas_R3;			// réservoir 3
 	bool m_capteur_niveau_bas;		// cuve de refroidissement
@@ -29,13 +31,17 @@ private:
 	bool m_malaxeur;				// agitateur malaxeur
 	bool m_evacuation;				// pompe vidange cuve
 	bool m_voyant_rouge;			//panneau de commande
+
+	void initVariables();
 		// identificateurs taches DAQmx
 			// acquisition des données analogiques
 	TaskHandle m_tache_lecture_ana;
 			// acquisition des données numériques
 	TaskHandle m_tache_lecture_tor;
+	uInt32 lecture_tor_value = 0;
 			// restitution des données numériques
 	TaskHandle m_tache_ecriture_tor;
+	uInt32 ecriture_tor_value = 0;
 public:
 		/* Constructeur
 		**	initialise les attributs à 0

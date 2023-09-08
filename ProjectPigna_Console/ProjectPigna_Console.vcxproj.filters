@@ -23,5 +23,8 @@
     <ClInclude Include="NIDAQmx.h">
       <Filter>Fichiers de ressources</Filter>
     </ClInclude>
+    <ClInclude Include="EsMelangeur.h">
+      <Filter>Fichiers de ressources</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
