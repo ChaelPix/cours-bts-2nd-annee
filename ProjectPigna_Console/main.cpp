@@ -1,199 +1,124 @@
-#include <iostream>
-#include <Windows.h>
-
+// Exemple d'utilisation de la bibliothèque NI DAQ
+// BTS SNIR
+#include <iostream> // pour cin, cout
+#include <Windows.h> // pour la fonction Sleep()
+// prototypes des fonctions DAQmx, ce fichier doit être placé dans le répertoire de votre projet
 #include "NIDAQmx.h"
-
-/*
-Turn on a led
-*/
-int Q2_2()
+using namespace std;
+// Fonction principale
+int main(void)
 {
-	TaskHandle valve2Handle;
-	int32 error;
-	// 1 : Create Task
-	std::cout << "...: Create Task :..." << std::endl;
-	if (DAQmxCreateTask("", &valve2Handle) < 0)
-	{
-		std::cout << "ERROR Create Task" << std::endl;
-		return -1;
+	// Le type TaskHandle est déclaré dans le fichier NIDAQmx.h
+	TaskHandle tacheLectureDI0;
+	// Le code de retour des fonctions sera stocké dans la variable erreur
+	int32 erreur = 0;
+	// Cette variable stockera le résultat de la lecture analogique
+	uInt32 valDI0 = 0;
+	cout << "..:: Debut programme ::.." << endl;
+	// Création d'une nouvelle tâche, passage de l'identificateur de tache par adresse
+
+	TaskHandle ecritureDO;
+
+	erreur = DAQmxCreateTask("", &ecritureDO);
+	if (erreur < 0) {
+		cout << "Erreur lors de la création de la tache..." << endl;
 	}
+	else cout << "Creation de tache : ok" << endl;
 
-	// 2 : Create Digital out
-	std::cout << "...: Create DigitalOut :..." << std::endl;
-	if ((error = DAQmxCreateDOChan(valve2Handle, "Dev1/port0", "", DAQmx_Val_ChanForAllLines)) < 0)
-	{
-		std::cout << "ERROR Create DigitalOut" << std::endl;
-		std::cout << (int)error << std::endl;
-		return -1;
+	erreur = DAQmxCreateDOChan(ecritureDO, "Dev1/port0", "", DAQmx_Val_ChanForAllLines);
+	if (erreur < 0) {
+		cout << "Erreur de création de la voie digitale en sortie..." << endl;
 	}
+	else cout << "Creation du chan : ok" << endl;
 
-	// 3 : Start Task
-	if (DAQmxStartTask(valve2Handle) < 0)
-	{
-		std::cout << "ERROR Start Task" << std::endl;
-		return -1;
+	erreur = DAQmxStartTask(ecritureDO);
+	if (erreur < 0) {
+		cout << "Erreur au demarrage de la tache..." << endl;
+		return (-1);
 	}
+	else cout << "Lancement de tache : ok" << endl;
 
-	// 4 : Write
-	if (DAQmxWriteDigitalScalarU32(valve2Handle, true, 10, 1, NULL) < 0)
-	{
-		std::cout << "ERROR Write Digital (1)" << std::endl;
-		return -1;
+	uInt32 valDO = 00;
+
+	erreur = DAQmxWriteDigitalScalarU32(ecritureDO, false, 0, valDO, NULL);
+	if (erreur < 0) {
+		cout << "Erreur d'écriture de l'entrée..." << endl;
+		return (-1);
 	}
+	else cout << "Valeur écrite : " << erreur << endl;
 
-	Sleep(2000);
+	//// Arrêt de la tache d'ecriture
+	//erreur = DAQmxStopTask(ecritureDO);
+	//if (erreur < 0) {
+	//	cout << "Erreur lors de l'arret de la tache..." << endl;
+	//	return (-1);
+	//}
+	//else cout << "Arret de la tache : ok" << endl;
 
-	if (DAQmxWriteDigitalScalarU32(valve2Handle, true, 10, 0, NULL) < 0)
-	{
-		std::cout << "ERROR Write Digital (2)" << std::endl;
-		return -1;
-	}
+	//// Effacement de la tache d'ecriture
+	//erreur = DAQmxClearTask(ecritureDO);
+	//if (erreur < 0) {
+	//	cout << "Erreur lors de la suppression de la tache..." << endl;
+	//	return (-1);
+	//}
 
-	// 5 : Stop Task
-	if (DAQmxStopTask(valve2Handle) < 0)
-	{
-		std::cout << "ERROR Stop Task" << std::endl;
-		return -1;
-	}
 
-	// 6 : Clear Task
-	if (DAQmxClearTask(valve2Handle) < 0)
-	{
-		std::cout << "ERROR Clear Task" << std::endl;
-		return -1;
-	}
 
-	std::cout << "...: Program Finished Ok :...";
 
-}
+	//
 
-/*
-Turn on 2 leds, and turn off with 2sec interval
-*/
-int Q2_3()
-{
-	TaskHandle valve2Handle;
-	int32 error;
-	// 1 : Create Task
-	std::cout << "...: Create Task :..." << std::endl;
-	if (DAQmxCreateTask("", &valve2Handle) < 0)
-	{
-		std::cout << "ERROR Create Task" << std::endl;
-		return -1;
-	}
+	//erreur = DAQmxCreateTask("", &tacheLectureDI0); //on donne l'adresse de la variable car la fonction utilise un pointeur pour permettre à toutes les autres fonctions d'être associées à cette tache
 
-	// 2 : Create Digital out
-	std::cout << "...: Create DigitalOut :..." << std::endl;
-	if ((error = DAQmxCreateDOChan(valve2Handle, "Dev1/port0", "", DAQmx_Val_ChanForAllLines)) < 0)
-	{
-		std::cout << "ERROR Create DigitalOut" << std::endl;
-		std::cout << (int)error << std::endl;
-		return -1;
-	}
+	//// Si erreur est négatif, il y a eu un problème...
+	//if (erreur < 0) {
+	//	// On informe l'utilisateur...
+	//	cout << "Erreur creation de la tache..." << endl;
+	//	// et on quitte l'application avec un code négatif pour indiquer une erreur
+	//	return (-1);
+	//}
+	//else cout << "Creation de tache : ok" << endl;
 
-	// 3 : Start Task
-	if (DAQmxStartTask(valve2Handle) < 0)
-	{
-		std::cout << "ERROR Start Task" << std::endl;
-		return -1;
-	}
+	//erreur = DAQmxCreateDIChan(tacheLectureDI0, "Dev3/port0", "", DAQmx_Val_ChanForAllLines);
+	//if (erreur < 0) {
+	//	cout << "Erreur de creation de la voie digitale en entree..." << endl;
+	//	return (-1);
 
-	// 4 : Write
-	uint32_t valveAction = 0x03;  // Both bits 0 and 1 set (binary 0011)
-	if (DAQmxWriteDigitalScalarU32(valve2Handle, true, 10, valveAction, NULL) < 0)
-	{
-		std::cout << "ERROR Write Digital (1)" << std::endl;
-		return -1;
-	}
+	//}
+	//else cout << "Creation de chan : ok" << endl;
 
-	Sleep(2000);
+	//// Démarrage de la tache
+	//erreur = DAQmxStartTask(tacheLectureDI0);
+	//if (erreur < 0) {
+	//	cout << "Erreur au demarrage de la tache..." << endl;
+	//	return (-1);
+	//}
+	//else cout << "Lancement de tache : ok" << endl;
 
-	valveAction = 0x02; //0010, 1rst led is off
-	if (DAQmxWriteDigitalScalarU32(valve2Handle, true, 10, valveAction, NULL) < 0)
-	{
-		std::cout << "ERROR Write Digital (2)" << std::endl;
-		return -1;
-	}
+	//erreur = DAQmxReadDigitalScalarU32(tacheLectureDI0, 0, &valDI0, NULL); //à changer/copier pour l'entrée numérique
+	//if (erreur < 0) {
+	//	cout << "Erreur de lecture de l'entrée..." << endl;
+	//	return (-1);
+	//}
+	//
+	//// Affichage de la valeur digitale lue
+	//cout << "Valeur lue : " << valDI0 << endl;
+	//// Arrêt de la tache de lecture
+	//erreur = DAQmxStopTask(tacheLectureDI0);
+	//if (erreur < 0) {
+	//	cout << "Erreur lors de l'arret de la tache..." << endl;
+	//	return (-1);
+	//}
+	//else cout << "Arret de la tache : ok" << endl;
 
-	Sleep(2000);
+	//// Effacement de la tache de lecture
+	//erreur = DAQmxClearTask(tacheLectureDI0);
+	//if (erreur < 0) {
+	//	cout << "Erreur lors de la suppression de la tache..." << endl;
+	//	return (-1);
+	//}
 
-	valveAction = 0x00; //turn off all
-	if (DAQmxWriteDigitalScalarU32(valve2Handle, true, 10, valveAction, NULL) < 0)
-	{
-		std::cout << "ERROR Write Digital (2)" << std::endl;
-		return -1;
-	}
+	//// Fin du programme et sortie sans erreur, on retourne 0
+	//cout << "..:: Fin programme ::.." << endl;
+	//return 0;
 
-	// 5 : Stop Task
-	if (DAQmxStopTask(valve2Handle) < 0)
-	{
-		std::cout << "ERROR Stop Task" << std::endl;
-		return -1;
-	}
-
-	// 6 : Clear Task
-	if (DAQmxClearTask(valve2Handle) < 0)
-	{
-		std::cout << "ERROR Clear Task" << std::endl;
-		return -1;
-	}
-
-	std::cout << "...: Program Finished Ok :...";
-
-	return 0;
-}
-
-int main()
-{
-	TaskHandle valve2Handle;
-	int32 error;
-	// 1 : Create Task
-	std::cout << "...: Create Task :..." << std::endl;
-	if (DAQmxCreateTask("", &valve2Handle) < 0)
-	{
-		std::cout << "ERROR Create Task" << std::endl;
-		return -1;
-	}
-
-	// 2 : Create Digital In
-	std::cout << "...: Create DigitalIn :..." << std::endl;
-	if ((error = DAQmxCreateDIChan(valve2Handle, "Dev1/port0", "", DAQmx_Val_ChanForAllLines)) < 0)
-	{
-		std::cout << "ERROR Create DigitalIn" << std::endl;
-		std::cout << (int)error << std::endl;
-		return -1;
-	}
-
-	// 3 : Start Task
-	if (DAQmxStartTask(valve2Handle) < 0)
-	{
-		std::cout << "ERROR Start Task" << std::endl;
-		return -1;
-	}
-
-	for (int i = 0; i < 10; i++)
-	{
-		uInt32 value;
-		DAQmxReadDigitalScalarU32(valve2Handle, 1000, &value, NULL);
-		std::cout << value << " " << std::hex << value << std::dec << std::endl;
-		Sleep(1000);
-	}
-
-	// 5 : Stop Task
-	if (DAQmxStopTask(valve2Handle) < 0)
-	{
-		std::cout << "ERROR Stop Task" << std::endl;
-		return -1;
-	}
-
-	// 6 : Clear Task
-	if (DAQmxClearTask(valve2Handle) < 0)
-	{
-		std::cout << "ERROR Clear Task" << std::endl;
-		return -1;
-	}
-
-	std::cout << "...: Program Finished Ok :...";
-
-	return 0;
 }

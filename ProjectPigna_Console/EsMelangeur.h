@@ -38,10 +38,8 @@ private:
 	TaskHandle m_tache_lecture_ana;
 			// acquisition des données numériques
 	TaskHandle m_tache_lecture_tor;
-	uInt32 lecture_tor_value = 0;
 			// restitution des données numériques
 	TaskHandle m_tache_ecriture_tor;
-	uInt32 ecriture_tor_value = 0;
 public:
 		/* Constructeur
 		**	initialise les attributs à 0

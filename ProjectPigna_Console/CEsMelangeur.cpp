@@ -55,7 +55,7 @@ int32 CEsMelangeur::initEsMelangeur()
 		std::cout << "ERROR Create Task" << std::endl;
 		return -1;
 	}
-	if (DAQmxCreateDOChan(m_tache_lecture_tor, "Dev1/port1", "", DAQmx_Val_ChanForAllLines) < 0)
+	if (DAQmxCreateDIChan(m_tache_lecture_tor, "Dev1/port1", "", DAQmx_Val_ChanForAllLines) < 0)
 	{
 		std::cout << "ERROR Create DigitalOut" << std::endl;
 		return -1;
@@ -72,7 +72,7 @@ int32 CEsMelangeur::initEsMelangeur()
 		std::cout << "ERROR Create Task" << std::endl;
 		return -1;
 	}
-	if (DAQmxCreateDOChan(m_tache_lecture_ana, "Dev1/ai1", "", DAQmx_Val_ChanForAllLines) < 0)
+	if (DAQmxCreateAIVoltageChan(m_tache_lecture_ana, "Dev1/ai0", "", DAQmx_Val_RSE, 0.0, 5.0, DAQmx_Val_Volts, ""))
 	{
 		std::cout << "ERROR Create DigitalOut" << std::endl;
 		return -1;
@@ -129,14 +129,35 @@ int32 CEsMelangeur::fermerEsMelangeur()
 
 int32 CEsMelangeur::lireEntrees()
 {
+	uInt32 lecture_tor_value;
 	if (DAQmxReadDigitalScalarU32(m_tache_lecture_tor, 1000, &lecture_tor_value, NULL) < 0)
 		return -1;
+
+	m_capteur_bas_R1 = (lecture_tor_value & (1 << 0)) != 0;       // bit 0
+	m_capteur_bas_R2 = (lecture_tor_value & (1 << 1)) != 0;       // bit 1
+	m_capteur_bas_R3 = (lecture_tor_value & (1 << 2)) != 0;       // bit 2
+	m_capteur_niveau_bas = (lecture_tor_value & (1 << 3)) != 0;   // bit 3
+	m_capteur_niveau_haut = (lecture_tor_value & (1 << 4)) != 0;  // bit 4
+	m_marche = (lecture_tor_value & (1 << 5)) != 0;               // bit 5
+	m_arret = (lecture_tor_value & (1 << 6)) != 0;                // bit 6
+	m_manuel_auto = (lecture_tor_value & (1 << 7)) != 0;          // bit 7
 
 	return 0;
 }
 
 int32 CEsMelangeur::majSorties()
 {
+	uInt32 ecriture_tor_value = 0;
+
+	ecriture_tor_value |= (m_vanne_pvc_base << 0);			// bit 0
+	ecriture_tor_value |= (m_vanne_pvc_base_FD << 1);		// bit 1
+	ecriture_tor_value |= (m_vanne_plastifiant << 2);		// bit 2
+	ecriture_tor_value |= (m_vanne_lubrifiant << 3);		// bit 3
+	ecriture_tor_value |= (m_vanne_vidange << 4);			// bit 4
+	ecriture_tor_value |= (m_malaxeur << 5);				// bit 5
+	ecriture_tor_value |= (m_evacuation << 6);              // bit 6
+	ecriture_tor_value |= (m_voyant_rouge << 7);			// bit 7
+
 	if (DAQmxWriteDigitalScalarU32(m_tache_ecriture_tor, true, 10, ecriture_tor_value, NULL) < 0)
 		return -1;
 
@@ -181,36 +202,36 @@ bool CEsMelangeur::getManuelAuto() {
 }
 #pragma endregion
 
-#pragma region  Setters
+#pragma region Mutateurs
 void CEsMelangeur::setVannePVCBase(bool etat) {
-	// Implémentation à compléter
+	m_vanne_pvc_base = etat;
 }
 
 void CEsMelangeur::setVannePVCBaseFD(bool etat) {
-	// Implémentation à compléter
+	m_vanne_pvc_base_FD = etat;
 }
 
 void CEsMelangeur::setVannePlastifiant(bool etat) {
-	// Implémentation à compléter
+	m_vanne_plastifiant = etat;
 }
 
 void CEsMelangeur::setVanneLubrifiant(bool etat) {
-	// Implémentation à compléter
+	m_vanne_lubrifiant = etat;
 }
 
 void CEsMelangeur::setVanneVidange(bool etat) {
-	// Implémentation à compléter
+	m_vanne_vidange = etat;
 }
 
 void CEsMelangeur::setMalaxeur(bool etat) {
-	// Implémentation à compléter
+	m_malaxeur = etat;
 }
 
 void CEsMelangeur::setEvacuation(bool etat) {
-	// Implémentation à compléter
+	m_evacuation = etat;
 }
 
 void CEsMelangeur::setVoyantRouge(bool etat) {
-	// Implémentation à compléter
+	m_voyant_rouge = etat;
 }
 #pragma endregion
