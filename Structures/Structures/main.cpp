@@ -136,7 +136,6 @@ void ExtractByte(float data, unsigned char* bytes)
 	//std::cout << "\n" << HexToDec(hex.str().at(0)) * 16 << " " << HexToDec(hex.str().at(1)) << "\n";
 }
 
-
 void BTS2009()
 {
 	float dataValue = 2.5;

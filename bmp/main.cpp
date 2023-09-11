@@ -155,6 +155,21 @@ vector<Pixel> Rotater90(const vector<Pixel>& source, int nombreColonnes, int nom
 	return result;
 }
 
+//vector<Pixel> Rotater90(const vector<Pixel>& source, int nombreColonnes, int nombreLignes) {
+//	vector<Pixel> result;
+//	result.resize(source.size());  // redimensionner le vecteur résultat
+//
+//	for (int i = 0; i < nombreLignes; i++) {
+//		for (int j = 0; j < nombreColonnes; j++) {
+//			int newIndex = j * nombreLignes + (nombreLignes - 1 - i);
+//			int oldIndex = i * nombreColonnes + j;
+//			result[newIndex] = source[oldIndex];
+//		}
+//	}
+//
+//	return result;
+//}
+
 vector<unsigned char> intToBytes(unsigned int value) {
 	return { (unsigned char)(value & 0xFF),
 			 (unsigned char)((value >> 8) & 0xFF),
@@ -284,14 +299,6 @@ void RotaterImage90(int debut, int nombreColonnes, int nombreLignes)
 
 	tabPixel = Rotater90(tabPixel, nombreColonnes, nombreLignes);
 	
-
-	for (int i = 0; i < nbPixel; i++)
-	{
-		nouveau.push_back(tabPixel[i].bleu);
-		nouveau.push_back(tabPixel[i].vert);
-		nouveau.push_back(tabPixel[i].rouge);
-	}
-
 	std::swap(nombreColonnes, nombreLignes);
 	vector<unsigned char> newWidthBytes = intToBytes(nombreColonnes);
 	vector<unsigned char> newHeightBytes = intToBytes(nombreLignes);
@@ -300,11 +307,20 @@ void RotaterImage90(int debut, int nombreColonnes, int nombreLignes)
 	vector<unsigned char> newSizeBytes = intToBytes(newSize);
 
 	for (int i = 0; i < 4; i++) {
-		nouveau[0x02 + i] = newSizeBytes[i];
+		//nouveau[0x02 + i] = newSizeBytes[i];
 		nouveau[0x12 + i] = newWidthBytes[i];
 		nouveau[0x16 + i] = newHeightBytes[i];
 	}
 
+
+	for (int i = 0; i < nbPixel; i++)
+	{
+		nouveau.push_back(tabPixel[i].bleu);
+		nouveau.push_back(tabPixel[i].vert);
+		nouveau.push_back(tabPixel[i].rouge);
+	}
+
+	
 	std::string imgName = "img_rotate90_" + std::to_string(nbImg) + ".bmp";
 	ofstream copie(imgName, ios::binary);
 	for (int i = 0; i < nouveau.size(); i++)
@@ -313,7 +329,7 @@ void RotaterImage90(int debut, int nombreColonnes, int nombreLignes)
 }
 int main()
 {
-	ifstream fichier("img.bmp", ios::binary); // on ouvre en lecture
+	ifstream fichier("img_rotate90_25.bmp", ios::binary); // on ouvre en lecture
 	if (fichier) // si l'ouverture a fonctionné
 	{
 		//lecture du fichier :
@@ -324,7 +340,7 @@ int main()
 		}
 		fichier.close();
 		// -- Affichage des 64 premiers octets
-		for (int ligne = 7; ligne < 8; ligne++)
+		for (int ligne = 0; ligne < 4; ligne++)
 		{
 			for (int car = 0; car < 16; car++)
 			{
