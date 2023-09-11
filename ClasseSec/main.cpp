@@ -13,6 +13,12 @@ int main() {
     if (s == "d")
         s = "103061730041813";
 
+    if (s.length() != 15)
+    {
+        std::cout << "Ce n'est pas un num\202ro !!! Imposteur !!!!!!!!!!!!!!";
+        return;
+    }
+
     Personne personne(s);
 
     std::cout << "Entrez votre adresse : ";
@@ -43,7 +49,7 @@ int main() {
     Sleep(500);
     std::cout << "... OK ";
     Sleep(1500);
-    std::cout << std::endl << std::endl << "\t ....:ANALYSE DU FUTUR TERMINE:...." << std::endl << std::endl;
+    std::cout << std::endl << std::endl << "\t ....:ANALYSE DU FUTUR TERMINEE:...." << std::endl << std::endl;
 
     if (personne.verifCleNumSecu()) {
         std::cout << std::endl << "Num\202ro de s\202curit\202 sociale valide." << std::endl;
