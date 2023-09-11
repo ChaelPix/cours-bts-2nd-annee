@@ -1,11 +1,41 @@
-// main.cpp
-
 #include "Personne.h"
 #include <iostream>
 #include <Windows.h>
+#include "catch2/catch_test_macros.hpp"
+
+//#define CATCH_CONFIG_MAIN  // Ceci indique à Catch de fournir une fonction main()
+//#include "catch_amalgamated.hpp"
+//
+//int add(int a, int b);
+//int subtract(int a, int b);
+//
+//TEST_CASE("Test des fonctions add et subtract", "[math]") {
+//    SECTION("Test de la fonction add") {
+//        REQUIRE(add(2, 3) == 5);
+//        REQUIRE(add(-2, 2) == 0);
+//        REQUIRE(add(-2, -3) == -5);
+//    }
+//
+//    SECTION("Test de la fonction subtract") {
+//        REQUIRE(subtract(5, 3) == 2);
+//        REQUIRE(subtract(2, 2) == 0);
+//        REQUIRE(subtract(2, 5) == -3);
+//    }
+//};
+int add(int x, int y)
+{
+    return x + y;
+}
+
+TEST_CASE("Factorials are computed", "[factorial]") {
+    int z = 1;
+    int r = 5;
+
+    REQUIRE(add(r, z) < 15);
+}
+
 
 int main() {
-
     std::string s;
 
     std::cout << "Entrez votre num\202ro de s\202cu (15 chiffres) [d: pour exemple] \n";
@@ -16,7 +46,7 @@ int main() {
     if (s.length() != 15)
     {
         std::cout << "Ce n'est pas un num\202ro !!! Imposteur !!!!!!!!!!!!!!";
-        return;
+        return 0;
     }
 
     Personne personne(s);
@@ -50,13 +80,6 @@ int main() {
     std::cout << "... OK ";
     Sleep(1500);
     std::cout << std::endl << std::endl << "\t ....:ANALYSE DU FUTUR TERMINEE:...." << std::endl << std::endl;
-
-    if (personne.verifCleNumSecu()) {
-        std::cout << std::endl << "Num\202ro de s\202curit\202 sociale valide." << std::endl;
-    }
-    else {
-        std::cout << std::endl << "Num\202ro de s\202curit\202 sociale invalide." << std::endl;
-    }
 
     std::cout << std::endl << personne.toString() << std::endl;
 

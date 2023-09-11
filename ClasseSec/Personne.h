@@ -13,12 +13,15 @@ enum GENRE {
 
 class Personne {
 private:
-    int adn;
-    int age;
-    int nbe;
-    std::string adresse;
-    std::string numSecu;
-    GENRE genre;
+    int adn = 0;
+    int age = 0;
+    int nbe = 0;
+    std::string adresse = "";
+    std::string numSecu = "";
+    GENRE genre = GENRE::INCONNU;
+
+    void evalAttributs();
+    bool verifCleNumSecu();
 
 public:
     Personne();
@@ -27,8 +30,6 @@ public:
     void setAdresse(std::string adresse);
     int getNbe();
     void setNbe(int nbe);
-    void evalAttributs();
-    bool verifCleNumSecu();
     void naissanceEnfant();
     std::string toString();
 };
