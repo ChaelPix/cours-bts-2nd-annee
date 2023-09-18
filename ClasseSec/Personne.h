@@ -5,11 +5,6 @@
 
 #include <string>
 
-enum GENRE {
-    HOMME,
-    FEMME,
-    INCONNU
-};
 
 class Personne {
 private:
@@ -18,10 +13,8 @@ private:
     int nbe = 0;
     std::string adresse = "";
     std::string numSecu = "";
-    GENRE genre = GENRE::INCONNU;
-
-    void evalAttributs();
-    bool verifCleNumSecu();
+    enum class Genre {HOMME, FEMME, INCONNU};
+    Genre genre;
 
 public:
     Personne();
@@ -32,6 +25,12 @@ public:
     void setNbe(int nbe);
     void naissanceEnfant();
     std::string toString();
+
+    bool verifCleNumSecu();
+
+private:
+    void evalAttributs();
+    
 };
 
 #endif

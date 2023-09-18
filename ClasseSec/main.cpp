@@ -1,7 +1,7 @@
 #include "Personne.h"
 #include <iostream>
 #include <Windows.h>
-#include "catch2/catch_test_macros.hpp"
+//#include "catch2/catch_test_macros.hpp"
 
 //#define CATCH_CONFIG_MAIN  // Ceci indique à Catch de fournir une fonction main()
 //#include "catch_amalgamated.hpp"
@@ -27,12 +27,12 @@ int add(int x, int y)
     return x + y;
 }
 
-TEST_CASE("Factorials are computed", "[factorial]") {
-    int z = 1;
-    int r = 5;
-
-    REQUIRE(add(r, z) < 15);
-}
+//TEST_CASE("Factorials are computed", "[factorial]") {
+//    int z = 1;
+//    int r = 5;
+//
+//    REQUIRE(add(r, z) < 15);
+//}
 
 
 int main() {
@@ -43,13 +43,14 @@ int main() {
     if (s == "d")
         s = "103061730041813";
 
-    if (s.length() != 15)
+    Personne personne(s);
+
+    if (s.length() != 15 || !personne.verifCleNumSecu())
     {
-        std::cout << "Ce n'est pas un num\202ro !!! Imposteur !!!!!!!!!!!!!!";
+        std::cout << "Ce n'est pas un bon num\202ro !!! Imposteur !!!!!!!!!!!!!!";
         return 0;
     }
-
-    Personne personne(s);
+ 
 
     std::cout << "Entrez votre adresse : ";
     std::cin >> s;

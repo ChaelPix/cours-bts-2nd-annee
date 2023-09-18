@@ -3,7 +3,7 @@
 #include "Personne.h"
 #include <sstream>
 
-Personne::Personne() : adn(0), age(0), nbe(0), adresse(""), numSecu(""), genre(INCONNU) {}
+Personne::Personne() : adn(0), age(0), nbe(0), adresse(""), numSecu(""), genre(Genre::INCONNU) {}
 
 Personne::Personne(std::string numSecu) : Personne() {
     this->numSecu = numSecu;
@@ -32,15 +32,15 @@ void Personne::evalAttributs() {
         return;
     }
 
-    char genderChar = numSecu[0];
+    char genderChar = numSecu.at(0);
     if (genderChar == '1') {
-        genre = HOMME;
+        genre = Genre::HOMME;
     }
     else if (genderChar == '2') {
-        genre = FEMME;
+        genre = Genre::FEMME;
     }
     else {
-        genre = INCONNU;
+        genre = Genre::INCONNU;
     }
 
     adn = stoi(numSecu.substr(1, 2));
@@ -82,8 +82,8 @@ std::string Personne::toString() {
         << "Num\202ro de s\202curit\202 sociale: " << numSecu << "\n"
         << "Genre: ";
     switch (genre) {
-    case HOMME: oss << "HOMME"; break;
-    case FEMME: oss << "FEMME"; break;
+    case Genre::HOMME: oss << "HOMME"; break;
+    case Genre::FEMME: oss << "FEMME"; break;
     default: oss << "INCONNU"; break;
     }
     return oss.str();
