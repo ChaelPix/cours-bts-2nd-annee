@@ -34,8 +34,10 @@ int Q2_2()
 		return -1;
 	}
 
+	uint32_t valveAction = 0x02; //0010, 1rst led is off but 2nd is on
+
 	// 4 : Write
-	if (DAQmxWriteDigitalScalarU32(valve2Handle, true, 10, 1, NULL) < 0)
+	if (DAQmxWriteDigitalScalarU32(valve2Handle, true, 10, valveAction, NULL) < 0)
 	{
 		std::cout << "ERROR Write Digital (1)" << std::endl;
 		return -1;
@@ -43,7 +45,8 @@ int Q2_2()
 
 	Sleep(2000);
 
-	if (DAQmxWriteDigitalScalarU32(valve2Handle, true, 10, 0, NULL) < 0)
+	valveAction = 0x00; //0000; all led are off.
+	if (DAQmxWriteDigitalScalarU32(valve2Handle, true, 10, valveAction, NULL) < 0)
 	{
 		std::cout << "ERROR Write Digital (2)" << std::endl;
 		return -1;
@@ -99,7 +102,7 @@ int Q2_3()
 	}
 
 	// 4 : Write
-	uint32_t valveAction = 0x03;  // Both bits 0 and 1 set (binary 0011)
+	uint32_t valveAction = 0x06;  // Both bits 0 and 1 set (binary 0110)
 	if (DAQmxWriteDigitalScalarU32(valve2Handle, true, 10, valveAction, NULL) < 0)
 	{
 		std::cout << "ERROR Write Digital (1)" << std::endl;
@@ -108,7 +111,7 @@ int Q2_3()
 
 	Sleep(2000);
 
-	valveAction = 0x02; //0010, 1rst led is off
+	valveAction = 0x04; //0100, 2nd led is off
 	if (DAQmxWriteDigitalScalarU32(valve2Handle, true, 10, valveAction, NULL) < 0)
 	{
 		std::cout << "ERROR Write Digital (2)" << std::endl;
@@ -143,7 +146,7 @@ int Q2_3()
 	return 0;
 }
 
-int main()
+int truc()
 {
 	TaskHandle valve2Handle;
 	int32 error;
@@ -196,4 +199,11 @@ int main()
 	std::cout << "...: Program Finished Ok :...";
 
 	return 0;
+}
+
+int main()
+{
+
+	return 0;
+	
 }

@@ -7,6 +7,13 @@ Personne::Personne() : adn(0), age(0), nbe(0), adresse(""), numSecu(""), genre(G
 
 Personne::Personne(std::string numSecu) : Personne() {
     this->numSecu = numSecu;
+
+    if (numSecu.length() != 15)
+        throw("Taille du numero de secu incorrect");
+
+    if (!verifCleNumSecu())
+        throw("Cle secu incorrecte");
+
     evalAttributs();
 }
 
@@ -87,4 +94,9 @@ std::string Personne::toString() {
     default: oss << "INCONNU"; break;
     }
     return oss.str();
+}
+
+Personne::Genre Personne::getGenre()
+{
+    return genre;
 }
