@@ -15,14 +15,7 @@ CEsMelangeur::CEsMelangeur()
 void CEsMelangeur::initVariables()
 {
 	m_poids = 0;
-	m_capteur_bas_R1 = false;
-	m_capteur_bas_R2 = false;
-	m_capteur_bas_R3 = false;
-	m_capteur_niveau_bas = false;
-	m_capteur_niveau_haut = false;
-	m_marche = false;
-	m_arret = false;
-	m_manuel_auto = false;
+
 	m_vanne_pvc_base = false;
 	m_vanne_pvc_base_FD = false;
 	m_vanne_plastifiant = false;
@@ -103,6 +96,8 @@ std::string CEsMelangeur::texteErreur(int32 code)
 		case -8: return "ERROR Create DAQmxCreateAIVoltageChan : m_tache_lecture_ana";
 		case -9: return "ERROR Start Task : m_tache_lecture_ana";
 		case -10: return "ERROR Write Task : m_tache_ecriture_tor";
+
+		default: return "ERROR UNKOWN";
 	}
 }
 
@@ -112,36 +107,36 @@ int32 CEsMelangeur::fermerEsMelangeur()
 	if (DAQmxStopTask(m_tache_ecriture_tor) < 0)
 	{
 		std::cout << "ERROR Stop Task" << std::endl;
-		return -1;
+		return -11;
 	}
 	if (DAQmxClearTask(m_tache_ecriture_tor) < 0)
 	{
 		std::cout << "ERROR Clear Task" << std::endl;
-		return -1;
+		return -12;
 	}
 
 	//Digital In
 	if (DAQmxStopTask(m_tache_lecture_tor) < 0)
 	{
 		std::cout << "ERROR Stop Task" << std::endl;
-		return -1;
+		return -13;
 	}
 	if (DAQmxClearTask(m_tache_lecture_tor) < 0)
 	{
 		std::cout << "ERROR Clear Task" << std::endl;
-		return -1;
+		return -14;
 	}
 
 	//Analog In
 	if (DAQmxStopTask(m_tache_lecture_ana) < 0)
 	{
 		std::cout << "ERROR Stop Task" << std::endl;
-		return -1;
+		return -15;
 	}
 	if (DAQmxClearTask(m_tache_lecture_ana) < 0)
 	{
 		std::cout << "ERROR Clear Task" << std::endl;
-		return -1;
+		return -16;
 	}
 
 	return 1;
@@ -157,7 +152,7 @@ int32 CEsMelangeur::lireEntrees()
 	//Read digital in
 	uInt32 lecture_tor_value;
 	if (DAQmxReadDigitalScalarU32(m_tache_lecture_tor, 1000, &lecture_tor_value, NULL) < 0)
-		return -1;
+		return -17;
 
 	m_capteur_bas_R1 = (lecture_tor_value & (1 << 0)) != 0;       // bit 0
 	m_capteur_bas_R2 = (lecture_tor_value & (1 << 1)) != 0;       // bit 1
@@ -261,3 +256,13 @@ void CEsMelangeur::setVoyantRouge(bool etat) {
 	m_voyant_rouge = etat;
 }
 #pragma endregion
+
+
+//	m_capteur_bas_R1 = false;
+//m_capteur_bas_R2 = false;
+//m_capteur_bas_R3 = false;
+//m_capteur_niveau_bas = false;
+//m_capteur_niveau_haut = false;
+//m_marche = false;
+//m_arret = false;
+//m_manuel_auto = false;

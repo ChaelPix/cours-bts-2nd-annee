@@ -213,7 +213,7 @@ void test()
 	catch (const char* e)
 	{
 		std::cout << e;
-		return -1;
+		return;
 	}
 
 	std::cout << "FIN";
@@ -223,7 +223,63 @@ void test()
 
 int main()
 {
+	CEsMelangeur pignat;
+	int error = 0;
 
+	//Init pignat
+	error = pignat.initEsMelangeur();
+	if (error != 0)
+	{
+		std::cout << "Error : " << error << " " << pignat.texteErreur(error);
+		return error;
+	}
+
+	//Turn off outputs
+	error = pignat.majSorties();
+	if (error != 0)
+	{
+		std::cout << "Error : " << error << " " << pignat.texteErreur(error);
+		return error;
+	}
+
+	//Update Entries
+	error = pignat.lireEntrees();
+	if (error != 0)
+	{
+		std::cout << "Error : " << error << " " << pignat.texteErreur(error);
+		return error;
+	}
+
+	//Menu
+	std::cout << "Machine Initialisée" << std::endl;
+
+
+	std::cout << "Choisir ce que vous souhaitez faire";
+
+
+	//Turn off outputs
+	pignat.setVannePVCBase(false);
+	pignat.setVannePVCBaseFD(false);
+	pignat.setVannePlastifiant(false);
+	pignat.setVanneLubrifiant(false);
+	pignat.setVanneVidange(false);
+	pignat.setMalaxeur(false);
+	pignat.setEvacuation(false);
+	pignat.setVoyantRouge(false);
+	error = pignat.majSorties();
+	if (error < 0)
+	{
+		std::cout << "Error : " << error << " " << pignat.texteErreur(error);
+		return error;
+	}
+
+	//Stop Machine
+	error = pignat.fermerEsMelangeur();
+	if (error < 0)
+	{
+		std::cout << "Error : " << error << " " << pignat.texteErreur(error);
+		return error;
+	}
 
 	return 0;
 	
