@@ -6,8 +6,6 @@
 #include <iostream>
 
 
-using namespace std;
-
 class CEsMelangeur
 {
 private:
@@ -103,6 +101,6 @@ public:
 		** On passe le numéro d'erreur
 		** On récupère la chaîne en string
 		*/
-	string texteErreur(int32 code);
+	std::string texteErreur(int32 code);
 };
 #endif

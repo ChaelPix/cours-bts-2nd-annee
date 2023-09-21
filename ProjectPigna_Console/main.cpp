@@ -3,6 +3,8 @@
 
 #include "NIDAQmx.h"
 
+#include "EsMelangeur.h"
+
 /*
 Turn on a led
 */
@@ -201,8 +203,27 @@ int truc()
 	return 0;
 }
 
+void test()
+{
+	CEsMelangeur* pignatPtr = nullptr;
+
+	try {
+		pignatPtr = new CEsMelangeur;
+	}
+	catch (const char* e)
+	{
+		std::cout << e;
+		return -1;
+	}
+
+	std::cout << "FIN";
+	pignatPtr->fermerEsMelangeur();
+	std::cout << "Fermer";
+}
+
 int main()
 {
+
 
 	return 0;
 	
