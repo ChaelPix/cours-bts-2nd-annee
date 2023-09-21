@@ -5,6 +5,7 @@
 
 #include "EsMelangeur.h"
 
+#pragma region Questions
 /*
 Turn on a led
 */
@@ -220,6 +221,77 @@ void test()
 	pignatPtr->fermerEsMelangeur();
 	std::cout << "Fermer";
 }
+#pragma endregion
+
+void ShowEntries(CEsMelangeur& pignat)
+{
+	for (int i = 0; i < 10; i++)
+	{
+		system("clear");
+		std::cout << "........:________Lecture#" << (i+1) << "________:........" << std::endl;
+		pignat.lireEntrees();
+
+		std::cout << "Capteur Bas R1 : " << pignat.getCapteurBasR1() << std::endl
+			<< "Capteur Bas R2 : " << pignat.getCapteurBasR2() << std::endl
+			<< "Capteur Bas R3 : " << pignat.getCapteurBasR3() << std::endl
+			<< "Capteur Niveau Bas : " << pignat.getCapteurNiveauBas() << std::endl
+			<< "Capteur Niveau Haut : " << pignat.getCapteurNiveauHaut() << std::endl
+			<< "Marche : " << pignat.getMarche() << std::endl
+			<< "Arret : " << pignat.getArret() << std::endl
+			<< "Manuel auto : " << pignat.getManuelAuto() << std::endl
+			<< "Poids (Volt) : " << pignat.getPoids() << std::endl;
+
+		Sleep(1000);
+	}
+}
+
+void SetAnOutput(CEsMelangeur& pignat, char action)
+{
+	system("clear");
+	std::cout << "........:________Ecriture________:........" << std::endl;
+
+	std::string name = "";
+
+	switch (action)
+	{
+		case 1: name = "Vanne PVC Base"; break;
+		case 2: name = "Vanne PVC Base FD"; break;
+		case 3: name = "Vanne Plastifiant"; break;
+		case 4: name = "Vanne Lubrifiant"; break;
+		case 5: name = "Vanne Vidange"; break;
+		case 6: name = "Malaxeur"; break;
+		case 7: name = "Evacuation"; break;
+		case 8: name = "Voyant Rouge"; break;
+	}
+
+	std::cout << "Souhaitez vous Allumer ou Eteindre : " << name << " ?" << std::endl
+		<< "[1] Allumer \n [0] Eteindre" << std::endl;
+
+	char choice = '0';
+	std::cin >> choice;
+	std::cin.clear();
+
+	bool etat = choice == '1';
+
+	switch (action)
+	{
+		case 1: pignat.setVannePVCBase(etat); break;
+		case 2: pignat.setVannePVCBaseFD(etat); break;
+		case 3: pignat.setVannePlastifiant(etat); break;
+		case 4: pignat.setVanneLubrifiant(etat); break;
+		case 5: pignat.setVanneVidange(etat); break;
+		case 6: pignat.setMalaxeur(etat); break;
+		case 7: pignat.setEvacuation(etat); break;
+		case 8: pignat.setVoyantRouge(etat); break;
+	}
+
+	if (etat)
+		std::cout << name << " allum\202." << std::endl;
+	else 
+		std::cout << name << " \202teint." << std::endl;
+
+	Sleep(1500);
+}
 
 int main()
 {
@@ -253,9 +325,46 @@ int main()
 	//Menu
 	std::cout << "Machine Initialisée" << std::endl;
 
+	char action = '0';
+	bool running = true;
 
-	std::cout << "Choisir ce que vous souhaitez faire";
+	while (running)
+	{
+		std::cout << "........:Choisir ce que vous souhaitez faire:........" << std::endl;
 
+		std::cout << "[0] Lire les entr\202es" << std::endl;
+		std::cout << "[1] G\202rer Vanne PVC Base" << std::endl;
+		std::cout << "[2] G\202rer Vanne PVC Base FD" << std::endl;
+		std::cout << "[3] G\202rer Vanne Plastifiant" << std::endl;
+		std::cout << "[4] G\202rer Vanne Lubrifiant" << std::endl;
+		std::cout << "[5] G\202rer Vanne Vidange" << std::endl;
+		std::cout << "[6] G\202rer Vanne Malaxeur" << std::endl;
+		std::cout << "[7] G\202rer Vanne Evacuation" << std::endl;
+		std::cout << "[8] G\202rer Vanne Voyant Rouge" << std::endl;
+		std::cout << "[n] Quitter" << std::endl;
+
+		std::cin >> action;
+		std::cin.clear();
+
+		switch (action)
+		{
+			case 0: ShowEntries(pignat); break;
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+			case 6:
+			case 7:
+			case 8: SetAnOutput(pignat, action); break;
+
+			defaut: running = false;
+		}
+
+		system("clear");
+	}
+
+	std::cout << "........:Fermtures des sorties:........" << std::endl;
 
 	//Turn off outputs
 	pignat.setVannePVCBase(false);
@@ -280,6 +389,8 @@ int main()
 		std::cout << "Error : " << error << " " << pignat.texteErreur(error);
 		return error;
 	}
+
+	std::cout << "........:Fin du programme:........" << std::endl;
 
 	return 0;
 	
