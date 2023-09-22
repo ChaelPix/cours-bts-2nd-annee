@@ -145,9 +145,10 @@ int32 CEsMelangeur::fermerEsMelangeur()
 int32 CEsMelangeur::lireEntrees()
 {
 	//Read analog
-	float64 weight;
-	DAQmxReadAnalogScalarF64(m_tache_lecture_ana, 1000, &weight, NULL);
-	m_poids = static_cast<int>(weight); //float to int
+	float64 weightV;
+	DAQmxReadAnalogScalarF64(m_tache_lecture_ana, 1000, &weightV, NULL);
+
+	m_poids = (weightV * 2000) / 10;;
 
 	//Read digital in
 	uInt32 lecture_tor_value;

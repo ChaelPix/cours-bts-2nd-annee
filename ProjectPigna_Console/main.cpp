@@ -227,7 +227,7 @@ void ShowEntries(CEsMelangeur& pignat)
 {
 	for (int i = 0; i < 10; i++)
 	{
-		system("clear");
+		system("cls");
 		std::cout << "........:________Lecture#" << (i+1) << "________:........" << std::endl;
 		pignat.lireEntrees();
 
@@ -239,7 +239,7 @@ void ShowEntries(CEsMelangeur& pignat)
 			<< "Marche : " << pignat.getMarche() << std::endl
 			<< "Arret : " << pignat.getArret() << std::endl
 			<< "Manuel auto : " << pignat.getManuelAuto() << std::endl
-			<< "Poids (Volt) : " << pignat.getPoids() << std::endl;
+			<< "Poids (g) : " << pignat.getPoids() << std::endl;
 
 		Sleep(1000);
 	}
@@ -247,25 +247,25 @@ void ShowEntries(CEsMelangeur& pignat)
 
 void SetAnOutput(CEsMelangeur& pignat, char action)
 {
-	system("clear");
+	system("cls");
 	std::cout << "........:________Ecriture________:........" << std::endl;
 
 	std::string name = "";
 
 	switch (action)
 	{
-		case 1: name = "Vanne PVC Base"; break;
-		case 2: name = "Vanne PVC Base FD"; break;
-		case 3: name = "Vanne Plastifiant"; break;
-		case 4: name = "Vanne Lubrifiant"; break;
-		case 5: name = "Vanne Vidange"; break;
-		case 6: name = "Malaxeur"; break;
-		case 7: name = "Evacuation"; break;
-		case 8: name = "Voyant Rouge"; break;
+		case '1': name = "Vanne PVC Base"; break;
+		case '2': name = "Vanne PVC Base FD"; break;
+		case '3': name = "Vanne Plastifiant"; break;
+		case '4': name = "Vanne Lubrifiant"; break;
+		case '5': name = "Vanne Vidange"; break;
+		case '6': name = "Malaxeur"; break;
+		case '7': name = "Evacuation"; break;
+		case '8': name = "Voyant Rouge"; break;
 	}
 
 	std::cout << "Souhaitez vous Allumer ou Eteindre : " << name << " ?" << std::endl
-		<< "[1] Allumer \n [0] Eteindre" << std::endl;
+		<< "[1] Allumer \n[0] Eteindre" << std::endl;
 
 	char choice = '0';
 	std::cin >> choice;
@@ -275,14 +275,14 @@ void SetAnOutput(CEsMelangeur& pignat, char action)
 
 	switch (action)
 	{
-		case 1: pignat.setVannePVCBase(etat); break;
-		case 2: pignat.setVannePVCBaseFD(etat); break;
-		case 3: pignat.setVannePlastifiant(etat); break;
-		case 4: pignat.setVanneLubrifiant(etat); break;
-		case 5: pignat.setVanneVidange(etat); break;
-		case 6: pignat.setMalaxeur(etat); break;
-		case 7: pignat.setEvacuation(etat); break;
-		case 8: pignat.setVoyantRouge(etat); break;
+		case '1': pignat.setVannePVCBase(etat); break;
+		case '2': pignat.setVannePVCBaseFD(etat); break;
+		case '3': pignat.setVannePlastifiant(etat); break;
+		case '4': pignat.setVanneLubrifiant(etat); break;
+		case '5': pignat.setVanneVidange(etat); break;
+		case '6': pignat.setMalaxeur(etat); break;
+		case '7': pignat.setEvacuation(etat); break;
+		case '8': pignat.setVoyantRouge(etat); break;
 	}
 
 	if (etat)
@@ -290,6 +290,8 @@ void SetAnOutput(CEsMelangeur& pignat, char action)
 	else 
 		std::cout << name << " \202teint." << std::endl;
 
+
+	pignat.majSorties();
 	Sleep(1500);
 }
 
@@ -323,7 +325,7 @@ int main()
 	}
 
 	//Menu
-	std::cout << "Machine Initialisée" << std::endl;
+	std::cout << "Machine Initialis\202e" << std::endl;
 
 	char action = '0';
 	bool running = true;
@@ -348,20 +350,19 @@ int main()
 
 		switch (action)
 		{
-			case 0: ShowEntries(pignat); break;
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-			case 5:
-			case 6:
-			case 7:
-			case 8: SetAnOutput(pignat, action); break;
-
-			defaut: running = false;
+			case '0': ShowEntries(pignat); break;
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8': SetAnOutput(pignat, action); break;
+			default: running = false;
 		}
 
-		system("clear");
+		system("cls");
 	}
 
 	std::cout << "........:Fermtures des sorties:........" << std::endl;
