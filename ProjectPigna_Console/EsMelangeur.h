@@ -4,7 +4,7 @@
 #include "NIDAQmx.h"
 #include <string>
 #include <iostream>
-
+#include <Windows.h>
 
 class CEsMelangeur
 {
@@ -101,6 +101,9 @@ public:
 		** On passe le numéro d'erreur
 		** On récupère la chaîne en string
 		*/
+
+	void lancerCycleFabrication(int masse_pvc_base, int masse_plastifiant, int masse_lubrifiant, int temps_malaxage, int temps_refroidissement);
+
 	std::string texteErreur(int32 code);
 };
 #endif

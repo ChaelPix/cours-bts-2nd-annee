@@ -295,6 +295,33 @@ void SetAnOutput(CEsMelangeur& pignat, char action)
 	Sleep(1500);
 }
 
+void AskCycle(CEsMelangeur& pignat)
+{
+	int masse_pvc_base = 0, masse_plastifiant = 0, masse_lubrifiant = 0, temps_malaxage = 0, temps_refroidissement = 0;
+
+	system("cls");
+	std::cout << "........:________Lancer Cycle________:........" << std::endl;
+
+	std::cout << "Choisir masse_pvp_base (g)" << std::endl;
+	std::cin >> masse_pvc_base;
+
+	std::cout << "Choisir masse_plastifiant (g)" << std::endl;
+	std::cin >> masse_plastifiant;
+
+	std::cout << "Choisir masse_lubrifiant (g)" << std::endl;
+	std::cin >> masse_lubrifiant;
+
+	std::cout << "Choisir temps_malaxage (s)" << std::endl;
+	std::cin >> temps_malaxage;
+
+	std::cout << "Choisir temps_refroidissement (s)" << std::endl;
+	std::cin >> temps_refroidissement;
+
+	std::cout << "........:________Cycle en cours________:........" << std::endl;
+	pignat.lancerCycleFabrication(masse_pvc_base, masse_plastifiant, masse_lubrifiant, temps_malaxage, temps_refroidissement);
+	std::cout << "........:________Cycle Fini________:........" << std::endl;
+}
+
 int main()
 {
 	CEsMelangeur pignat;
@@ -343,6 +370,7 @@ int main()
 		std::cout << "[6] G\202rer Vanne Malaxeur" << std::endl;
 		std::cout << "[7] G\202rer Vanne Evacuation" << std::endl;
 		std::cout << "[8] G\202rer Vanne Voyant Rouge" << std::endl;
+		std::cout << "[9] Cycle Complet" << std::endl;
 		std::cout << "[n] Quitter" << std::endl;
 
 		std::cin >> action;
@@ -359,6 +387,7 @@ int main()
 			case '6':
 			case '7':
 			case '8': SetAnOutput(pignat, action); break;
+			case '9': AskCycle(pignat); break;
 			default: running = false;
 		}
 
