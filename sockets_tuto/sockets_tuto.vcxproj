@@ -130,9 +130,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TrameAnalyzer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="WS2_32.Lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TrameAnalyzer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

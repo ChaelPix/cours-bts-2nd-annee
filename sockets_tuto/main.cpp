@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 
+#include "TrameAnalyzer.h"
+
 using namespace std;
 
 typedef unsigned int uint;
@@ -42,8 +44,6 @@ int main()
     // Mise en place de l'@ inet et demande de connexion au serveur 
     adr_serveur.sin_family = AF_INET;                  // Domaine d'@ 
     adr_serveur.sin_port = htons(NUM_PORT);          // N° du port 
-
-     // adr_serveur.sin_addr.s_addr = inet_addr(IP_SERVEUR.c_str());
     inet_pton(AF_INET, IP_SERVEUR.c_str(), &adr_serveur.sin_addr) <= 0;
 
     if (connect(ids_client, (struct sockaddr*)&adr_serveur, sizeof(adr_serveur)) < 0)
@@ -65,6 +65,16 @@ int main()
 
     // Fermeture de winsock
     WSACleanup();
+
+    //---- Traitement de la trame 
+    TrameAnalyzer trameAnalyse(trame_lect);
+
+    std::cout << "Date : " << trameAnalyse.getDate() << std::endl
+        << "Temp : " << trameAnalyse.getTemp() << std::endl
+        << "Humidite : " << trameAnalyse.getHumidite() << std::endl
+        << "Humidite Corigee : " << trameAnalyse.gethumiditeCorrigee() << std::endl;
+
+    //----
 
     cout << "--- FIN du prog" << endl;
 
