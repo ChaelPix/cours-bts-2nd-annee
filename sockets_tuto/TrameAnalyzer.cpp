@@ -4,8 +4,8 @@ TrameAnalyzer::TrameAnalyzer(char ctrame[])
 {
 	trame = ctrame;
 
-	size_t start = 0;
-	size_t end = trame.find("T:");
+	int start = 0;
+	int end = trame.find("T:");
 	date = trame.substr(start, end - start); 
 
 	start = trame.find("T:") + 2;

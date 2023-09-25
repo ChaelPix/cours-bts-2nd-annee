@@ -2,6 +2,8 @@
 #include <ws2tcpip.h>
 #include <iostream>
 #include <string>
+#include <vector>      
+#include <sstream>   
 
 #include "TrameAnalyzer.h"
 
@@ -11,12 +13,74 @@ typedef unsigned int uint;
 typedef unsigned short ushort;
 typedef unsigned char uchar;
 
-const ushort NUM_PORT = 12345;
+ushort NUM_PORT = 12345;
 const ushort DIMMAX = 150; // Taille max des tableaux
-const string IP_SERVEUR = "10.187.52.16";
+string IP_SERVEUR = "";
 
-int main()
+
+std::vector<std::string> split(const std::string& s, char delimiter)
 {
+    std::vector<std::string> tokens;
+    std::string token;
+    std::istringstream tokenStream(s);
+    while (std::getline(tokenStream, token, delimiter))
+    {
+        tokens.push_back(token);
+    }
+    return tokens;
+}
+
+int main(int argc, char* argv[])
+{
+
+    if (argc < 3)
+    {
+        std::cout << "Erreur : Entrez IP (x.x.x.x) puis le Port !";
+        return -1;
+    }
+
+    /*---------IP Verif--------*/
+    std::string ip = argv[1];
+
+    std::vector<string> ipSplit = split(ip, '.');
+
+    if (ipSplit.size() != 4)
+    {
+        std::cout << "Erreur : L'adresse IP n'est pas en format x.x.x.x !";
+        return -1;
+    }
+
+    for (int i = 0; i < ipSplit.size(); i++)
+    {
+        try
+        {
+            std::stoi(ipSplit.at(i));
+            IP_SERVEUR += ipSplit.at(i) + ".";
+        }
+        catch (const std::invalid_argument& e)
+        {
+            std::cout << "Erreur : L'adresse IP a un probleme au " << i+1 << "e nombre";
+            return -1;
+        }
+    }
+
+    IP_SERVEUR.erase(IP_SERVEUR.size() - 1); //retire le dernier point
+
+
+    /*---------Port Verif--------*/
+    try
+    {
+        NUM_PORT = std::stoi(argv[2]);
+    }
+    catch (const std::invalid_argument& e)
+    {
+        std::cout << "Erreur : Port doit etre un nombre entier";
+        return -1;
+    }
+
+
+    std::cout << "Adr serveur : " << IP_SERVEUR << " : " << NUM_PORT << std::endl;
+
     uint n = 0, noctets;
 
     // Particularités Windows
