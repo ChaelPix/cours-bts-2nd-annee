@@ -3,7 +3,7 @@
 #include "Personne.h"
 #include <sstream>
 
-Personne::Personne() : adn(0), age(0), nbe(0), adresse(""), numSecu(""), genre(Genre::INCONNU) {}
+Personne::Personne() : adn(0), age(0), nbe(0), adresse("N/A"), numSecu(""), genre(Genre::INCONNU) {}
 
 Personne::Personne(std::string numSecu) : Personne() {
     this->numSecu = numSecu;
@@ -82,12 +82,14 @@ void Personne::naissanceEnfant() {
 
 std::string Personne::toString() {
     std::ostringstream oss;
+
     oss << "Ann\202e de naissance: " << adn << "\n"
         << "Age: " << age << "\n"
         << "Nombre d'enfants: " << nbe << "\n"
         << "Adresse: " << adresse << "\n"
         << "Num\202ro de s\202curit\202 sociale: " << numSecu << "\n"
         << "Genre: ";
+
     switch (genre) {
     case Genre::HOMME: oss << "HOMME"; break;
     case Genre::FEMME: oss << "FEMME"; break;

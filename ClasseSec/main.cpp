@@ -1,4 +1,5 @@
 #include "Personne.h"
+#include "SuperPersonne.h"
 #include <iostream>
 #include <Windows.h>
 //#include "catch_amalgamated.hpp"
@@ -7,14 +8,6 @@
 #include "catch.hpp"
 
 TEST_CASE("Tests pour la classe Personne", "[Personne]") {
-
-
-    //SECTION("V\202rification du num\202ro de s\202curit\202 sociale") {
-    //    REQUIRE(personne.verifCleNumSecu() == true);
-
-    //    Personne personneInvalide("123456789012345");
-    //    REQUIRE(personneInvalide.verifCleNumSecu() == false);
-    //}
 
     SECTION("Test des exceptions pour le num\202ro de s\202curit\202 sociale invalide") {
         REQUIRE_THROWS_AS(Personne("12345"), const char*); // Num\202ro trop court
@@ -54,16 +47,20 @@ TEST_CASE("Tests pour la classe Personne", "[Personne]") {
         REQUIRE(homme.getGenre() == Personne::Genre::HOMME);
 
         //Personne femme("292053300200308");
-        //REQUIRE(femme.getGenre() == Personne::Genre::FEMME);
+        //REQUIRE(femme.getGenre() == Personne::Genre::FEMME); // conflict avec le test de clé de sécu car faux numéro
 
         //Personne inconnu("390010750010011");
-        //REQUIRE(inconnu.getGenre() == Personne::Genre::INCONNU);
+        //REQUIRE(inconnu.getGenre() == Personne::Genre::INCONNU); // conflict avec le test de clé de sécu car faux numéro
     }
 }
 
-int main(int argc, char* argv[]) {
+//int _main()
+//{
+//    SuperPersonne superPersonne;
+//    std::cout << superPersonne.toString();
+//}
 
-    Catch::Session().run(argc, argv);
+int main(int argc, char* argv[]) {
 
     std::string s;
 
@@ -115,6 +112,8 @@ int main(int argc, char* argv[]) {
     std::cout << std::endl << std::endl << "\t ....:ANALYSE DU FUTUR TERMINEE:...." << std::endl << std::endl;
 
     std::cout << std::endl << personnePtr->toString() << std::endl;
+
+    Catch::Session().run(argc, argv);
 
     return 0;
 }
