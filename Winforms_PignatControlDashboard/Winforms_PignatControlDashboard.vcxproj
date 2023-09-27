@@ -138,13 +138,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CEsMelangeur.cpp" />
     <ClCompile Include="MyForm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EsMelangeur.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
       <DeploymentContent>true</DeploymentContent>
     </ClInclude>
+    <ClInclude Include="NIDAQmx.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyForm.resx">
@@ -157,6 +160,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="libs\NIDAQmx.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
