@@ -1,5 +1,7 @@
 #pragma once
 
+#include "EsMelangeur.h"
+
 namespace Winforms_PignatControlDashboard {
 
 	using namespace System;
@@ -9,18 +11,31 @@ namespace Winforms_PignatControlDashboard {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
+	using namespace LBSoft::IndustrialCtrls::Base;
+	using namespace LBSoft::IndustrialCtrls::Buttons;
+	using namespace LBSoft::IndustrialCtrls::Leds;
+	using namespace LBSoft::IndustrialCtrls::Knobs;
+	using namespace LBSoft::IndustrialCtrls::Meters;
+	using namespace LBSoft::IndustrialCtrls::Utils;
 	/// <summary>
 	/// Summary for MyForm
 	/// </summary>
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
+		CEsMelangeur^ pignat = gcnew CEsMelangeur();
+
 	public:
+
 		MyForm(void)
 		{
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
 			//
+			pignat->initEsMelangeur();
+			pignat->majSorties();
+			pignat->lireEntrees();
+			MajEntreeUI();
 		}
 
 	protected:
@@ -72,15 +87,15 @@ namespace Winforms_PignatControlDashboard {
 	private: System::Windows::Forms::Label^ label10;
 	private: LBSoft::IndustrialCtrls::Buttons::LBButton^ btn_Arret;
 
-	private: System::Windows::Forms::Label^ label9;
-	private: LBSoft::IndustrialCtrls::Buttons::LBButton^ btn_Marche;
+
+
 	private: LBSoft::IndustrialCtrls::Leds::LBLed^ led_Arret;
 
 
-	private: LBSoft::IndustrialCtrls::Leds::LBLed^ led_Marche;
 
-	private: LBSoft::IndustrialCtrls::Leds::LBLed^ led_Manuel;
-	private: LBSoft::IndustrialCtrls::Leds::LBLed^ led_Auto;
+
+
+
 	private: LBSoft::IndustrialCtrls::Leds::LBLed^ led_CapteurR3;
 
 
@@ -128,6 +143,8 @@ private: LBSoft::IndustrialCtrls::Buttons::LBButton^ btn_malaxeur;
 
 	private: System::Windows::Forms::Label^ label17;
 private: LBSoft::IndustrialCtrls::Leds::LBLed^ led_vidange;
+private: System::Windows::Forms::Timer^ timer;
+private: LBSoft::IndustrialCtrls::Leds::LBLed^ lbLed1;
 
 
 
@@ -150,6 +167,7 @@ private: LBSoft::IndustrialCtrls::Leds::LBLed^ led_vidange;
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
 			this->pictureBox3 = (gcnew System::Windows::Forms::PictureBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
@@ -158,14 +176,9 @@ private: LBSoft::IndustrialCtrls::Leds::LBLed^ led_vidange;
 			this->led_VoyantRouge = (gcnew LBSoft::IndustrialCtrls::Leds::LBLed());
 			this->label10 = (gcnew System::Windows::Forms::Label());
 			this->btn_Arret = (gcnew LBSoft::IndustrialCtrls::Buttons::LBButton());
-			this->label9 = (gcnew System::Windows::Forms::Label());
-			this->btn_Marche = (gcnew LBSoft::IndustrialCtrls::Buttons::LBButton());
 			this->txt_ManuelAuto = (gcnew System::Windows::Forms::Label());
 			this->lbAnalogMeter_ModeAutoManu = (gcnew LBSoft::IndustrialCtrls::Meters::LBAnalogMeter());
 			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->led_Marche = (gcnew LBSoft::IndustrialCtrls::Leds::LBLed());
-			this->led_Manuel = (gcnew LBSoft::IndustrialCtrls::Leds::LBLed());
-			this->led_Auto = (gcnew LBSoft::IndustrialCtrls::Leds::LBLed());
 			this->panel_Vannes = (gcnew System::Windows::Forms::Panel());
 			this->label14 = (gcnew System::Windows::Forms::Label());
 			this->btn_vanne4 = (gcnew LBSoft::IndustrialCtrls::Buttons::LBButton());
@@ -205,6 +218,8 @@ private: LBSoft::IndustrialCtrls::Leds::LBLed^ led_vidange;
 			this->label7 = (gcnew System::Windows::Forms::Label());
 			this->led_CapteurHaut = (gcnew LBSoft::IndustrialCtrls::Leds::LBLed());
 			this->btn_Fermer = (gcnew System::Windows::Forms::Button());
+			this->timer = (gcnew System::Windows::Forms::Timer(this->components));
+			this->lbLed1 = (gcnew LBSoft::IndustrialCtrls::Leds::LBLed());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
 			this->panel_Commandes->SuspendLayout();
 			this->panel_Vannes->SuspendLayout();
@@ -241,18 +256,14 @@ private: LBSoft::IndustrialCtrls::Leds::LBLed^ led_vidange;
 			// 
 			this->panel_Commandes->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(53)), static_cast<System::Int32>(static_cast<System::Byte>(53)),
 				static_cast<System::Int32>(static_cast<System::Byte>(53)));
+			this->panel_Commandes->Controls->Add(this->lbLed1);
 			this->panel_Commandes->Controls->Add(this->led_Arret);
-			this->panel_Commandes->Controls->Add(this->led_VoyantRouge);
 			this->panel_Commandes->Controls->Add(this->label10);
 			this->panel_Commandes->Controls->Add(this->btn_Arret);
-			this->panel_Commandes->Controls->Add(this->label9);
-			this->panel_Commandes->Controls->Add(this->btn_Marche);
 			this->panel_Commandes->Controls->Add(this->txt_ManuelAuto);
 			this->panel_Commandes->Controls->Add(this->lbAnalogMeter_ModeAutoManu);
 			this->panel_Commandes->Controls->Add(this->label2);
-			this->panel_Commandes->Controls->Add(this->led_Marche);
-			this->panel_Commandes->Controls->Add(this->led_Manuel);
-			this->panel_Commandes->Controls->Add(this->led_Auto);
+			this->panel_Commandes->Controls->Add(this->led_VoyantRouge);
 			this->panel_Commandes->Location = System::Drawing::Point(12, 101);
 			this->panel_Commandes->Name = L"panel_Commandes";
 			this->panel_Commandes->Size = System::Drawing::Size(626, 308);
@@ -292,7 +303,7 @@ private: LBSoft::IndustrialCtrls::Leds::LBLed^ led_vidange;
 			this->led_VoyantRouge->LabelPosition = LBSoft::IndustrialCtrls::Leds::LBLed::LedLabelPosition::Top;
 			this->led_VoyantRouge->LedColor = System::Drawing::Color::Red;
 			this->led_VoyantRouge->LedSize = System::Drawing::SizeF(60, 60);
-			this->led_VoyantRouge->Location = System::Drawing::Point(512, 3);
+			this->led_VoyantRouge->Location = System::Drawing::Point(225, 28);
 			this->led_VoyantRouge->Name = L"led_VoyantRouge";
 			this->led_VoyantRouge->Renderer = nullptr;
 			this->led_VoyantRouge->Size = System::Drawing::Size(114, 137);
@@ -311,7 +322,7 @@ private: LBSoft::IndustrialCtrls::Leds::LBLed^ led_vidange;
 			this->label10->Name = L"label10";
 			this->label10->Size = System::Drawing::Size(89, 66);
 			this->label10->TabIndex = 13;
-			this->label10->Text = L"Bouton Arret";
+			this->label10->Text = L"Bouton Voyant";
 			this->label10->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
 			// btn_Arret
@@ -330,38 +341,6 @@ private: LBSoft::IndustrialCtrls::Leds::LBLed^ led_vidange;
 			this->btn_Arret->State = LBSoft::IndustrialCtrls::Buttons::LBButton::ButtonState::Normal;
 			this->btn_Arret->Style = LBSoft::IndustrialCtrls::Buttons::LBButton::ButtonStyle::Circular;
 			this->btn_Arret->TabIndex = 12;
-			// 
-			// label9
-			// 
-			this->label9->AccessibleRole = System::Windows::Forms::AccessibleRole::None;
-			this->label9->CausesValidation = false;
-			this->label9->Font = (gcnew System::Drawing::Font(L"Poor Richard", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->label9->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(192)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
-				static_cast<System::Int32>(static_cast<System::Byte>(192)));
-			this->label9->Location = System::Drawing::Point(247, 225);
-			this->label9->Name = L"label9";
-			this->label9->Size = System::Drawing::Size(89, 66);
-			this->label9->TabIndex = 11;
-			this->label9->Text = L"Bouton Marche";
-			this->label9->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
-			// 
-			// btn_Marche
-			// 
-			this->btn_Marche->BackColor = System::Drawing::Color::Transparent;
-			this->btn_Marche->ButtonColor = System::Drawing::Color::Lime;
-			this->btn_Marche->Cursor = System::Windows::Forms::Cursors::Hand;
-			this->btn_Marche->Label = L"";
-			this->btn_Marche->Location = System::Drawing::Point(230, 102);
-			this->btn_Marche->Name = L"btn_Marche";
-			this->btn_Marche->Renderer = nullptr;
-			this->btn_Marche->RepeatInterval = 100;
-			this->btn_Marche->RepeatState = false;
-			this->btn_Marche->Size = System::Drawing::Size(120, 120);
-			this->btn_Marche->StartRepeatInterval = 500;
-			this->btn_Marche->State = LBSoft::IndustrialCtrls::Buttons::LBButton::ButtonState::Normal;
-			this->btn_Marche->Style = LBSoft::IndustrialCtrls::Buttons::LBButton::ButtonStyle::Circular;
-			this->btn_Marche->TabIndex = 10;
 			// 
 			// txt_ManuelAuto
 			// 
@@ -408,66 +387,6 @@ private: LBSoft::IndustrialCtrls::Leds::LBLed^ led_vidange;
 			this->label2->Size = System::Drawing::Size(378, 39);
 			this->label2->TabIndex = 6;
 			this->label2->Text = L"Commandes du Panneau";
-			// 
-			// led_Marche
-			// 
-			this->led_Marche->BackColor = System::Drawing::Color::Transparent;
-			this->led_Marche->BlinkInterval = 500;
-			this->led_Marche->Font = (gcnew System::Drawing::Font(L"Poor Richard", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->led_Marche->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(224)), static_cast<System::Int32>(static_cast<System::Byte>(224)),
-				static_cast<System::Int32>(static_cast<System::Byte>(224)));
-			this->led_Marche->Label = L"";
-			this->led_Marche->LabelPosition = LBSoft::IndustrialCtrls::Leds::LBLed::LedLabelPosition::Top;
-			this->led_Marche->LedColor = System::Drawing::Color::Red;
-			this->led_Marche->LedSize = System::Drawing::SizeF(20, 20);
-			this->led_Marche->Location = System::Drawing::Point(252, 21);
-			this->led_Marche->Name = L"led_Marche";
-			this->led_Marche->Renderer = nullptr;
-			this->led_Marche->Size = System::Drawing::Size(75, 75);
-			this->led_Marche->State = LBSoft::IndustrialCtrls::Leds::LBLed::LedState::Off;
-			this->led_Marche->Style = LBSoft::IndustrialCtrls::Leds::LBLed::LedStyle::Circular;
-			this->led_Marche->TabIndex = 15;
-			// 
-			// led_Manuel
-			// 
-			this->led_Manuel->BackColor = System::Drawing::Color::Transparent;
-			this->led_Manuel->BlinkInterval = 500;
-			this->led_Manuel->Font = (gcnew System::Drawing::Font(L"Poor Richard", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->led_Manuel->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(224)), static_cast<System::Int32>(static_cast<System::Byte>(224)),
-				static_cast<System::Int32>(static_cast<System::Byte>(224)));
-			this->led_Manuel->Label = L"";
-			this->led_Manuel->LabelPosition = LBSoft::IndustrialCtrls::Leds::LBLed::LedLabelPosition::Top;
-			this->led_Manuel->LedColor = System::Drawing::Color::Red;
-			this->led_Manuel->LedSize = System::Drawing::SizeF(20, 20);
-			this->led_Manuel->Location = System::Drawing::Point(66, 21);
-			this->led_Manuel->Name = L"led_Manuel";
-			this->led_Manuel->Renderer = nullptr;
-			this->led_Manuel->Size = System::Drawing::Size(75, 75);
-			this->led_Manuel->State = LBSoft::IndustrialCtrls::Leds::LBLed::LedState::Off;
-			this->led_Manuel->Style = LBSoft::IndustrialCtrls::Leds::LBLed::LedStyle::Circular;
-			this->led_Manuel->TabIndex = 17;
-			// 
-			// led_Auto
-			// 
-			this->led_Auto->BackColor = System::Drawing::Color::Transparent;
-			this->led_Auto->BlinkInterval = 500;
-			this->led_Auto->Font = (gcnew System::Drawing::Font(L"Poor Richard", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->led_Auto->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(224)), static_cast<System::Int32>(static_cast<System::Byte>(224)),
-				static_cast<System::Int32>(static_cast<System::Byte>(224)));
-			this->led_Auto->Label = L"";
-			this->led_Auto->LabelPosition = LBSoft::IndustrialCtrls::Leds::LBLed::LedLabelPosition::Top;
-			this->led_Auto->LedColor = System::Drawing::Color::Red;
-			this->led_Auto->LedSize = System::Drawing::SizeF(20, 20);
-			this->led_Auto->Location = System::Drawing::Point(135, 21);
-			this->led_Auto->Name = L"led_Auto";
-			this->led_Auto->Renderer = nullptr;
-			this->led_Auto->Size = System::Drawing::Size(75, 75);
-			this->led_Auto->State = LBSoft::IndustrialCtrls::Leds::LBLed::LedState::Off;
-			this->led_Auto->Style = LBSoft::IndustrialCtrls::Leds::LBLed::LedStyle::Circular;
-			this->led_Auto->TabIndex = 18;
 			// 
 			// panel_Vannes
 			// 
@@ -1108,6 +1027,32 @@ private: LBSoft::IndustrialCtrls::Leds::LBLed^ led_vidange;
 			this->btn_Fermer->Text = L"Fermer";
 			this->btn_Fermer->UseVisualStyleBackColor = false;
 			// 
+			// timer
+			// 
+			this->timer->Enabled = true;
+			this->timer->Interval = 50;
+			this->timer->Tick += gcnew System::EventHandler(this, &MyForm::timer_Tick);
+			// 
+			// lbLed1
+			// 
+			this->lbLed1->BackColor = System::Drawing::Color::Transparent;
+			this->lbLed1->BlinkInterval = 500;
+			this->lbLed1->Font = (gcnew System::Drawing::Font(L"Poor Richard", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->lbLed1->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(224)), static_cast<System::Int32>(static_cast<System::Byte>(224)),
+				static_cast<System::Int32>(static_cast<System::Byte>(224)));
+			this->lbLed1->Label = L"Voyant";
+			this->lbLed1->LabelPosition = LBSoft::IndustrialCtrls::Leds::LBLed::LedLabelPosition::Top;
+			this->lbLed1->LedColor = System::Drawing::Color::Red;
+			this->lbLed1->LedSize = System::Drawing::SizeF(60, 60);
+			this->lbLed1->Location = System::Drawing::Point(225, 168);
+			this->lbLed1->Name = L"lbLed1";
+			this->lbLed1->Renderer = nullptr;
+			this->lbLed1->Size = System::Drawing::Size(114, 137);
+			this->lbLed1->State = LBSoft::IndustrialCtrls::Leds::LBLed::LedState::Off;
+			this->lbLed1->Style = LBSoft::IndustrialCtrls::Leds::LBLed::LedStyle::Circular;
+			this->lbLed1->TabIndex = 17;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(144, 144);
@@ -1145,6 +1090,31 @@ private: LBSoft::IndustrialCtrls::Leds::LBLed^ led_vidange;
 #pragma endregion
 
 
+	void MajEntreeUI()
+	{
+		int poids = pignat->getPoids();
+		txt_Poids->Text = poids.ToString();
+		int mv = -poids / 200;
+		txt_PoidsTension->Text = mv.ToString();
+
+		pignat->getCapteurBasR1() ? led_CapteurR1->State = LBLed::LedState::On : led_CapteurR1->State = LBLed::LedState::Off;
+		pignat->getCapteurBasR2() ? led_CapteurR2->State = LBLed::LedState::On : led_CapteurR2->State = LBLed::LedState::Off;
+		pignat->getCapteurBasR3() ? led_CapteurR3->State = LBLed::LedState::On : led_CapteurR3->State = LBLed::LedState::Off;
+
+		pignat->getCapteurNiveauBas() ? led_CapteurBas->State = LBLed::LedState::On : led_CapteurBas->State = LBLed::LedState::Off;
+		pignat->getCapteurNiveauHaut() ? led_CapteurHaut->State = LBLed::LedState::On : led_CapteurHaut->State = LBLed::LedState::Off;
+
+		pignat->getMarche() ? led_Marche->State = LBLed::LedState::On : led_Marche->State = LBLed::LedState::Off;
+		pignat->getArret() ? led_Arret->State = LBLed::LedState::On : led_Arret->State = LBLed::LedState::Off;
+
+
+		pignat->getManuelAuto() ? led_CapteurHaut->State = LBLed::LedState::On : led_CapteurHaut->State = LBLed::LedState::Off;
+		
+
+	}
+
+
+
 
 	private: System::Void panelEnter(System::Object^ sender, System::EventArgs^ e) {
 
@@ -1164,6 +1134,11 @@ private: LBSoft::IndustrialCtrls::Leds::LBLed^ led_vidange;
 
 			*/
 	}
+
+private: System::Void timer_Tick(System::Object^ sender, System::EventArgs^ e) {
+	pignat->lireEntrees();
+	MajEntreeUI();
+}
 
 };
 }

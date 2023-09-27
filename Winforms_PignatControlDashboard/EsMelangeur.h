@@ -6,7 +6,7 @@
 #include <iostream>
 #include <Windows.h>
 
-class CEsMelangeur
+ref class CEsMelangeur
 {
 private:
 		// masse de produit
