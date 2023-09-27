@@ -59,6 +59,18 @@ namespace Winforms_PignatControlDashboard {
 
 
 	private: System::Windows::Forms::Button^ button1;
+	private: System::Windows::Forms::Label^ txt_PoidsTension;
+
+	private: System::Windows::Forms::Label^ txt_Poids;
+	private: System::Windows::Forms::Label^ label8;
+	private: LBSoft::IndustrialCtrls::Meters::LBAnalogMeter^ lbAnalogMeter1;
+	private: LBSoft::IndustrialCtrls::Leds::LBLed^ lbLed1;
+	private: System::Windows::Forms::Label^ label10;
+	private: LBSoft::IndustrialCtrls::Buttons::LBButton^ lbButton2;
+	private: System::Windows::Forms::Label^ label9;
+	private: LBSoft::IndustrialCtrls::Buttons::LBButton^ lbButton1;
+
+
 
 
 
@@ -119,12 +131,21 @@ namespace Winforms_PignatControlDashboard {
 			this->pictureBox3 = (gcnew System::Windows::Forms::PictureBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->panel_Commandes = (gcnew System::Windows::Forms::Panel());
+			this->lbLed1 = (gcnew LBSoft::IndustrialCtrls::Leds::LBLed());
+			this->label10 = (gcnew System::Windows::Forms::Label());
+			this->lbButton2 = (gcnew LBSoft::IndustrialCtrls::Buttons::LBButton());
+			this->label9 = (gcnew System::Windows::Forms::Label());
+			this->lbButton1 = (gcnew LBSoft::IndustrialCtrls::Buttons::LBButton());
+			this->label8 = (gcnew System::Windows::Forms::Label());
+			this->lbAnalogMeter1 = (gcnew LBSoft::IndustrialCtrls::Meters::LBAnalogMeter());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->panel_Vannes = (gcnew System::Windows::Forms::Panel());
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->panel_reservoirs = (gcnew System::Windows::Forms::Panel());
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->panel_poids = (gcnew System::Windows::Forms::Panel());
+			this->txt_PoidsTension = (gcnew System::Windows::Forms::Label());
+			this->txt_Poids = (gcnew System::Windows::Forms::Label());
 			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->panel_malaxeur = (gcnew System::Windows::Forms::Panel());
 			this->label6 = (gcnew System::Windows::Forms::Label());
@@ -167,6 +188,13 @@ namespace Winforms_PignatControlDashboard {
 			// 
 			this->panel_Commandes->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(53)), static_cast<System::Int32>(static_cast<System::Byte>(53)),
 				static_cast<System::Int32>(static_cast<System::Byte>(53)));
+			this->panel_Commandes->Controls->Add(this->lbLed1);
+			this->panel_Commandes->Controls->Add(this->label10);
+			this->panel_Commandes->Controls->Add(this->lbButton2);
+			this->panel_Commandes->Controls->Add(this->label9);
+			this->panel_Commandes->Controls->Add(this->lbButton1);
+			this->panel_Commandes->Controls->Add(this->label8);
+			this->panel_Commandes->Controls->Add(this->lbAnalogMeter1);
 			this->panel_Commandes->Controls->Add(this->label2);
 			this->panel_Commandes->Location = System::Drawing::Point(12, 101);
 			this->panel_Commandes->Name = L"panel_Commandes";
@@ -174,6 +202,123 @@ namespace Winforms_PignatControlDashboard {
 			this->panel_Commandes->TabIndex = 5;
 			this->panel_Commandes->MouseEnter += gcnew System::EventHandler(this, &MyForm::panelEnter);
 			this->panel_Commandes->MouseLeave += gcnew System::EventHandler(this, &MyForm::panelExit);
+			// 
+			// lbLed1
+			// 
+			this->lbLed1->BackColor = System::Drawing::Color::Transparent;
+			this->lbLed1->BlinkInterval = 500;
+			this->lbLed1->Font = (gcnew System::Drawing::Font(L"Poor Richard", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->lbLed1->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(224)), static_cast<System::Int32>(static_cast<System::Byte>(224)),
+				static_cast<System::Int32>(static_cast<System::Byte>(224)));
+			this->lbLed1->Label = L"Voyant";
+			this->lbLed1->LabelPosition = LBSoft::IndustrialCtrls::Leds::LBLed::LedLabelPosition::Top;
+			this->lbLed1->LedColor = System::Drawing::Color::Red;
+			this->lbLed1->LedSize = System::Drawing::SizeF(50, 50);
+			this->lbLed1->Location = System::Drawing::Point(512, 3);
+			this->lbLed1->Name = L"lbLed1";
+			this->lbLed1->Renderer = nullptr;
+			this->lbLed1->Size = System::Drawing::Size(114, 137);
+			this->lbLed1->State = LBSoft::IndustrialCtrls::Leds::LBLed::LedState::Off;
+			this->lbLed1->Style = LBSoft::IndustrialCtrls::Leds::LBLed::LedStyle::Circular;
+			this->lbLed1->TabIndex = 14;
+			// 
+			// label10
+			// 
+			this->label10->CausesValidation = false;
+			this->label10->Font = (gcnew System::Drawing::Font(L"Poor Richard", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label10->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
+				static_cast<System::Int32>(static_cast<System::Byte>(192)));
+			this->label10->Location = System::Drawing::Point(397, 225);
+			this->label10->Name = L"label10";
+			this->label10->Size = System::Drawing::Size(89, 66);
+			this->label10->TabIndex = 13;
+			this->label10->Text = L"Bouton Arret";
+			this->label10->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+			// 
+			// lbButton2
+			// 
+			this->lbButton2->BackColor = System::Drawing::Color::Transparent;
+			this->lbButton2->ButtonColor = System::Drawing::Color::Red;
+			this->lbButton2->Cursor = System::Windows::Forms::Cursors::Hand;
+			this->lbButton2->Label = L"";
+			this->lbButton2->Location = System::Drawing::Point(380, 102);
+			this->lbButton2->Name = L"lbButton2";
+			this->lbButton2->Renderer = nullptr;
+			this->lbButton2->RepeatInterval = 100;
+			this->lbButton2->RepeatState = false;
+			this->lbButton2->Size = System::Drawing::Size(120, 120);
+			this->lbButton2->StartRepeatInterval = 500;
+			this->lbButton2->State = LBSoft::IndustrialCtrls::Buttons::LBButton::ButtonState::Normal;
+			this->lbButton2->Style = LBSoft::IndustrialCtrls::Buttons::LBButton::ButtonStyle::Circular;
+			this->lbButton2->TabIndex = 12;
+			// 
+			// label9
+			// 
+			this->label9->CausesValidation = false;
+			this->label9->Font = (gcnew System::Drawing::Font(L"Poor Richard", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label9->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(192)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+				static_cast<System::Int32>(static_cast<System::Byte>(192)));
+			this->label9->Location = System::Drawing::Point(247, 225);
+			this->label9->Name = L"label9";
+			this->label9->Size = System::Drawing::Size(89, 66);
+			this->label9->TabIndex = 11;
+			this->label9->Text = L"Bouton Marche";
+			this->label9->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+			// 
+			// lbButton1
+			// 
+			this->lbButton1->BackColor = System::Drawing::Color::Transparent;
+			this->lbButton1->ButtonColor = System::Drawing::Color::Lime;
+			this->lbButton1->Cursor = System::Windows::Forms::Cursors::Hand;
+			this->lbButton1->Label = L"";
+			this->lbButton1->Location = System::Drawing::Point(230, 102);
+			this->lbButton1->Name = L"lbButton1";
+			this->lbButton1->Renderer = nullptr;
+			this->lbButton1->RepeatInterval = 100;
+			this->lbButton1->RepeatState = false;
+			this->lbButton1->Size = System::Drawing::Size(120, 120);
+			this->lbButton1->StartRepeatInterval = 500;
+			this->lbButton1->State = LBSoft::IndustrialCtrls::Buttons::LBButton::ButtonState::Normal;
+			this->lbButton1->Style = LBSoft::IndustrialCtrls::Buttons::LBButton::ButtonStyle::Circular;
+			this->lbButton1->TabIndex = 10;
+			// 
+			// label8
+			// 
+			this->label8->CausesValidation = false;
+			this->label8->Font = (gcnew System::Drawing::Font(L"Poor Richard", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label8->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(224)), static_cast<System::Int32>(static_cast<System::Byte>(224)),
+				static_cast<System::Int32>(static_cast<System::Byte>(224)));
+			this->label8->Location = System::Drawing::Point(94, 225);
+			this->label8->Name = L"label8";
+			this->label8->Size = System::Drawing::Size(89, 66);
+			this->label8->TabIndex = 9;
+			this->label8->Text = L"Mode Manuel";
+			this->label8->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+			// 
+			// lbAnalogMeter1
+			// 
+			this->lbAnalogMeter1->BackColor = System::Drawing::Color::Transparent;
+			this->lbAnalogMeter1->BodyColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)),
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+			this->lbAnalogMeter1->Cursor = System::Windows::Forms::Cursors::Hand;
+			this->lbAnalogMeter1->Location = System::Drawing::Point(76, 97);
+			this->lbAnalogMeter1->MaxValue = 3;
+			this->lbAnalogMeter1->MeterStyle = LBSoft::IndustrialCtrls::Meters::LBAnalogMeter::AnalogMeterStyle::Circular;
+			this->lbAnalogMeter1->MinValue = 0;
+			this->lbAnalogMeter1->Name = L"lbAnalogMeter1";
+			this->lbAnalogMeter1->NeedleColor = System::Drawing::Color::White;
+			this->lbAnalogMeter1->Renderer = nullptr;
+			this->lbAnalogMeter1->ScaleColor = System::Drawing::Color::White;
+			this->lbAnalogMeter1->ScaleDivisions = 0;
+			this->lbAnalogMeter1->ScaleSubDivisions = 0;
+			this->lbAnalogMeter1->Size = System::Drawing::Size(125, 125);
+			this->lbAnalogMeter1->TabIndex = 7;
+			this->lbAnalogMeter1->Value = 1;
+			this->lbAnalogMeter1->ViewGlass = false;
 			// 
 			// label2
 			// 
@@ -236,6 +381,8 @@ namespace Winforms_PignatControlDashboard {
 			// 
 			this->panel_poids->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(53)), static_cast<System::Int32>(static_cast<System::Byte>(53)),
 				static_cast<System::Int32>(static_cast<System::Byte>(53)));
+			this->panel_poids->Controls->Add(this->txt_PoidsTension);
+			this->panel_poids->Controls->Add(this->txt_Poids);
 			this->panel_poids->Controls->Add(this->label5);
 			this->panel_poids->Location = System::Drawing::Point(644, 555);
 			this->panel_poids->Name = L"panel_poids";
@@ -243,6 +390,34 @@ namespace Winforms_PignatControlDashboard {
 			this->panel_poids->TabIndex = 10;
 			this->panel_poids->MouseEnter += gcnew System::EventHandler(this, &MyForm::panelEnter);
 			this->panel_poids->MouseLeave += gcnew System::EventHandler(this, &MyForm::panelExit);
+			// 
+			// txt_PoidsTension
+			// 
+			this->txt_PoidsTension->CausesValidation = false;
+			this->txt_PoidsTension->Font = (gcnew System::Drawing::Font(L"Poor Richard", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->txt_PoidsTension->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
+				static_cast<System::Int32>(static_cast<System::Byte>(226)), static_cast<System::Int32>(static_cast<System::Byte>(198)));
+			this->txt_PoidsTension->Location = System::Drawing::Point(7, 178);
+			this->txt_PoidsTension->Name = L"txt_PoidsTension";
+			this->txt_PoidsTension->Size = System::Drawing::Size(378, 39);
+			this->txt_PoidsTension->TabIndex = 8;
+			this->txt_PoidsTension->Text = L"0000 mV";
+			this->txt_PoidsTension->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+			// 
+			// txt_Poids
+			// 
+			this->txt_Poids->CausesValidation = false;
+			this->txt_Poids->Font = (gcnew System::Drawing::Font(L"Georgia", 36, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->txt_Poids->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)));
+			this->txt_Poids->Location = System::Drawing::Point(7, 87);
+			this->txt_Poids->Name = L"txt_Poids";
+			this->txt_Poids->Size = System::Drawing::Size(378, 91);
+			this->txt_Poids->TabIndex = 7;
+			this->txt_Poids->Text = L"658 g";
+			this->txt_Poids->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
 			// label5
 			// 
@@ -356,16 +531,22 @@ namespace Winforms_PignatControlDashboard {
 
 	private: System::Void panelEnter(System::Object^ sender, System::EventArgs^ e) {
 
-		Panel^ panel = safe_cast<Panel^>(sender);
-		panel->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
+		/*Panel^ panel = safe_cast<Panel^>(sender);
+		panel->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;*/
 	}
 
 	private: System::Void panelExit(System::Object^ sender, System::EventArgs^ e) {
 
+		/*System::Drawing::Point mousePosition = this->PointToClient(System::Windows::Forms::Cursor::Position);
 		Panel^ panel = safe_cast<Panel^>(sender);
-		panel->BorderStyle = System::Windows::Forms::BorderStyle::None;
+
+		System::Drawing::Rectangle panelRect = panel->Bounds;
+
+		if (mousePosition.X < panelRect.Left || mousePosition.X > panelRect.Right || mousePosition.Y < panelRect.Top || mousePosition.Y > panelRect.Bottom) 
+			panel->BorderStyle = System::Windows::Forms::BorderStyle::None;
+
+			*/
 	}
 
-
-	};
+};
 }
