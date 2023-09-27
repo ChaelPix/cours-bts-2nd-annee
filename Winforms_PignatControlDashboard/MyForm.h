@@ -69,6 +69,10 @@ namespace Winforms_PignatControlDashboard {
 	private: LBSoft::IndustrialCtrls::Buttons::LBButton^ lbButton2;
 	private: System::Windows::Forms::Label^ label9;
 	private: LBSoft::IndustrialCtrls::Buttons::LBButton^ lbButton1;
+	private: LBSoft::IndustrialCtrls::Leds::LBLed^ lbLed3;
+	private: LBSoft::IndustrialCtrls::Leds::LBLed^ lbLed2;
+	private: LBSoft::IndustrialCtrls::Leds::LBLed^ lbLed4;
+	private: LBSoft::IndustrialCtrls::Leds::LBLed^ lbLed5;
 
 
 
@@ -152,6 +156,10 @@ namespace Winforms_PignatControlDashboard {
 			this->panel_cuve = (gcnew System::Windows::Forms::Panel());
 			this->label7 = (gcnew System::Windows::Forms::Label());
 			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->lbLed2 = (gcnew LBSoft::IndustrialCtrls::Leds::LBLed());
+			this->lbLed3 = (gcnew LBSoft::IndustrialCtrls::Leds::LBLed());
+			this->lbLed4 = (gcnew LBSoft::IndustrialCtrls::Leds::LBLed());
+			this->lbLed5 = (gcnew LBSoft::IndustrialCtrls::Leds::LBLed());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox3))->BeginInit();
 			this->panel_Commandes->SuspendLayout();
 			this->panel_Vannes->SuspendLayout();
@@ -188,6 +196,7 @@ namespace Winforms_PignatControlDashboard {
 			// 
 			this->panel_Commandes->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(53)), static_cast<System::Int32>(static_cast<System::Byte>(53)),
 				static_cast<System::Int32>(static_cast<System::Byte>(53)));
+			this->panel_Commandes->Controls->Add(this->lbLed3);
 			this->panel_Commandes->Controls->Add(this->lbLed1);
 			this->panel_Commandes->Controls->Add(this->label10);
 			this->panel_Commandes->Controls->Add(this->lbButton2);
@@ -196,6 +205,9 @@ namespace Winforms_PignatControlDashboard {
 			this->panel_Commandes->Controls->Add(this->label8);
 			this->panel_Commandes->Controls->Add(this->lbAnalogMeter1);
 			this->panel_Commandes->Controls->Add(this->label2);
+			this->panel_Commandes->Controls->Add(this->lbLed2);
+			this->panel_Commandes->Controls->Add(this->lbLed4);
+			this->panel_Commandes->Controls->Add(this->lbLed5);
 			this->panel_Commandes->Location = System::Drawing::Point(12, 101);
 			this->panel_Commandes->Name = L"panel_Commandes";
 			this->panel_Commandes->Size = System::Drawing::Size(626, 308);
@@ -214,7 +226,7 @@ namespace Winforms_PignatControlDashboard {
 			this->lbLed1->Label = L"Voyant";
 			this->lbLed1->LabelPosition = LBSoft::IndustrialCtrls::Leds::LBLed::LedLabelPosition::Top;
 			this->lbLed1->LedColor = System::Drawing::Color::Red;
-			this->lbLed1->LedSize = System::Drawing::SizeF(50, 50);
+			this->lbLed1->LedSize = System::Drawing::SizeF(60, 60);
 			this->lbLed1->Location = System::Drawing::Point(512, 3);
 			this->lbLed1->Name = L"lbLed1";
 			this->lbLed1->Renderer = nullptr;
@@ -490,6 +502,86 @@ namespace Winforms_PignatControlDashboard {
 			this->button1->TabIndex = 12;
 			this->button1->Text = L"Fermer";
 			this->button1->UseVisualStyleBackColor = false;
+			// 
+			// lbLed2
+			// 
+			this->lbLed2->BackColor = System::Drawing::Color::Transparent;
+			this->lbLed2->BlinkInterval = 500;
+			this->lbLed2->Font = (gcnew System::Drawing::Font(L"Poor Richard", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->lbLed2->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(224)), static_cast<System::Int32>(static_cast<System::Byte>(224)),
+				static_cast<System::Int32>(static_cast<System::Byte>(224)));
+			this->lbLed2->Label = L"";
+			this->lbLed2->LabelPosition = LBSoft::IndustrialCtrls::Leds::LBLed::LedLabelPosition::Top;
+			this->lbLed2->LedColor = System::Drawing::Color::Red;
+			this->lbLed2->LedSize = System::Drawing::SizeF(20, 20);
+			this->lbLed2->Location = System::Drawing::Point(252, 21);
+			this->lbLed2->Name = L"lbLed2";
+			this->lbLed2->Renderer = nullptr;
+			this->lbLed2->Size = System::Drawing::Size(75, 75);
+			this->lbLed2->State = LBSoft::IndustrialCtrls::Leds::LBLed::LedState::Off;
+			this->lbLed2->Style = LBSoft::IndustrialCtrls::Leds::LBLed::LedStyle::Circular;
+			this->lbLed2->TabIndex = 15;
+			// 
+			// lbLed3
+			// 
+			this->lbLed3->BackColor = System::Drawing::Color::Transparent;
+			this->lbLed3->BlinkInterval = 500;
+			this->lbLed3->Font = (gcnew System::Drawing::Font(L"Poor Richard", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->lbLed3->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(224)), static_cast<System::Int32>(static_cast<System::Byte>(224)),
+				static_cast<System::Int32>(static_cast<System::Byte>(224)));
+			this->lbLed3->Label = L"";
+			this->lbLed3->LabelPosition = LBSoft::IndustrialCtrls::Leds::LBLed::LedLabelPosition::Top;
+			this->lbLed3->LedColor = System::Drawing::Color::Red;
+			this->lbLed3->LedSize = System::Drawing::SizeF(20, 20);
+			this->lbLed3->Location = System::Drawing::Point(402, 21);
+			this->lbLed3->Name = L"lbLed3";
+			this->lbLed3->Renderer = nullptr;
+			this->lbLed3->Size = System::Drawing::Size(75, 75);
+			this->lbLed3->State = LBSoft::IndustrialCtrls::Leds::LBLed::LedState::Off;
+			this->lbLed3->Style = LBSoft::IndustrialCtrls::Leds::LBLed::LedStyle::Circular;
+			this->lbLed3->TabIndex = 16;
+			// 
+			// lbLed4
+			// 
+			this->lbLed4->BackColor = System::Drawing::Color::Transparent;
+			this->lbLed4->BlinkInterval = 500;
+			this->lbLed4->Font = (gcnew System::Drawing::Font(L"Poor Richard", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->lbLed4->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(224)), static_cast<System::Int32>(static_cast<System::Byte>(224)),
+				static_cast<System::Int32>(static_cast<System::Byte>(224)));
+			this->lbLed4->Label = L"";
+			this->lbLed4->LabelPosition = LBSoft::IndustrialCtrls::Leds::LBLed::LedLabelPosition::Top;
+			this->lbLed4->LedColor = System::Drawing::Color::Red;
+			this->lbLed4->LedSize = System::Drawing::SizeF(20, 20);
+			this->lbLed4->Location = System::Drawing::Point(66, 21);
+			this->lbLed4->Name = L"lbLed4";
+			this->lbLed4->Renderer = nullptr;
+			this->lbLed4->Size = System::Drawing::Size(75, 75);
+			this->lbLed4->State = LBSoft::IndustrialCtrls::Leds::LBLed::LedState::Off;
+			this->lbLed4->Style = LBSoft::IndustrialCtrls::Leds::LBLed::LedStyle::Circular;
+			this->lbLed4->TabIndex = 17;
+			// 
+			// lbLed5
+			// 
+			this->lbLed5->BackColor = System::Drawing::Color::Transparent;
+			this->lbLed5->BlinkInterval = 500;
+			this->lbLed5->Font = (gcnew System::Drawing::Font(L"Poor Richard", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->lbLed5->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(224)), static_cast<System::Int32>(static_cast<System::Byte>(224)),
+				static_cast<System::Int32>(static_cast<System::Byte>(224)));
+			this->lbLed5->Label = L"";
+			this->lbLed5->LabelPosition = LBSoft::IndustrialCtrls::Leds::LBLed::LedLabelPosition::Top;
+			this->lbLed5->LedColor = System::Drawing::Color::Red;
+			this->lbLed5->LedSize = System::Drawing::SizeF(20, 20);
+			this->lbLed5->Location = System::Drawing::Point(135, 21);
+			this->lbLed5->Name = L"lbLed5";
+			this->lbLed5->Renderer = nullptr;
+			this->lbLed5->Size = System::Drawing::Size(75, 75);
+			this->lbLed5->State = LBSoft::IndustrialCtrls::Leds::LBLed::LedState::Off;
+			this->lbLed5->Style = LBSoft::IndustrialCtrls::Leds::LBLed::LedStyle::Circular;
+			this->lbLed5->TabIndex = 18;
 			// 
 			// MyForm
 			// 
