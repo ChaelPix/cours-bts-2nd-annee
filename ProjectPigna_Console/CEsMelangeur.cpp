@@ -14,7 +14,10 @@ CEsMelangeur::CEsMelangeur()
 
 void CEsMelangeur::lancerCycleFabrication(int masse_pvc_base, int masse_plastifiant, int masse_lubrifiant, int temps_malaxage, int temps_refroidissement)
 {
-	int nEtat = 0;
+
+	enum class Etats {AttenteMarche, VersementPvc, VersementPlastifiant, VersementLubrifiant, Malaxage, Vidange, Refroidissement, Evacuation, Fin};
+
+	Etats nEtat = Etats::AttenteMarche;
 	int duree_refroid = 0;
 	int duree_malax = 0;
 	bool running = true;
@@ -25,58 +28,75 @@ void CEsMelangeur::lancerCycleFabrication(int masse_pvc_base, int masse_plastifi
 		system("cls");
 
 		switch (nEtat) {
-		case 0:
+		case Etats::AttenteMarche:
 			std::cout << "Apuyez sur Marche pour commencer";
-			nEtat = m_marche ? 1 : 0;
+			if (m_marche)
+				nEtat = Etats::VersementPvc;
 			break;
-		case 1:
-			nEtat = (m_poids >= masse_pvc_base) ? 2 : 1;
+
+		case Etats::VersementPvc:
+			if((m_poids >= masse_pvc_base))
+				nEtat = Etats::VersementPlastifiant;
 			std::cout << "Poids (g) : " << getPoids() << "/" << masse_pvc_base;
 			break;
-		case 2:
-			nEtat = (m_poids >= masse_pvc_base + masse_plastifiant) ? 3 : 2;
+
+		case Etats::VersementPlastifiant:
+			if(m_poids >= masse_pvc_base + masse_plastifiant)
+				nEtat = Etats::VersementLubrifiant;
 			std::cout << "Poids (g) : " << getPoids() << "/" << masse_pvc_base + masse_plastifiant;
 			break;
-		case 3:
-			nEtat = (m_poids >= masse_pvc_base + masse_plastifiant + masse_lubrifiant) ? 4 : 3;
+
+		case Etats::VersementLubrifiant:
+			if (m_poids >= masse_pvc_base + masse_plastifiant + masse_lubrifiant)
+				nEtat = Etats::Malaxage;
 			std::cout << "Poids (g) : " << getPoids() << "/" << masse_pvc_base + masse_plastifiant + masse_lubrifiant;
 			break;
-		case 4:
-			nEtat = (duree_malax >= temps_malaxage) ? 5 : 4;
+
+		case Etats::Malaxage:
+			if(duree_malax >= temps_malaxage)
+				nEtat = Etats::Vidange;
 			std::cout << "Malax : " << duree_malax << " / " << temps_malaxage << "s";
 			break;
-		case 5:
-			nEtat = (m_poids <= 20) ? 6 : 5;
+
+		case Etats::Vidange:
+			if (m_poids <= 20)
+				nEtat = Etats::Refroidissement;
 			std::cout << "Poids (g) : " << getPoids();
 			break;
-		case 6:
-			nEtat = (duree_refroid >= temps_refroidissement) ? 7 : 6;
+
+		case Etats::Refroidissement:
+			if (duree_refroid >= temps_refroidissement)
+				nEtat = Etats::Evacuation;
 			std::cout << "Refroidissement : " << duree_refroid << " / " << temps_refroidissement << "s";
 			break;
-		case 7:
-			nEtat = (m_capteur_niveau_bas == 0) ? 8 : 7;
+
+		case Etats::Evacuation:
+			if (m_capteur_niveau_bas == 0)
+				nEtat = Etats::Fin;
 			std::cout << "Evacuation";
 			break;
+
 		default:
 			running = false;
 		}
 
-		m_vanne_pvc_base = (nEtat == 1);
-		m_vanne_plastifiant = (nEtat == 2);
-		m_vanne_lubrifiant = (nEtat == 3);
-		if (nEtat == 4)
+
+		m_vanne_pvc_base = (nEtat == Etats::VersementPvc);
+		m_vanne_plastifiant = (nEtat == Etats::VersementPlastifiant);
+		m_vanne_lubrifiant = (nEtat == Etats::VersementLubrifiant);
+		if (nEtat == Etats::Malaxage)
 		{
 			duree_malax++;
 			Sleep(1000);
 		}
-		m_vanne_vidange = (nEtat == 5);
-		if (nEtat == 6)
+		m_vanne_vidange = (nEtat == Etats::Vidange);
+		if (nEtat == Etats::Refroidissement)
 		{
 			duree_refroid++;
 			Sleep(1000);
 		}
-		m_evacuation = (nEtat == 7);
-		m_malaxeur = (nEtat == 3 || nEtat == 4);
+		m_evacuation = (nEtat == Etats::Evacuation);
+		m_malaxeur = (nEtat == Etats::Malaxage || nEtat == Etats::VersementLubrifiant);
 
 		majSorties();
 	}
