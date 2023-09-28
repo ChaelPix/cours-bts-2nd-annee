@@ -78,7 +78,6 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-
     std::cout << "Adr serveur : " << IP_SERVEUR << " : " << NUM_PORT << std::endl;
 
     uint n = 0, noctets;
