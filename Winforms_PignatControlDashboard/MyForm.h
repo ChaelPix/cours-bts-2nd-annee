@@ -76,7 +76,7 @@ namespace Winforms_PignatControlDashboard {
 
 
 
-	private: System::Windows::Forms::Label^ txt_PoidsTension;
+
 
 	private: System::Windows::Forms::Label^ txt_Poids;
 	private: System::Windows::Forms::Label^ txt_ManuelAuto;
@@ -206,7 +206,6 @@ namespace Winforms_PignatControlDashboard {
 			this->led_CapteurR3 = (gcnew LBSoft::IndustrialCtrls::Leds::LBLed());
 			this->led_CapteurR2 = (gcnew LBSoft::IndustrialCtrls::Leds::LBLed());
 			this->panel_poids = (gcnew System::Windows::Forms::Panel());
-			this->txt_PoidsTension = (gcnew System::Windows::Forms::Label());
 			this->txt_Poids = (gcnew System::Windows::Forms::Label());
 			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->panel_malaxeur = (gcnew System::Windows::Forms::Panel());
@@ -255,7 +254,7 @@ namespace Winforms_PignatControlDashboard {
 			this->label1->Location = System::Drawing::Point(68, 8);
 			this->label1->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(357, 55);
+			this->label1->Size = System::Drawing::Size(698, 55);
 			this->label1->TabIndex = 4;
 			this->label1->Text = L"Pignat - Tableau de Commandes";
 			this->label1->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
@@ -417,11 +416,11 @@ namespace Winforms_PignatControlDashboard {
 			this->led_Marche->LabelPosition = LBSoft::IndustrialCtrls::Leds::LBLed::LedLabelPosition::Top;
 			this->led_Marche->LedColor = System::Drawing::Color::Lime;
 			this->led_Marche->LedSize = System::Drawing::SizeF(60, 60);
-			this->led_Marche->Location = System::Drawing::Point(150, 19);
+			this->led_Marche->Location = System::Drawing::Point(150, 9);
 			this->led_Marche->Margin = System::Windows::Forms::Padding(2);
 			this->led_Marche->Name = L"led_Marche";
 			this->led_Marche->Renderer = nullptr;
-			this->led_Marche->Size = System::Drawing::Size(76, 91);
+			this->led_Marche->Size = System::Drawing::Size(76, 105);
 			this->led_Marche->State = LBSoft::IndustrialCtrls::Leds::LBLed::LedState::Off;
 			this->led_Marche->Style = LBSoft::IndustrialCtrls::Leds::LBLed::LedStyle::Circular;
 			this->led_Marche->TabIndex = 14;
@@ -777,7 +776,6 @@ namespace Winforms_PignatControlDashboard {
 			// 
 			this->panel_poids->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(53)), static_cast<System::Int32>(static_cast<System::Byte>(53)),
 				static_cast<System::Int32>(static_cast<System::Byte>(53)));
-			this->panel_poids->Controls->Add(this->txt_PoidsTension);
 			this->panel_poids->Controls->Add(this->txt_Poids);
 			this->panel_poids->Controls->Add(this->label5);
 			this->panel_poids->Location = System::Drawing::Point(429, 353);
@@ -788,21 +786,6 @@ namespace Winforms_PignatControlDashboard {
 			this->panel_poids->MouseEnter += gcnew System::EventHandler(this, &MyForm::panelEnter);
 			this->panel_poids->MouseLeave += gcnew System::EventHandler(this, &MyForm::panelExit);
 			// 
-			// txt_PoidsTension
-			// 
-			this->txt_PoidsTension->CausesValidation = false;
-			this->txt_PoidsTension->Font = (gcnew System::Drawing::Font(L"Poor Richard", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->txt_PoidsTension->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)),
-				static_cast<System::Int32>(static_cast<System::Byte>(226)), static_cast<System::Int32>(static_cast<System::Byte>(198)));
-			this->txt_PoidsTension->Location = System::Drawing::Point(5, 119);
-			this->txt_PoidsTension->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
-			this->txt_PoidsTension->Name = L"txt_PoidsTension";
-			this->txt_PoidsTension->Size = System::Drawing::Size(252, 26);
-			this->txt_PoidsTension->TabIndex = 8;
-			this->txt_PoidsTension->Text = L"0000 mV";
-			this->txt_PoidsTension->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
-			// 
 			// txt_Poids
 			// 
 			this->txt_Poids->CausesValidation = false;
@@ -810,7 +793,7 @@ namespace Winforms_PignatControlDashboard {
 				static_cast<System::Byte>(0)));
 			this->txt_Poids->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)));
-			this->txt_Poids->Location = System::Drawing::Point(5, 58);
+			this->txt_Poids->Location = System::Drawing::Point(7, 71);
 			this->txt_Poids->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->txt_Poids->Name = L"txt_Poids";
 			this->txt_Poids->Size = System::Drawing::Size(252, 61);
@@ -858,10 +841,10 @@ namespace Winforms_PignatControlDashboard {
 			this->label15->Font = (gcnew System::Drawing::Font(L"Poor Richard", 11, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label15->ForeColor = System::Drawing::Color::YellowGreen;
-			this->label15->Location = System::Drawing::Point(189, 155);
+			this->label15->Location = System::Drawing::Point(181, 155);
 			this->label15->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->label15->Name = L"label15";
-			this->label15->Size = System::Drawing::Size(80, 44);
+			this->label15->Size = System::Drawing::Size(98, 44);
 			this->label15->TabIndex = 38;
 			this->label15->Text = L"Bouton Évacuation";
 			this->label15->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -1053,11 +1036,11 @@ namespace Winforms_PignatControlDashboard {
 			this->led_CapteurBas->LabelPosition = LBSoft::IndustrialCtrls::Leds::LBLed::LedLabelPosition::Top;
 			this->led_CapteurBas->LedColor = System::Drawing::Color::Yellow;
 			this->led_CapteurBas->LedSize = System::Drawing::SizeF(60, 60);
-			this->led_CapteurBas->Location = System::Drawing::Point(106, 29);
+			this->led_CapteurBas->Location = System::Drawing::Point(91, 29);
 			this->led_CapteurBas->Margin = System::Windows::Forms::Padding(2);
 			this->led_CapteurBas->Name = L"led_CapteurBas";
 			this->led_CapteurBas->Renderer = nullptr;
-			this->led_CapteurBas->Size = System::Drawing::Size(76, 91);
+			this->led_CapteurBas->Size = System::Drawing::Size(101, 91);
 			this->led_CapteurBas->State = LBSoft::IndustrialCtrls::Leds::LBLed::LedState::Off;
 			this->led_CapteurBas->Style = LBSoft::IndustrialCtrls::Leds::LBLed::LedStyle::Circular;
 			this->led_CapteurBas->TabIndex = 22;
@@ -1086,11 +1069,11 @@ namespace Winforms_PignatControlDashboard {
 			this->led_CapteurHaut->LabelPosition = LBSoft::IndustrialCtrls::Leds::LBLed::LedLabelPosition::Top;
 			this->led_CapteurHaut->LedColor = System::Drawing::Color::Yellow;
 			this->led_CapteurHaut->LedSize = System::Drawing::SizeF(60, 60);
-			this->led_CapteurHaut->Location = System::Drawing::Point(208, 29);
+			this->led_CapteurHaut->Location = System::Drawing::Point(196, 29);
 			this->led_CapteurHaut->Margin = System::Windows::Forms::Padding(2);
 			this->led_CapteurHaut->Name = L"led_CapteurHaut";
 			this->led_CapteurHaut->Renderer = nullptr;
-			this->led_CapteurHaut->Size = System::Drawing::Size(87, 91);
+			this->led_CapteurHaut->Size = System::Drawing::Size(122, 91);
 			this->led_CapteurHaut->State = LBSoft::IndustrialCtrls::Leds::LBLed::LedState::Off;
 			this->led_CapteurHaut->Style = LBSoft::IndustrialCtrls::Leds::LBLed::LedStyle::Circular;
 			this->led_CapteurHaut->TabIndex = 23;
@@ -1120,8 +1103,8 @@ namespace Winforms_PignatControlDashboard {
 			// 
 			// MyForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(96, 96);
-			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Dpi;
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(29)), static_cast<System::Int32>(static_cast<System::Byte>(29)),
 				static_cast<System::Int32>(static_cast<System::Byte>(29)));
@@ -1159,9 +1142,7 @@ namespace Winforms_PignatControlDashboard {
 		void MajEntreeUI()
 		{
 			int poids = pignat->getPoids();
-			txt_Poids->Text = poids.ToString();
-			int mv = -poids / 200;
-			txt_PoidsTension->Text = mv.ToString();
+			txt_Poids->Text = poids.ToString() + " g";
 
 			pignat->getCapteurBasR1() ? led_CapteurR1->State = LBLed::LedState::On : led_CapteurR1->State = LBLed::LedState::Off;
 			pignat->getCapteurBasR2() ? led_CapteurR2->State = LBLed::LedState::On : led_CapteurR2->State = LBLed::LedState::Off;
@@ -1174,14 +1155,14 @@ namespace Winforms_PignatControlDashboard {
 			pignat->getArret() ? led_Arret->State = LBLed::LedState::On : led_Arret->State = LBLed::LedState::Off;
 
 
-			if (pignat->getManuelAuto())
+			if (!pignat->getManuelAuto())
 			{
-				meter_AutoManuel->Value = 2;
+				meter_AutoManuel->Value = 1;
 				txt_ManuelAuto->Text = "Mode Auto";
 			}
 			else
 			{
-				meter_AutoManuel->Value = 1;
+				meter_AutoManuel->Value = 2;
 				txt_ManuelAuto->Text = "Mode Manuel";
 			}
 

@@ -37,6 +37,9 @@
     <Image Include="imgs\pignat.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="imgs\pignatLogo.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Library Include="libs\NIDAQmx.lib">
