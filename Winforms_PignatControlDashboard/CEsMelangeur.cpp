@@ -100,11 +100,14 @@ void CEsMelangeur::initVariables()
 int32 CEsMelangeur::initEsMelangeur()
 {
 	//Digital out
-	if (DAQmxCreateTask("", &m_tache_ecriture_tor) < 0)
+	TaskHandle tempETORHandle;
+	if (DAQmxCreateTask("", &tempETORHandle) < 0)
 	{
 		//std::cout << "ERROR Create Task" << std::endl;
 		return -1;
 	}
+	m_tache_ecriture_tor = tempETORHandle;
+
 	if (DAQmxCreateDOChan(m_tache_ecriture_tor, "Dev1/port0", "", DAQmx_Val_ChanForAllLines) < 0)
 	{
 		//std::cout << "ERROR Create DigitalOut" << std::endl;
@@ -117,11 +120,15 @@ int32 CEsMelangeur::initEsMelangeur()
 	}
 
 	//Digital In
-	if (DAQmxCreateTask("", &m_tache_lecture_tor) < 0)
+	TaskHandle tempLTORHandle;
+
+	if (DAQmxCreateTask("", &tempLTORHandle) < 0)
 	{
 		//std::cout << "ERROR Create Task" << std::endl;
 		return -4;
 	}
+	m_tache_lecture_tor = tempLTORHandle;
+
 	if (DAQmxCreateDIChan(m_tache_lecture_tor, "Dev1/port1", "", DAQmx_Val_ChanForAllLines) < 0)
 	{
 		//std::cout << "ERROR Create DigitalOut" << std::endl;
@@ -134,11 +141,14 @@ int32 CEsMelangeur::initEsMelangeur()
 	}
 
 	//Analog In
-	if (DAQmxCreateTask("", &m_tache_lecture_ana) < 0)
+	TaskHandle tempLAHandle;
+	if (DAQmxCreateTask("", &tempLAHandle) < 0)
 	{
 		//std::cout << "ERROR Create Task" << std::endl;
 		return -7;
 	}
+	m_tache_lecture_ana = tempLAHandle;
+
 	if (DAQmxCreateAIVoltageChan(m_tache_lecture_ana, "Dev1/ai0", "", DAQmx_Val_RSE, 0.0, 5.0, DAQmx_Val_Volts, ""))
 	{
 		//std::cout << "ERROR Create DigitalOut" << std::endl;
