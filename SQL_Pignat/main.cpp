@@ -433,7 +433,7 @@ int q3_1()
         stmt = con->createStatement();
 
         // Etape 4 : exécution d'une requete : ici on sélectionne tous les enregistrements
-        res = stmt->executeQuery("SELECT * FROM personnel WHERE qualite = 'OPERATEUR");
+        res = stmt->executeQuery("SELECT * FROM personnel WHERE qualite = 'OPERATEUR'");
 
         // Etape 5 : exploitation du résultat de la requête
         while (res->next()) {
@@ -468,7 +468,7 @@ int q3_1()
 int main()
 {
     bool isRunning = true;
-    int choice;
+    char choice;
 
     while (isRunning)
     {
@@ -486,7 +486,8 @@ int main()
         std::cin >> choice;
 
         system("cls");
-        std::cout << "Choix de l'exercice : " + (choice) << std::endl << std::endl << std::endl;
+        std::cout << "Choix de l'exercice : " << (choice) << std::endl << std::endl << std::endl;
+
         switch (choice)
         {
         case '1': q3_1();  break;
@@ -502,7 +503,7 @@ int main()
         }
     }
    
-   
+    system("cls");
 
     return 0;
 }
