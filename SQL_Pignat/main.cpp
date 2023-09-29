@@ -108,6 +108,9 @@ int q3_6()
         cout << ", EtatSQL: " << e.getSQLState() << " )" << endl;
     }
     cout << endl;
+
+    int pause;
+    std::cin >> pause;
     // on sort en indiquant que tout c'est bien passé
     return EXIT_SUCCESS;
 }
@@ -203,6 +206,9 @@ int q3_5()
         cout << ", EtatSQL: " << e.getSQLState() << " )" << endl;
     }
     cout << endl;
+
+    int pause;
+    std::cin >> pause;
     // on sort en indiquant que tout c'est bien passé
     return EXIT_SUCCESS;
 }
@@ -281,6 +287,9 @@ int q3_4()
         cout << ", EtatSQL: " << e.getSQLState() << " )" << endl;
     }
     cout << endl;
+
+    int pause;
+    std::cin >> pause;
     // on sort en indiquant que tout c'est bien passé
     return EXIT_SUCCESS;
 }
@@ -330,6 +339,9 @@ int q3_3()
         cout << ", EtatSQL: " << e.getSQLState() << " )" << endl;
     }
     cout << endl;
+
+    int pause;
+    std::cin >> pause;
     // on sort en indiquant que tout c'est bien passé
     return EXIT_SUCCESS;
 }
@@ -390,6 +402,9 @@ int q3_2()
         cout << ", EtatSQL: " << e.getSQLState() << " )" << endl;
     }
     cout << endl;
+
+    int pause;
+    std::cin >> pause;
     // on sort en indiquant que tout c'est bien passé
     return EXIT_SUCCESS;
 }
@@ -443,6 +458,9 @@ int q3_1()
         cout << ", EtatSQL: " << e.getSQLState() << " )" << endl;
     }
     cout << endl;
+
+    int pause;
+    std::cin >> pause;
     // on sort en indiquant que tout c'est bien passé
     return EXIT_SUCCESS;
 }
@@ -450,7 +468,7 @@ int q3_1()
 int main()
 {
     bool isRunning = true;
-    char choice;
+    int choice;
 
     while (isRunning)
     {
@@ -463,9 +481,12 @@ int main()
         std::cout << "[4] Q3.4 (Choisir un of non trait\202 et calcule quantit\202s)" << std::endl;
         std::cout << "[5] Q3.5 (Ordre de 'X' > 'E' et remplace id_Personnel)" << std::endl;
         std::cout << "[6] Q3.6 (Ordre de 'E' > 'T', remplace id_Personnel et Heure de fin > NOW())" << std::endl;
+        std::cout << "[0] Quitter" << std::endl;
 
         std::cin >> choice;
 
+        system("cls");
+        std::cout << "Choix de l'exercice : " + (choice) << std::endl << std::endl << std::endl;
         switch (choice)
         {
         case '1': q3_1();  break;
