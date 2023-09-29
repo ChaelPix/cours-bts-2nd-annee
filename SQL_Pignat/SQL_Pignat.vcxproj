@@ -140,7 +140,11 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Library Include="mysql_connector\lib\mysqlcppconn-static.lib" />
     <Library Include="mysql_connector\lib\mysqlcppconn.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mysql_connector\lib\mysqlcppconn.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

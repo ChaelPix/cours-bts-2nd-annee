@@ -21,5 +21,9 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="mysql_connector\lib\mysqlcppconn.lib" />
+    <Library Include="mysql_connector\lib\mysqlcppconn-static.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mysql_connector\lib\mysqlcppconn.dll" />
   </ItemGroup>
 </Project>
