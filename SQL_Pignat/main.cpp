@@ -387,7 +387,10 @@ int q3_2()
 
         // Etape 5 : exploitation du résultat de la requête
         if (res->next()) 
-            cout << "Vous etes : " << res->getString("qualite") << endl;
+            if(res->getString("qualite") == "OPERATEUR")
+                cout << "Vous etes : " << res->getString("qualite") << endl;
+            else 
+                cout << "Login \202chou\202." << endl;
         else 
             cout << "Login échoué." << endl;
 
