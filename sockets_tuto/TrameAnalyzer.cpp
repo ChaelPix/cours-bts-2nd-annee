@@ -10,11 +10,11 @@ TrameAnalyzer::TrameAnalyzer(char ctrame[])
 
 	start = trame.find("T:") + 2;
 	end = trame.find("°C");
-	temp = std::stof(trame.substr(start, end - start));
+	temp = std::stod(trame.substr(start, end - start));
 
 	start = trame.find("H:") + 2;
 	end = trame.find("%");
-	humidite = std::stof(trame.substr(start, end - start));
+	humidite = std::stod(trame.substr(start, end - start));
 
 	humiditeCorrigee = humidite + (25 - temp) * -0.15; //coeff du capteur
 }
@@ -25,17 +25,17 @@ std::string TrameAnalyzer::getDate()
 	return date;
 }
 
-float TrameAnalyzer::getTemp()
+double TrameAnalyzer::getTemp()
 {
 	return temp;
 }
 
-float TrameAnalyzer::getHumidite()
+double TrameAnalyzer::getHumidite()
 {
 	return humidite;
 }
 
-float TrameAnalyzer::gethumiditeCorrigee()
+double TrameAnalyzer::gethumiditeCorrigee()
 {
 	return humiditeCorrigee;
 }
