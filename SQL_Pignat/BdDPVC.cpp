@@ -49,13 +49,14 @@ void CBdDPVC::deconnecter() {
 
 bool CBdDPVC::estUnOperateurAutorise(CPersonnel user) {
    
-
+    bool estOperateur = false;
     try {
 
-        sql::ResultSet* res = stmt->executeQuery("SELECT * FROM personnel WHERE qualite = 'OPERATEUR'");
-        while (res->next()) {
-            references.push_back(res->getString("reference"));
-        }
+        std::string requete = "SELECT COUNT(*) FROM personnel WHERE login = " + user.getLogin() + " AND password = " + user.getPassword() + " AND qualite = 'OPERATEUR'";
+        sql::ResultSet* res = stmt->executeQuery(requete);
+       
+        if (res->next() && res->getInt(1) > 0)
+            estOperateur = true;
 
         delete res;
     }
@@ -63,24 +64,13 @@ bool CBdDPVC::estUnOperateurAutorise(CPersonnel user) {
         std::cerr << "Erreur SQL : " << e.what();
     }
 
-
-    res =
-
-    // Etape 5 : exploitation du résultat de la requête
-    while (res->next()) {
-        cout << "\t... MySQL a repondu: Liste des op\202rateurs : ";
-        // Acces par non du champ de la table : ici le champ 'id' que l'on recupère au format string
-        cout << res->getString("id_Personnel") << endl;
-        cout << "\t... MySQL la suite : ";
-        // Acces à la donnée par son numéro de colonne, 1 étant le premier (ici 'id'),
-        cout << res->getString(2) << " : " << res->getString(3) << endl;
-    }
-
+    return estOperateur;
 }
 
 std::vector<std::string> CBdDPVC::getListeReferencesOF() {
     
     std::vector<std::string> references;
+
     try {
 
         sql::ResultSet* res = stmt->executeQuery("SELECT reference FROM ordrefabrication");
@@ -100,6 +90,33 @@ std::vector<std::string> CBdDPVC::getListeReferencesOF() {
 
 CFormule CBdDPVC::makeFormule(int idF) {
     
+    try {
+        res = stmt->executeQuery("SELECT * FROM formule WHERE id_formule = " + std::to_string(idF));
+
+        if (res->next())
+        {
+            float pvcBase = stof(res->getString("pvcBase"));
+            float plastifiant = stof(res->getString("plastifiant"));
+            float lubrifiant = stof(res->getString("lubrifiant"));
+
+
+            std::cout << "% de pvc : " << pvcBase << " - quantit\202 : " << quantite * (pvcBase / 100.0) << endl;
+            std::cout << "% de plastifiant : " << plastifiant << " - quantit\202 : " << quantite * (plastifiant / 100.0) << endl;
+            std::cout << "% de lubrifiant : " << lubrifiant << " - quantit\202 : " << quantite * (lubrifiant / 100.0) << endl;
+        }
+    }
+    catch (sql::SQLException& e) {
+        std::cerr << "Erreur SQL : " << e.what();
+    }
+
+ 
+
+
+   /* CFormule formule();
+    CFormule(Type type, double pvcBase, double plastifiant,
+        double lubrifiant, unsigned short dureeMalaxage,
+        unsigned short dureeRefroidissement); */
+
 }
 
 CPersonnel CBdDPVC::makePersonnel(int idP) {
