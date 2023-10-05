@@ -6,9 +6,16 @@
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>
 #include <cppconn/prepared_statement.h>
-
 #include <vector>
+
+#include "Personnel.h"
+#include "Formule.h"
+#include "OrdreFabrication.h"
+
 using namespace std;
+
+
+#pragma region TP2
 
 struct Login
 {
@@ -468,7 +475,7 @@ int q3_1()
     return EXIT_SUCCESS;
 }
 
-int main()
+int MenuTp2()
 {
     bool isRunning = true;
     char choice;
@@ -477,7 +484,7 @@ int main()
     {
         system("cls");
         std::cout << "\t.....:Choisir Exo:....." << std::endl << std::endl;
-        
+
         std::cout << "[1] Q3.1 (Liste op\202rateurs de la table Personnel)" << std::endl;
         std::cout << "[2] Q3.2 (Identification d'un Op\202rateur)" << std::endl;
         std::cout << "[3] Q3.3 (Liste des ordres de fabrication non trait\202s)" << std::endl;
@@ -499,13 +506,109 @@ int main()
         case '4': q3_4();  break;
         case '5': q3_5();  break;
         case '6': q3_6();  break;
-           
+
 
         default:
             isRunning = false;
         }
     }
-   
+
+    system("cls");
+
+    return 0;
+}
+
+#pragma endregion
+
+
+#pragma region TP3
+int TestClassePersonnel()
+{
+    CPersonnel personnelDefaut;
+
+    std::cout << "- Personnel par defaut : " << personnelDefaut.toString() << std::endl;
+
+    personnelDefaut.setLogin("YOLO"); 
+    personnelDefaut.setPassword("123"); 
+    personnelDefaut.setQualite(CPersonnel::Qualite::OPERATEUR); 
+
+    std::cout << "\n- Setters utilis\202s : " << personnelDefaut.toString() << std::endl;
+
+    CPersonnel personnelConstructeur("Yolo2", "1234546789", CPersonnel::Qualite::OPERATEUR);
+    std::cout << "CPersonnel personnelConstructeur(Yolo2, 1234546789, CPersonnel::Qualite::OPERATEUR); \n" 
+        << personnelConstructeur.toString() << std::endl << std::endl;
+
+    std::string s;
+    std::cin >> s;
+
+    return 1;
+}
+
+int TestClasseFormule()
+{
+    CFormule formule(CFormule::RIGIDE, 100.0, 50.0, 25.0, 15, 30);
+    std::cout << "=== CFormule Test ===" << std::endl;
+    std::cout << formule.toString() << std::endl;
+
+    formule.setType(CFormule::SOUPLE);
+    formule.setPvcBase(120.0);
+    std::cout << "=== CFormule Modified Test ===" << std::endl;
+    std::cout << formule.toString() << std::endl;
+
+    std::string s;
+    std::cin >> s;
+    return 0;
+}
+
+int TestClasseOrdreFabrication()
+{
+    CFormule formule(CFormule::RIGIDE, 1.0, 1.0, 1.0, 10, 10);
+    CPersonnel preparateur("yolo", "12345", CPersonnel::Qualite::PREPARATEUR);
+
+    COrdreFabrication ordre("REF123", formule, 100.0, COrdreFabrication::E, "12:00", preparateur);
+
+    std::cout << ordre.toString() << std::endl;
+
+    std::string s;
+    std::cin >> s;
+    return 0;
+}
+
+#pragma endregion
+
+int main()
+{
+    //MenuTp2();
+    //return 0;
+
+    bool isRunning = true;
+    char choice;
+
+    while (isRunning)
+    {
+        system("cls");
+        std::cout << "\t.....:Choisir Exo:....." << std::endl << std::endl;
+
+        std::cout << "[1] Q4.1 Test Classe Personnel" << std::endl;
+        std::cout << "[2] Q4.2 Test Classe Formule" << std::endl;
+        std::cout << "[3] Q4.3 Test Classe OrdreFabrication" << std::endl;
+        std::cout << "[0] Quitter" << std::endl;
+
+        std::cin >> choice;
+
+        system("cls");
+        std::cout << "Choix de l'exercice : " << (choice) << std::endl << std::endl << std::endl;
+
+        switch (choice)
+        {
+        case '1': TestClassePersonnel();  break;
+
+
+        default:
+            isRunning = false;
+        }
+    }
+
     system("cls");
 
     return 0;
