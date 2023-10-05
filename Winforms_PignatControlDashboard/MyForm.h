@@ -28,6 +28,9 @@ namespace Winforms_PignatControlDashboard {
 
 		MyForm(void)
 		{
+
+			this->FormClosing += gcnew FormClosingEventHandler(this, &MyForm::MyForm_FormClosing);
+
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
@@ -1244,5 +1247,10 @@ namespace Winforms_PignatControlDashboard {
 		pignat->setEvacuation(evacuation);
 	}
 
+
+	void MyForm_FormClosing(Object^ sender, FormClosingEventArgs^ e)
+	{
+		pignat->fermerEsMelangeur();
+	}
 };
 }

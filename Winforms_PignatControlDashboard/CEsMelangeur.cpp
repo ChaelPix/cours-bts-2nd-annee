@@ -149,7 +149,7 @@ int32 CEsMelangeur::initEsMelangeur()
 	}
 	m_tache_lecture_ana = tempLAHandle;
 
-	if (DAQmxCreateAIVoltageChan(m_tache_lecture_ana, "Dev1/ai0", "", DAQmx_Val_RSE, 0.0, 5.0, DAQmx_Val_Volts, ""))
+	if (DAQmxCreateAIVoltageChan(m_tache_lecture_ana, "Dev1/ai0", "", DAQmx_Val_RSE, -10.0, 0.0, DAQmx_Val_Volts, ""))
 	{
 		//std::cout << "ERROR Create DigitalOut" << std::endl;
 		return -8;
@@ -230,6 +230,8 @@ int32 CEsMelangeur::lireEntrees()
 	DAQmxReadAnalogScalarF64(m_tache_lecture_ana, 1000, &weightV, NULL);
 
 	m_poids = ((weightV * 2000) / 10) * -1;
+
+	if (m_poids < 0) m_poids = 0;
 
 	//Read digital in
 	uInt32 lecture_tor_value;

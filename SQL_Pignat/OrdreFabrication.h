@@ -43,7 +43,7 @@ private :
 	std::string m_heureFin;
 	CPersonnel m_preparateur;
 
-	char toChar(Etat etat) const;
+	char toChar(Etat etat);
 };
  
 #endif

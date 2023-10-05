@@ -116,7 +116,7 @@ int q3_6()
     }
     cout << endl;
 
-    int pause;
+    std::string pause;
     std::cin >> pause;
     // on sort en indiquant que tout c'est bien passé
     return EXIT_SUCCESS;
@@ -214,7 +214,7 @@ int q3_5()
     }
     cout << endl;
 
-    int pause;
+    std::string pause;
     std::cin >> pause;
     // on sort en indiquant que tout c'est bien passé
     return EXIT_SUCCESS;
@@ -295,7 +295,7 @@ int q3_4()
     }
     cout << endl;
 
-    int pause;
+    std::string pause;
     std::cin >> pause;
     // on sort en indiquant que tout c'est bien passé
     return EXIT_SUCCESS;
@@ -347,7 +347,7 @@ int q3_3()
     }
     cout << endl;
 
-    int pause;
+    std::string pause;
     std::cin >> pause;
     // on sort en indiquant que tout c'est bien passé
     return EXIT_SUCCESS;
@@ -386,20 +386,17 @@ int q3_2()
 
         // Etape 4 : exécution d'une requete : ici on sélectionne tous les enregistrements
         //res = stmt->executeQuery("SELECT * FROM personnel WHERE login = '" + myLogin.name + "' AND password ='" + myLogin.password + "'");
-        pstmt = con->prepareStatement("SELECT * FROM personnel WHERE login = ? AND password = ?");
+        pstmt = con->prepareStatement("SELECT COUNT(*) FROM personnel WHERE login = ? AND password = ? AND qualite = 'OPERATEUR'");
         pstmt->setString(1, myLogin.name);
         pstmt->setString(2, myLogin.password);
 
         res = pstmt->executeQuery();
 
         // Etape 5 : exploitation du résultat de la requête
-        if (res->next()) 
-            if(res->getString("qualite") == "OPERATEUR")
-                cout << "Vous etes : " << res->getString("qualite") << endl;
-            else 
-                cout << "Login \202chou\202." << endl;
+        if (res->next() && res->getInt(1) > 0)
+                cout << "Vous etes : OPERATEUR" << endl;
         else 
-            cout << "Login échoué." << endl;
+                cout << "Login \202chou\202." << endl;
 
         delete res;
         delete stmt;
@@ -413,7 +410,7 @@ int q3_2()
     }
     cout << endl;
 
-    int pause;
+    std::string pause;
     std::cin >> pause;
     // on sort en indiquant que tout c'est bien passé
     return EXIT_SUCCESS;
@@ -469,7 +466,7 @@ int q3_1()
     }
     cout << endl;
 
-    int pause;
+    std::string pause;
     std::cin >> pause;
     // on sort en indiquant que tout c'est bien passé
     return EXIT_SUCCESS;
@@ -578,8 +575,8 @@ int TestClasseOrdreFabrication()
 
 int main()
 {
-    //MenuTp2();
-    //return 0;
+    MenuTp2();
+    return 0;
 
     bool isRunning = true;
     char choice;
@@ -602,6 +599,8 @@ int main()
         switch (choice)
         {
         case '1': TestClassePersonnel();  break;
+        case '2': TestClasseFormule();  break;
+        case '3': TestClasseOrdreFabrication();  break;
 
 
         default:

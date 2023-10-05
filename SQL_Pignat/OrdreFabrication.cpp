@@ -65,11 +65,13 @@ std::string COrdreFabrication::toString() const {
         "\nPreparateur: " + m_preparateur.toString();
 }
 
-char COrdreFabrication::toChar(Etat etat) const {
+char COrdreFabrication::toChar(Etat etat)
+{
     switch (etat) {
     case X: return 'X';
     case E: return 'E';
     case T: return 'T';
-    default: return 'X';  // Defaulting to 'X' (Non traite)
+    default: return 'X';  
     }
 }
+
