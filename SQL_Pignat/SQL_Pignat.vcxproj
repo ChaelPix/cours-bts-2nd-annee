@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BdDPVC.cpp" />
     <ClCompile Include="Formule.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OrdreFabrication.cpp" />

@@ -127,6 +127,106 @@ std::vector<std::string> CBdDPVC::getTypesFormule()
 	return formules;
 }
 
+COrdreFabrication CBdDPVC::getOrdreFabrication(std::string referenceOF)
+{
+
+	try {
+		sql::ResultSet* res = stmt->executeQuery("SELECT * FROM ordrefabrication WHERE id_OrdreFabrication = " + referenceOF);
+
+		if (res->next()) {
+			
+			int idF = res->getInt("id_Formule");
+			CFormule formule = makeFormule(idF);
+			double quantite = res->getDouble("quantite");
+
+			COrdreFabrication::Etat etat;
+			std::string etatChar = res->getString("etat");
+			if (etatChar == "T")
+				etat = COrdreFabrication::Etat::T;
+			else if(etatChar == "E")
+				etat = COrdreFabrication::Etat::E;
+			else
+				etat = COrdreFabrication::Etat::X;
+
+			std::string heureFin = res->getString("heureFin");
+
+			int idP = res->getInt("id_Personnel");
+			CPersonnel personnel = makePersonnel(idP);
+
+			COrdreFabrication of(referenceOF, formule, quantite, etat, heureFin, personnel);
+			return of;
+		}
+
+		delete res;
+	}
+	catch (sql::SQLException& e) {
+		std::cerr << "Erreur SQL : " << e.what();
+	}
+
+	throw("erreur ordre fabrication");
+}
+
+CPersonnel CBdDPVC::getPersonnel(std::string loginP)
+{
+	try {
+		sql::ResultSet* res = stmt->executeQuery("SELECT * FROM personnel WHERE login = " + loginP);
+
+		if (res->next()) {
+
+			int idP = res->getInt("id_Personnel");
+			CPersonnel personnel = makePersonnel(idP);
+			return personnel;
+		}
+
+		delete res;
+	}
+	catch (sql::SQLException& e) {
+		std::cerr << "Erreur SQL : " << e.what();
+	}
+
+	throw("erreur trouver personnel");
+}
+
+bool CBdDPVC::majEtatEnCours(COrdreFabrication& of, CPersonnel operateur)
+{
+	bool isSucess = false;
+
+	try {
+		int idPersonnel = getIdPersonnel(operateur);
+		int idOf = getIdOF(of);
+
+		stmt->executeUpdate("UPDATE ordrefabrication SET etat = 'E', id_Personnel = " + std::to_string(idPersonnel) + " WHERE id_OrdreFabrication = " + std::to_string(idOf));
+		isSucess = true;
+
+		of.setEtat(COrdreFabrication::E);
+
+	}
+	catch (sql::SQLException& e) {
+		std::cerr << "Erreur SQL : " << e.what();
+	}
+
+	return isSucess;
+}
+
+bool CBdDPVC::majHeureFin(COrdreFabrication& of)
+{
+	bool isSucess = false;
+
+	try {
+		int idOf = getIdOF(of);
+		stmt->executeUpdate("UPDATE ordrefabrication SET etat = 'T', heurefin = NOW() WHERE id_OrdreFabrication = " + std::to_string(idOf));
+		isSucess = true;
+
+		of.setEtat(COrdreFabrication::E);
+
+	}
+	catch (sql::SQLException& e) {
+		std::cerr << "Erreur SQL : " << e.what();
+	}
+
+	return isSucess;
+}
+
 
 CFormule CBdDPVC::makeFormule(int idF) {
 
@@ -154,7 +254,6 @@ CFormule CBdDPVC::makeFormule(int idF) {
 
 	throw("Erreur creation formule");
 }
-
 
 CPersonnel CBdDPVC::makePersonnel(int idP) {
 

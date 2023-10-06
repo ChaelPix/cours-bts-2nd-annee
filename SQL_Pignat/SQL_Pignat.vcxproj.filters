@@ -27,6 +27,9 @@
     <ClCompile Include="OrdreFabrication.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="BdDPVC.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="mysql_connector\lib\mysqlcppconn.lib" />
