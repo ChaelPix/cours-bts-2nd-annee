@@ -11,6 +11,7 @@
 #include "Personnel.h"
 #include "Formule.h"
 #include "OrdreFabrication.h"
+#include "BdDPVC.h"
 
 using namespace std;
 
@@ -571,12 +572,34 @@ int TestClasseOrdreFabrication()
     return 0;
 }
 
+int TestClasseBDD()
+{
+    CBdDPVC bdd;
+
+    bdd.connecter();
+
+    CPersonnel user("op1", "123abc", CPersonnel::Qualite::OPERATEUR);
+
+    std::string ss;
+    if (bdd.estUnOperateurAutorise(user))
+        ss = "hello";
+    else
+        ss = "bye";
+
+    std::cout <<  ss << std::endl;
+
+
+    std::string s;
+    std::cin >> s;
+    return 0;
+}
+
 #pragma endregion
 
 int main()
 {
-    MenuTp2();
-    return 0;
+    //MenuTp2();
+    //return 0;
 
     bool isRunning = true;
     char choice;
@@ -589,6 +612,7 @@ int main()
         std::cout << "[1] Q4.1 Test Classe Personnel" << std::endl;
         std::cout << "[2] Q4.2 Test Classe Formule" << std::endl;
         std::cout << "[3] Q4.3 Test Classe OrdreFabrication" << std::endl;
+        std::cout << "[4] Q4.3 Test Classe BDD" << std::endl;
         std::cout << "[0] Quitter" << std::endl;
 
         std::cin >> choice;
@@ -601,6 +625,7 @@ int main()
         case '1': TestClassePersonnel();  break;
         case '2': TestClasseFormule();  break;
         case '3': TestClasseOrdreFabrication();  break;
+        case '4': TestClasseBDD();  break;
 
 
         default:

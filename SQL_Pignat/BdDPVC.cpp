@@ -52,7 +52,7 @@ bool CBdDPVC::estUnOperateurAutorise(CPersonnel user) {
 	bool estOperateur = false;
 	try {
 
-		std::string requete = "SELECT COUNT(*) FROM personnel WHERE login = " + user.getLogin() + " AND password = " + user.getPassword() + " AND qualite = 'OPERATEUR'";
+		std::string requete = "SELECT COUNT(*) FROM personnel WHERE login = '" + user.getLogin() + "' AND password = '" + user.getPassword() + "' AND qualite = 'OPERATEUR'";
 		sql::ResultSet* res = stmt->executeQuery(requete);
 
 		if (res->next() && res->getInt(1) > 0)
@@ -131,7 +131,7 @@ COrdreFabrication CBdDPVC::getOrdreFabrication(std::string referenceOF)
 {
 
 	try {
-		sql::ResultSet* res = stmt->executeQuery("SELECT * FROM ordrefabrication WHERE id_OrdreFabrication = " + referenceOF);
+		sql::ResultSet* res = stmt->executeQuery("SELECT * FROM ordrefabrication WHERE id_OrdreFabrication = '" + referenceOF + "'");
 
 		if (res->next()) {
 			
@@ -169,7 +169,7 @@ COrdreFabrication CBdDPVC::getOrdreFabrication(std::string referenceOF)
 CPersonnel CBdDPVC::getPersonnel(std::string loginP)
 {
 	try {
-		sql::ResultSet* res = stmt->executeQuery("SELECT * FROM personnel WHERE login = " + loginP);
+		sql::ResultSet* res = stmt->executeQuery("SELECT * FROM personnel WHERE login = '" + loginP + "'");
 
 		if (res->next()) {
 
