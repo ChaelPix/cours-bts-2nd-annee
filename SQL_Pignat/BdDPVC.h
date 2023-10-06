@@ -105,7 +105,11 @@ private:
 	//sql::ResultSet* res;	// A SUPPRIMER ET A METTRE DANS LES METHODES EN LOCAL
 
 		// Méthodes utilitaires privées
+
+	
+	/* throw ("erreur creation formule") */
 	CFormule makeFormule(int idF);
+	/* throw ("erreur creation personnel") */
 	CPersonnel makePersonnel(int idP);
 	int getIdFormule(CFormule formule);
 	int getIdPersonnel(CPersonnel user);

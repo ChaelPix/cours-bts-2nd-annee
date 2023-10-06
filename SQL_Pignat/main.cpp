@@ -394,9 +394,9 @@ int q3_2()
 
         // Etape 5 : exploitation du résultat de la requête
         if (res->next() && res->getInt(1) > 0)
-                cout << "Vous etes : OPERATEUR" << endl;
+            cout << "Vous etes : OPERATEUR" << endl;
         else 
-                cout << "Login \202chou\202." << endl;
+            cout << "Login \202chou\202." << endl;
 
         delete res;
         delete stmt;
