@@ -5,9 +5,11 @@ using namespace System::Windows::Forms;
 
 [STAThreadAttribute]
 
-void main(array<String^>^ args) {
+int main(array<String^>^ args) {
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 	Winforms_PignatFinal::MyForm form;
 	Application::Run(% form);
+
+	return 0;
 }
