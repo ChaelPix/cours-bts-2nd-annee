@@ -42,12 +42,14 @@ namespace Winforms_PignatFinal {
 
 
 	private: System::Windows::Forms::Button^ button1;
-	private: System::Windows::Forms::PictureBox^ pictureBox1;
+	private: System::Windows::Forms::PictureBox^ pignatImg;
+
 	private: System::Windows::Forms::TextBox^ textBox1;
 
 
 	private: System::Windows::Forms::Timer^ BackgroundTimer;
 	private: System::Windows::Forms::PictureBox^ backgroundImage;
+	private: System::Windows::Forms::Timer^ pignatTimer;
 
 
 
@@ -84,11 +86,12 @@ namespace Winforms_PignatFinal {
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
 			this->loginTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
+			this->pignatImg = (gcnew System::Windows::Forms::PictureBox());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->BackgroundTimer = (gcnew System::Windows::Forms::Timer(this->components));
 			this->backgroundImage = (gcnew System::Windows::Forms::PictureBox());
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
+			this->pignatTimer = (gcnew System::Windows::Forms::Timer(this->components));
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pignatImg))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->backgroundImage))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -128,16 +131,18 @@ namespace Winforms_PignatFinal {
 			this->button1->Text = L"S\'identifier";
 			this->button1->UseVisualStyleBackColor = false;
 			// 
-			// pictureBox1
+			// pignatImg
 			// 
-			this->pictureBox1->BackColor = System::Drawing::Color::Transparent;
-			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
-			this->pictureBox1->Location = System::Drawing::Point(38, 65);
-			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(591, 177);
-			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
-			this->pictureBox1->TabIndex = 3;
-			this->pictureBox1->TabStop = false;
+			this->pignatImg->BackColor = System::Drawing::Color::Transparent;
+			this->pignatImg->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pignatImg.Image")));
+			this->pignatImg->Location = System::Drawing::Point(89, 86);
+			this->pignatImg->Name = L"pignatImg";
+			this->pignatImg->Size = System::Drawing::Size(495, 125);
+			this->pignatImg->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
+			this->pignatImg->TabIndex = 3;
+			this->pignatImg->TabStop = false;
+			this->pignatImg->MouseEnter += gcnew System::EventHandler(this, &MyForm::pignatImg_MouseEnter);
+			this->pignatImg->MouseLeave += gcnew System::EventHandler(this, &MyForm::pignatImg_MouseLeave);
 			// 
 			// textBox1
 			// 
@@ -171,6 +176,11 @@ namespace Winforms_PignatFinal {
 			this->backgroundImage->TabIndex = 5;
 			this->backgroundImage->TabStop = false;
 			// 
+			// pignatTimer
+			// 
+			this->pignatTimer->Interval = 5;
+			this->pignatTimer->Tick += gcnew System::EventHandler(this, &MyForm::pignatTimer_Tick);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
@@ -180,7 +190,7 @@ namespace Winforms_PignatFinal {
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(1822, 1048);
 			this->Controls->Add(this->textBox1);
-			this->Controls->Add(this->pictureBox1);
+			this->Controls->Add(this->pignatImg);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->loginTextBox);
 			this->Controls->Add(this->backgroundImage);
@@ -191,7 +201,7 @@ namespace Winforms_PignatFinal {
 			this->MinimizeBox = false;
 			this->Name = L"MyForm";
 			this->Text = L"Pignat";
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pignatImg))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->backgroundImage))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
@@ -204,7 +214,7 @@ namespace Winforms_PignatFinal {
 		void LoginAreaMouseEnter(System::Object^ sender, System::EventArgs^ e)
 		{
 			loginTextBox->BackColor = Color::Cyan;
-		
+
 		}
 
 		void LoginAreaMouseExit(System::Object^ sender, System::EventArgs^ e)
@@ -222,40 +232,120 @@ namespace Winforms_PignatFinal {
 		int glowMaxBreak = 5;
 
 	private:
-		
+
+		/*---------------PIGNAT IMAGE-------------------*/
+		bool isExpanding = false;
+		System::Drawing::Size originalPignatSize;
+		System::Drawing::Point originalPignatLocation;
+
+	private: System::Void pignatImg_MouseEnter(System::Object^ sender, System::EventArgs^ e) {
+
+
+		this->originalPignatSize = pignatImg->Size;
+		this->originalPignatLocation = pignatImg->Location;
+
+		isExpanding = true;
+		pignatTimer->Enabled = true;
+		return;
+
+		int newWidth = static_cast<int>(pignatImg->Width * 1.2);
+		int newHeight = static_cast<int>(pignatImg->Height * 1.2);
+
+		int newX = originalPignatLocation.X - (newWidth - originalPignatSize.Width) / 2;
+		int newY = originalPignatLocation.Y - (newHeight - originalPignatSize.Height) / 2;
+
+		pignatImg->Size = System::Drawing::Size(newWidth, newHeight);
+		pignatImg->Location = System::Drawing::Point(newX, newY);
+	}
+
+	private: System::Void pignatImg_MouseLeave(System::Object^ sender, System::EventArgs^ e) {
+		isExpanding = false;
+		pignatTimer->Enabled = true;
+		return;
+
+		pignatImg->Size = this->originalPignatSize;
+		pignatImg->Location = System::Drawing::Point(originalPignatLocation);
+	}
+
+private: System::Void pignatTimer_Tick(System::Object^ sender, System::EventArgs^ e) {
+
+
+	double scale;
+
+	if (isExpanding)
+	{
+		// Vérifier si la taille actuelle est inférieure à la taille maximale souhaitée
+		if (pignatImg->Width < originalPignatSize.Width * 1.2)
+			scale = 1.05; 
+		else
+		{
+			this->pignatTimer->Stop(); 
+			return;
+		}
+	}
+	else
+	{
+		if (pignatImg->Width > originalPignatSize.Width)
+			scale = 0.95;  
+		else
+		{
+			pignatImg->Size = this->originalPignatSize;  
+			pignatImg->Location = this->originalPignatLocation; 
+			this->pignatTimer->Stop(); 
+			return;
+		}
+	}
+
+	int newWidth = static_cast<int>(pignatImg->Width * scale);
+	int newHeight = static_cast<int>(pignatImg->Height * scale);
+
+	int newX = originalPignatLocation.X - (newWidth - originalPignatSize.Width) / 2;
+	int newY = originalPignatLocation.Y - (newHeight - originalPignatSize.Height) / 2;
+
+	pignatImg->Size = System::Drawing::Size(newWidth, newHeight);
+	pignatImg->Location = System::Drawing::Point(newX, newY);
+}
+
+
+
+	 /*---------------BACKGROUND IMAGE-------------------*/
 		void InitbackgroundImages()
 		{
 			backgroundImages = gcnew cli::array<Bitmap^>(21);
 
 			for (int i = 0; i < backgroundImages->Length; i++)
 			{
-				backgroundImages[i] = gcnew Bitmap(String::Format("C:/Users/traia/OneDrive/Documents/GitHub/cours-bts-2nd-annee/Winforms_PignatFinal/Release/ressources/animated_background/Layer {0}.jpg", i*2));
+				backgroundImages[i] = gcnew Bitmap(String::Format("C:/Users/traia/OneDrive/Documents/GitHub/cours-bts-2nd-annee/Winforms_PignatFinal/Release/ressources/animated_background/Layer {0}.jpg", i * 2));
 			}
 
 
 		}
-		
+
 		System::Void BackgroundTimer_Tick(System::Object^ sender, System::EventArgs^ e) {
 
-		currentImageIndex += imageIndexStep;
-		if (currentImageIndex == 0)
-			imageIndexStep = 1;
-		else if (currentImageIndex == backgroundImages->Length - 1)
-		{
-			timeBreak++;
-
-			if (timeBreak >= glowMaxBreak)
+			currentImageIndex += imageIndexStep;
+			if (currentImageIndex == 0)
+				imageIndexStep = 1;
+			else if (currentImageIndex == backgroundImages->Length - 1)
 			{
-				imageIndexStep = -1;
-				timeBreak = 0;
-			}else
-			imageIndexStep = 0;
+				timeBreak++;
+
+				if (timeBreak >= glowMaxBreak)
+				{
+					imageIndexStep = -1;
+					timeBreak = 0;
+				}
+				else
+					imageIndexStep = 0;
+			}
+
+			backgroundImage->Image = backgroundImages[currentImageIndex];
 		}
-			
 
-		backgroundImage->Image = backgroundImages[currentImageIndex];
 
-		}
 
+
+
+	
 };
 }
