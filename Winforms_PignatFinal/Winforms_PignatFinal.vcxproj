@@ -30,14 +30,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -140,6 +140,27 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="fond_1.bmp" />
+    <Image Include="ressources\animated_background\Layer 0.jpg" />
+    <Image Include="ressources\animated_background\Layer 10.jpg" />
+    <Image Include="ressources\animated_background\Layer 12.jpg" />
+    <Image Include="ressources\animated_background\Layer 14.jpg" />
+    <Image Include="ressources\animated_background\Layer 16.jpg" />
+    <Image Include="ressources\animated_background\Layer 18.jpg" />
+    <Image Include="ressources\animated_background\Layer 2.jpg" />
+    <Image Include="ressources\animated_background\Layer 20.jpg" />
+    <Image Include="ressources\animated_background\Layer 22.jpg" />
+    <Image Include="ressources\animated_background\Layer 24.jpg" />
+    <Image Include="ressources\animated_background\Layer 26.jpg" />
+    <Image Include="ressources\animated_background\Layer 28.jpg" />
+    <Image Include="ressources\animated_background\Layer 30.jpg" />
+    <Image Include="ressources\animated_background\Layer 32.jpg" />
+    <Image Include="ressources\animated_background\Layer 34.jpg" />
+    <Image Include="ressources\animated_background\Layer 36.jpg" />
+    <Image Include="ressources\animated_background\Layer 38.jpg" />
+    <Image Include="ressources\animated_background\Layer 4.jpg" />
+    <Image Include="ressources\animated_background\Layer 40.jpg" />
+    <Image Include="ressources\animated_background\Layer 6.jpg" />
+    <Image Include="ressources\animated_background\Layer 8.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
