@@ -74,7 +74,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\Users\beaujardt\source\repos\ChaelPix\cours-bts-2nd-annee\_LIB_mysql_connector\include;C:\Users\beaujardt\source\repos\ChaelPix\cours-bts-2nd-annee\_LIB_boost_1_64_0;$(IncludePath)</IncludePath>
+    <IncludePath>..\_LIB_boost_1_64_0;..\_LIB_mysql_connector\include</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>..\_LIB_boost_1_64_0;..\_LIB_mysql_connector\include</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

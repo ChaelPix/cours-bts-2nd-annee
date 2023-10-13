@@ -37,7 +37,8 @@ namespace Winforms_PignatFinal {
 	private: System::Windows::Forms::PictureBox^ pignatImg;
 
 	private: System::Windows::Forms::Label^ label1;
-	private: System::Windows::Forms::ComboBox^ comboBox1;
+	private: System::Windows::Forms::ListBox^ listBox1;
+
 	protected:
 
 	private:
@@ -56,7 +57,7 @@ namespace Winforms_PignatFinal {
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(AppCore::typeid));
 			this->pignatImg = (gcnew System::Windows::Forms::PictureBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->comboBox1 = (gcnew System::Windows::Forms::ComboBox());
+			this->listBox1 = (gcnew System::Windows::Forms::ListBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pignatImg))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -64,10 +65,9 @@ namespace Winforms_PignatFinal {
 			// 
 			this->pignatImg->BackColor = System::Drawing::Color::Transparent;
 			this->pignatImg->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pignatImg.Image")));
-			this->pignatImg->Location = System::Drawing::Point(59, 56);
-			this->pignatImg->Margin = System::Windows::Forms::Padding(2);
+			this->pignatImg->Location = System::Drawing::Point(88, 86);
 			this->pignatImg->Name = L"pignatImg";
-			this->pignatImg->Size = System::Drawing::Size(330, 81);
+			this->pignatImg->Size = System::Drawing::Size(495, 125);
 			this->pignatImg->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
 			this->pignatImg->TabIndex = 4;
 			this->pignatImg->TabStop = false;
@@ -78,32 +78,41 @@ namespace Winforms_PignatFinal {
 			this->label1->Font = (gcnew System::Drawing::Font(L"Cambria", 20, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label1->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
-			this->label1->Location = System::Drawing::Point(74, 209);
-			this->label1->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
+			this->label1->ImageAlign = System::Drawing::ContentAlignment::MiddleLeft;
+			this->label1->Location = System::Drawing::Point(-8, 286);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(374, 49);
+			this->label1->Size = System::Drawing::Size(561, 75);
 			this->label1->TabIndex = 8;
-			this->label1->Text = L"Liste des Ordres de Fabrication";
-			this->label1->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
+			this->label1->Text = L"Ordres de Fabrication :";
+			this->label1->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
 			// 
-			// comboBox1
+			// listBox1
 			// 
-			this->comboBox1->FormattingEnabled = true;
-			this->comboBox1->Location = System::Drawing::Point(115, 261);
-			this->comboBox1->Name = L"comboBox1";
-			this->comboBox1->Size = System::Drawing::Size(274, 21);
-			this->comboBox1->TabIndex = 9;
+			this->listBox1->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->listBox1->Font = (gcnew System::Drawing::Font(L"Cambria", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->listBox1->FormattingEnabled = true;
+			this->listBox1->ItemHeight = 28;
+			this->listBox1->Items->AddRange(gcnew cli::array< System::Object^  >(8) {
+				L"REF_OF_1", L"REF_OF_1", L"REF_OF_1", L"REF_OF_1",
+					L"REF_OF_1", L"REF_OF_1", L"REF_OF_1", L"REF_OF_1"
+			});
+			this->listBox1->Location = System::Drawing::Point(0, 364);
+			this->listBox1->Name = L"listBox1";
+			this->listBox1->RightToLeft = System::Windows::Forms::RightToLeft::No;
+			this->listBox1->Size = System::Drawing::Size(254, 700);
+			this->listBox1->TabIndex = 9;
 			// 
 			// AppCore
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
-			this->ClientSize = System::Drawing::Size(1218, 685);
-			this->Controls->Add(this->comboBox1);
+			this->ClientSize = System::Drawing::Size(1827, 1054);
+			this->Controls->Add(this->listBox1);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->pignatImg);
+			this->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->Name = L"AppCore";
 			this->Text = L"AppCore";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pignatImg))->EndInit();
