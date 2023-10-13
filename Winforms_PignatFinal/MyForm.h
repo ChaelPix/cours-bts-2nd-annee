@@ -23,7 +23,7 @@ namespace Winforms_PignatFinal {
 			//
 			InitbackgroundImages();
 		}
-
+#pragma region useless
 	protected:
 		/// <summary>
 		/// Clean up any resources being used.
@@ -49,7 +49,12 @@ namespace Winforms_PignatFinal {
 
 	private: System::Windows::Forms::Timer^ BackgroundTimer;
 	private: System::Windows::Forms::PictureBox^ backgroundImage;
-	private: System::Windows::Forms::Timer^ pignatTimer;
+
+	private: System::Windows::Forms::PictureBox^ pictureBox1;
+	private: System::Windows::Forms::Label^ label1;
+	private: System::Windows::Forms::Timer^ AnimTimer;
+	private: System::Windows::Forms::PictureBox^ pictureBox2;
+	private: System::Windows::Forms::Label^ label2;
 
 
 
@@ -73,7 +78,7 @@ namespace Winforms_PignatFinal {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-
+#pragma endregion
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -90,9 +95,15 @@ namespace Winforms_PignatFinal {
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->BackgroundTimer = (gcnew System::Windows::Forms::Timer(this->components));
 			this->backgroundImage = (gcnew System::Windows::Forms::PictureBox());
-			this->pignatTimer = (gcnew System::Windows::Forms::Timer(this->components));
+			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->AnimTimer = (gcnew System::Windows::Forms::Timer(this->components));
+			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
+			this->label2 = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pignatImg))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->backgroundImage))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// loginTextBox
@@ -108,10 +119,10 @@ namespace Winforms_PignatFinal {
 			this->loginTextBox->Name = L"loginTextBox";
 			this->loginTextBox->Size = System::Drawing::Size(460, 59);
 			this->loginTextBox->TabIndex = 0;
-			this->loginTextBox->Text = L" op123";
 			this->loginTextBox->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
-			this->loginTextBox->MouseEnter += gcnew System::EventHandler(this, &MyForm::LoginAreaMouseEnter);
-			this->loginTextBox->MouseLeave += gcnew System::EventHandler(this, &MyForm::LoginAreaMouseExit);
+			this->loginTextBox->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::TextBox_KeyDown);
+			this->loginTextBox->MouseEnter += gcnew System::EventHandler(this, &MyForm::TextBox_MouseEnter);
+			this->loginTextBox->MouseLeave += gcnew System::EventHandler(this, &MyForm::TextBox_MouseLeave);
 			// 
 			// button1
 			// 
@@ -122,7 +133,7 @@ namespace Winforms_PignatFinal {
 			this->button1->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->button1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button1->ForeColor = System::Drawing::Color::DimGray;
+			this->button1->ForeColor = System::Drawing::Color::White;
 			this->button1->Location = System::Drawing::Point(219, 885);
 			this->button1->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->button1->Name = L"button1";
@@ -141,8 +152,8 @@ namespace Winforms_PignatFinal {
 			this->pignatImg->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
 			this->pignatImg->TabIndex = 3;
 			this->pignatImg->TabStop = false;
-			this->pignatImg->MouseEnter += gcnew System::EventHandler(this, &MyForm::pignatImg_MouseEnter);
-			this->pignatImg->MouseLeave += gcnew System::EventHandler(this, &MyForm::pignatImg_MouseLeave);
+			this->pignatImg->MouseEnter += gcnew System::EventHandler(this, &MyForm::Control_MouseEnter);
+			this->pignatImg->MouseLeave += gcnew System::EventHandler(this, &MyForm::Control_MouseLeave);
 			// 
 			// textBox1
 			// 
@@ -155,14 +166,18 @@ namespace Winforms_PignatFinal {
 			this->textBox1->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->textBox1->MaxLength = 20;
 			this->textBox1->Name = L"textBox1";
+			this->textBox1->PasswordChar = '*';
 			this->textBox1->Size = System::Drawing::Size(460, 59);
-			this->textBox1->TabIndex = 4;
-			this->textBox1->Text = L" op123";
+			this->textBox1->TabIndex = 1;
 			this->textBox1->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->textBox1->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::TextBox_KeyDown);
+			this->textBox1->MouseEnter += gcnew System::EventHandler(this, &MyForm::TextBox_MouseEnter);
+			this->textBox1->MouseLeave += gcnew System::EventHandler(this, &MyForm::TextBox_MouseLeave);
 			// 
 			// BackgroundTimer
 			// 
 			this->BackgroundTimer->Enabled = true;
+			this->BackgroundTimer->Interval = 75;
 			this->BackgroundTimer->Tick += gcnew System::EventHandler(this, &MyForm::BackgroundTimer_Tick);
 			// 
 			// backgroundImage
@@ -176,10 +191,62 @@ namespace Winforms_PignatFinal {
 			this->backgroundImage->TabIndex = 5;
 			this->backgroundImage->TabStop = false;
 			// 
-			// pignatTimer
+			// pictureBox1
 			// 
-			this->pignatTimer->Interval = 5;
-			this->pignatTimer->Tick += gcnew System::EventHandler(this, &MyForm::pignatTimer_Tick);
+			this->pictureBox1->BackColor = System::Drawing::Color::Transparent;
+			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
+			this->pictureBox1->Location = System::Drawing::Point(100, 372);
+			this->pictureBox1->Name = L"pictureBox1";
+			this->pictureBox1->Size = System::Drawing::Size(65, 75);
+			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
+			this->pictureBox1->TabIndex = 6;
+			this->pictureBox1->TabStop = false;
+			this->pictureBox1->MouseEnter += gcnew System::EventHandler(this, &MyForm::Control_MouseEnter);
+			this->pictureBox1->MouseLeave += gcnew System::EventHandler(this, &MyForm::Control_MouseLeave);
+			// 
+			// label1
+			// 
+			this->label1->BackColor = System::Drawing::Color::Transparent;
+			this->label1->Font = (gcnew System::Drawing::Font(L"Cambria", 25, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label1->ForeColor = System::Drawing::SystemColors::ButtonHighlight;
+			this->label1->Location = System::Drawing::Point(182, 375);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(389, 75);
+			this->label1->TabIndex = 7;
+			this->label1->Text = L"Identifiant";
+			this->label1->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
+			// 
+			// AnimTimer
+			// 
+			this->AnimTimer->Interval = 5;
+			this->AnimTimer->Tick += gcnew System::EventHandler(this, &MyForm::AnimTimer_Tick);
+			// 
+			// pictureBox2
+			// 
+			this->pictureBox2->BackColor = System::Drawing::Color::Transparent;
+			this->pictureBox2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox2.Image")));
+			this->pictureBox2->Location = System::Drawing::Point(100, 559);
+			this->pictureBox2->Name = L"pictureBox2";
+			this->pictureBox2->Size = System::Drawing::Size(65, 75);
+			this->pictureBox2->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
+			this->pictureBox2->TabIndex = 8;
+			this->pictureBox2->TabStop = false;
+			this->pictureBox2->MouseEnter += gcnew System::EventHandler(this, &MyForm::Control_MouseEnter);
+			this->pictureBox2->MouseLeave += gcnew System::EventHandler(this, &MyForm::Control_MouseLeave);
+			// 
+			// label2
+			// 
+			this->label2->BackColor = System::Drawing::Color::Transparent;
+			this->label2->Font = (gcnew System::Drawing::Font(L"Cambria", 25, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label2->ForeColor = System::Drawing::SystemColors::ButtonHighlight;
+			this->label2->Location = System::Drawing::Point(182, 559);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(389, 75);
+			this->label2->TabIndex = 9;
+			this->label2->Text = L"Mot de Passe";
+			this->label2->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
 			// 
 			// MyForm
 			// 
@@ -189,6 +256,10 @@ namespace Winforms_PignatFinal {
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(1822, 1048);
+			this->Controls->Add(this->label2);
+			this->Controls->Add(this->pictureBox2);
+			this->Controls->Add(this->label1);
+			this->Controls->Add(this->pictureBox1);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->pignatImg);
 			this->Controls->Add(this->button1);
@@ -203,6 +274,8 @@ namespace Winforms_PignatFinal {
 			this->Text = L"Pignat";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pignatImg))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->backgroundImage))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -211,141 +284,158 @@ namespace Winforms_PignatFinal {
 
 
 		/**********-------------Login------------**********/
-		void LoginAreaMouseEnter(System::Object^ sender, System::EventArgs^ e)
-		{
-			loginTextBox->BackColor = Color::Cyan;
+		System::Collections::Generic::Dictionary<Control^, float>^ originalFontSizes = gcnew System::Collections::Generic::Dictionary<Control^, float>();
 
-		}
+private: System::Void TextBox_MouseEnter(System::Object^ sender, System::EventArgs^ e)
+{
+	TextBox^ txtBox = dynamic_cast<TextBox^>(sender);
+	if (!txtBox) return;
 
-		void LoginAreaMouseExit(System::Object^ sender, System::EventArgs^ e)
-		{
-			loginTextBox->BackColor = Color::White;
-		}
-
-
-
-
-		cli::array<Bitmap^>^ backgroundImages;
-		int currentImageIndex = 0;
-		int imageIndexStep = 1;
-		int timeBreak = 0;
-		int glowMaxBreak = 5;
-
-	private:
-
-		/*---------------PIGNAT IMAGE-------------------*/
-		bool isExpanding = false;
-		System::Drawing::Size originalPignatSize;
-		System::Drawing::Point originalPignatLocation;
-
-	private: System::Void pignatImg_MouseEnter(System::Object^ sender, System::EventArgs^ e) {
-
-
-		this->originalPignatSize = pignatImg->Size;
-		this->originalPignatLocation = pignatImg->Location;
-
-		isExpanding = true;
-		pignatTimer->Enabled = true;
-		return;
-
-		int newWidth = static_cast<int>(pignatImg->Width * 1.2);
-		int newHeight = static_cast<int>(pignatImg->Height * 1.2);
-
-		int newX = originalPignatLocation.X - (newWidth - originalPignatSize.Width) / 2;
-		int newY = originalPignatLocation.Y - (newHeight - originalPignatSize.Height) / 2;
-
-		pignatImg->Size = System::Drawing::Size(newWidth, newHeight);
-		pignatImg->Location = System::Drawing::Point(newX, newY);
-	}
-
-	private: System::Void pignatImg_MouseLeave(System::Object^ sender, System::EventArgs^ e) {
-		isExpanding = false;
-		pignatTimer->Enabled = true;
-		return;
-
-		pignatImg->Size = this->originalPignatSize;
-		pignatImg->Location = System::Drawing::Point(originalPignatLocation);
-	}
-
-private: System::Void pignatTimer_Tick(System::Object^ sender, System::EventArgs^ e) {
-
-
-	double scale;
-
-	if (isExpanding)
+	// Si la taille de police originale n'est pas déjà stockée, stockez-la.
+	if (!originalFontSizes->ContainsKey(txtBox))
 	{
-		// Vérifier si la taille actuelle est inférieure à la taille maximale souhaitée
-		if (pignatImg->Width < originalPignatSize.Width * 1.2)
-			scale = 1.05; 
-		else
-		{
-			this->pignatTimer->Stop(); 
-			return;
-		}
-	}
-	else
-	{
-		if (pignatImg->Width > originalPignatSize.Width)
-			scale = 0.95;  
-		else
-		{
-			pignatImg->Size = this->originalPignatSize;  
-			pignatImg->Location = this->originalPignatLocation; 
-			this->pignatTimer->Stop(); 
-			return;
-		}
+		originalFontSizes[txtBox] = txtBox->Font->Size;
 	}
 
-	int newWidth = static_cast<int>(pignatImg->Width * scale);
-	int newHeight = static_cast<int>(pignatImg->Height * scale);
-
-	int newX = originalPignatLocation.X - (newWidth - originalPignatSize.Width) / 2;
-	int newY = originalPignatLocation.Y - (newHeight - originalPignatSize.Height) / 2;
-
-	pignatImg->Size = System::Drawing::Size(newWidth, newHeight);
-	pignatImg->Location = System::Drawing::Point(newX, newY);
+	txtBox->BackColor = Color::LightGray;
+	txtBox->Font = gcnew System::Drawing::Font(txtBox->Font->FontFamily, txtBox->Font->Size * 1.2);
 }
 
+private: System::Void TextBox_MouseLeave(System::Object^ sender, System::EventArgs^ e)
+{
+	TextBox^ txtBox = dynamic_cast<TextBox^>(sender);
+	if (!txtBox) return;
 
-
-	 /*---------------BACKGROUND IMAGE-------------------*/
-		void InitbackgroundImages()
-		{
-			backgroundImages = gcnew cli::array<Bitmap^>(21);
-
-			for (int i = 0; i < backgroundImages->Length; i++)
-			{
-				backgroundImages[i] = gcnew Bitmap(String::Format("C:/Users/traia/OneDrive/Documents/GitHub/cours-bts-2nd-annee/Winforms_PignatFinal/Release/ressources/animated_background/Layer {0}.jpg", i * 2));
-			}
-
-
-		}
-
-		System::Void BackgroundTimer_Tick(System::Object^ sender, System::EventArgs^ e) {
-
-			currentImageIndex += imageIndexStep;
-			if (currentImageIndex == 0)
-				imageIndexStep = 1;
-			else if (currentImageIndex == backgroundImages->Length - 1)
-			{
-				timeBreak++;
-
-				if (timeBreak >= glowMaxBreak)
-				{
-					imageIndexStep = -1;
-					timeBreak = 0;
-				}
-				else
-					imageIndexStep = 0;
-			}
-
-			backgroundImage->Image = backgroundImages[currentImageIndex];
-		}
-
-
-
-
-
+	float originalSize;
+	if (originalFontSizes->TryGetValue(txtBox, originalSize))
+	{
+		txtBox->BackColor = Color::White;
+		txtBox->Font = gcnew System::Drawing::Font(txtBox->Font->FontFamily, originalSize);
+	}
+	txtBox->SelectionLength = 0;
+	this->Focus();
 	
+}
+
+	   private: System::Void TextBox_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e)
+	   {
+		   if (e->KeyCode == Keys::Enter)
+		   {
+			   e->SuppressKeyPress = true; 
+			   MessageBox::Show("bouton entr\202e press\202");
+		   }
+	   }
+
+
+
+
+    /*---------------RESPONSIVE ANIM-------------------*/
+		bool isExpanding = false;
+		Control^ currentAnimatedControl = nullptr;
+		System::Collections::Generic::Dictionary<Control^, System::Drawing::Size>^ originalSizes = gcnew System::Collections::Generic::Dictionary<Control^, System::Drawing::Size>();
+		System::Collections::Generic::Dictionary<Control^, System::Drawing::Point>^ originalLocations = gcnew System::Collections::Generic::Dictionary<Control^, System::Drawing::Point>();
+
+		private: System::Void Control_MouseEnter(System::Object^ sender, System::EventArgs^ e)
+		{
+			Control^ ctrl = dynamic_cast<Control^>(sender);
+			if (!ctrl) return;
+
+			this->originalSizes[ctrl] = ctrl->Size;
+			this->originalLocations[ctrl] = ctrl->Location;
+			currentAnimatedControl = ctrl;
+
+			isExpanding = true;
+			AnimTimer->Enabled = true;
+		}
+
+		private: System::Void Control_MouseLeave(System::Object^ sender, System::EventArgs^ e)
+		{
+			Control^ ctrl = dynamic_cast<Control^>(sender);
+			if (!ctrl) return;
+
+			isExpanding = false;
+			AnimTimer->Enabled = true;
+		}
+
+		private: System::Void AnimTimer_Tick(System::Object^ sender, System::EventArgs^ e)
+		{
+			if (currentAnimatedControl == nullptr) return;
+
+			double scale;
+			if (isExpanding)
+			{
+				if (currentAnimatedControl->Width < originalSizes[currentAnimatedControl].Width * 1.2)
+					scale = 1.05;
+				else
+				{
+					this->AnimTimer->Stop();
+					return;
+				}
+			}
+			else
+			{
+				if (currentAnimatedControl->Width > originalSizes[currentAnimatedControl].Width)
+					scale = 0.95;
+				else
+				{
+					currentAnimatedControl->Size = this->originalSizes[currentAnimatedControl];
+					currentAnimatedControl->Location = this->originalLocations[currentAnimatedControl];
+					this->AnimTimer->Stop();
+					return;
+				}
+			}
+
+			int newWidth = static_cast<int>(currentAnimatedControl->Width * scale);
+			int newHeight = static_cast<int>(currentAnimatedControl->Height * scale);
+
+			int newX = originalLocations[currentAnimatedControl].X - (newWidth - originalSizes[currentAnimatedControl].Width) / 2;
+			int newY = originalLocations[currentAnimatedControl].Y - (newHeight - originalSizes[currentAnimatedControl].Height) / 2;
+
+			currentAnimatedControl->Size = System::Drawing::Size(newWidth, newHeight);
+			currentAnimatedControl->Location = System::Drawing::Point(newX, newY);
+		}
+
+
+	/*---------------BACKGROUND IMAGE-------------------*/
+	cli::array<Bitmap^>^ backgroundImages;
+	int currentImageIndex = 0;
+	int imageIndexStep = 1;
+	int timeBreak = 0;
+	int glowMaxBreak = 5;
+
+
+	private: void InitbackgroundImages()
+	{
+		backgroundImages = gcnew cli::array<Bitmap^>(21);
+
+		for (int i = 0; i < backgroundImages->Length; i++)
+		{
+			backgroundImages[i] = gcnew Bitmap(String::Format("C:/Users/traia/OneDrive/Documents/GitHub/cours-bts-2nd-annee/Winforms_PignatFinal/Release/ressources/animated_background/Layer {0}.jpg", i * 2));
+		}
+
+
+	}
+
+	private: System::Void BackgroundTimer_Tick(System::Object^ sender, System::EventArgs^ e) {
+
+		currentImageIndex += imageIndexStep;
+		if (currentImageIndex == 0)
+			imageIndexStep = 1;
+		else if (currentImageIndex == backgroundImages->Length - 1)
+		{
+			timeBreak++;
+
+			if (timeBreak >= glowMaxBreak)
+			{
+				imageIndexStep = -1;
+				timeBreak = 0;
+			}
+			else
+				imageIndexStep = 0;
+		}
+
+		backgroundImage->Image = backgroundImages[currentImageIndex];
+	}
+
 };
 }
