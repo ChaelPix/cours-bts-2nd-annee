@@ -73,7 +73,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\Users\beaujardt\source\repos\ChaelPix\cours-bts-2nd-annee\_LIB_mysql_connector\include;C:\Users\beaujardt\source\repos\ChaelPix\cours-bts-2nd-annee\_LIB_boost_1_64_0;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -126,14 +128,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AppCore.cpp" />
+    <ClCompile Include="BdDPVC.cpp" />
+    <ClCompile Include="Formule.cpp" />
     <ClCompile Include="MyForm.cpp" />
+    <ClCompile Include="OrdreFabrication.cpp" />
+    <ClCompile Include="Personnel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AppCore.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="BdDPVC.h" />
+    <ClInclude Include="Formule.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="OrdreFabrication.h" />
+    <ClInclude Include="Personnel.h" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AppCore.resx">
+      <DependentUpon>AppCore.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyForm.resx">
       <DependentUpon>MyForm.h</DependentUpon>
     </EmbeddedResource>
@@ -161,6 +178,9 @@
     <Image Include="ressources\animated_background\Layer 40.jpg" />
     <Image Include="ressources\animated_background\Layer 6.jpg" />
     <Image Include="ressources\animated_background\Layer 8.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\_LIB_mysql_connector\lib\mysqlcppconn.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,5 +1,9 @@
 #pragma once
 
+#include "BdDPVC.h"
+#include "Personnel.h"
+#include <msclr/marshal.h>
+
 namespace Winforms_PignatFinal {
 
 	using namespace System;
@@ -21,6 +25,7 @@ namespace Winforms_PignatFinal {
 			//
 			//TODO: Add the constructor code here
 			//
+			incorrectTxt->Text = "";
 			InitbackgroundImages();
 		}
 #pragma region useless
@@ -36,15 +41,18 @@ namespace Winforms_PignatFinal {
 			}
 		}
 	private: System::Windows::Forms::TextBox^ loginTextBox;
+	private: System::Windows::Forms::Button^ loginButton;
 	protected:
 
 	protected:
 
 
-	private: System::Windows::Forms::Button^ button1;
+
 	private: System::Windows::Forms::PictureBox^ pignatImg;
+	private: System::Windows::Forms::TextBox^ passwordTextBox;
 
-	private: System::Windows::Forms::TextBox^ textBox1;
+
+
 
 
 	private: System::Windows::Forms::Timer^ BackgroundTimer;
@@ -55,7 +63,8 @@ namespace Winforms_PignatFinal {
 	private: System::Windows::Forms::Timer^ AnimTimer;
 	private: System::Windows::Forms::PictureBox^ pictureBox2;
 	private: System::Windows::Forms::Label^ label2;
-	private: System::Windows::Forms::Label^ label3;
+	private: System::Windows::Forms::Label^ incorrectTxt;
+
 	private: System::Windows::Forms::PictureBox^ backgroundImage;
 
 
@@ -92,16 +101,16 @@ namespace Winforms_PignatFinal {
 			this->components = (gcnew System::ComponentModel::Container());
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
 			this->loginTextBox = (gcnew System::Windows::Forms::TextBox());
-			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->loginButton = (gcnew System::Windows::Forms::Button());
 			this->pignatImg = (gcnew System::Windows::Forms::PictureBox());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->passwordTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->BackgroundTimer = (gcnew System::Windows::Forms::Timer(this->components));
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->AnimTimer = (gcnew System::Windows::Forms::Timer(this->components));
 			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
 			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->label3 = (gcnew System::Windows::Forms::Label());
+			this->incorrectTxt = (gcnew System::Windows::Forms::Label());
 			this->backgroundImage = (gcnew System::Windows::Forms::PictureBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pignatImg))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
@@ -126,23 +135,24 @@ namespace Winforms_PignatFinal {
 			this->loginTextBox->MouseEnter += gcnew System::EventHandler(this, &MyForm::TextBox_MouseEnter);
 			this->loginTextBox->MouseLeave += gcnew System::EventHandler(this, &MyForm::TextBox_MouseLeave);
 			// 
-			// button1
+			// loginButton
 			// 
-			this->button1->BackColor = System::Drawing::Color::White;
-			this->button1->CausesValidation = false;
-			this->button1->Cursor = System::Windows::Forms::Cursors::Hand;
-			this->button1->FlatAppearance->BorderSize = 0;
-			this->button1->Font = (gcnew System::Drawing::Font(L"Cambria", 15, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->loginButton->BackColor = System::Drawing::Color::White;
+			this->loginButton->CausesValidation = false;
+			this->loginButton->Cursor = System::Windows::Forms::Cursors::Hand;
+			this->loginButton->FlatAppearance->BorderSize = 0;
+			this->loginButton->Font = (gcnew System::Drawing::Font(L"Cambria", 15, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button1->ForeColor = System::Drawing::Color::Black;
-			this->button1->Location = System::Drawing::Point(146, 575);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(138, 38);
-			this->button1->TabIndex = 2;
-			this->button1->Text = L"Connexion";
-			this->button1->UseVisualStyleBackColor = false;
-			this->button1->MouseEnter += gcnew System::EventHandler(this, &MyForm::Control_MouseEnter);
-			this->button1->MouseLeave += gcnew System::EventHandler(this, &MyForm::Control_MouseLeave);
+			this->loginButton->ForeColor = System::Drawing::Color::Black;
+			this->loginButton->Location = System::Drawing::Point(146, 575);
+			this->loginButton->Name = L"loginButton";
+			this->loginButton->Size = System::Drawing::Size(138, 38);
+			this->loginButton->TabIndex = 2;
+			this->loginButton->Text = L"Connexion";
+			this->loginButton->UseVisualStyleBackColor = false;
+			this->loginButton->Click += gcnew System::EventHandler(this, &MyForm::loginButton_Click);
+			this->loginButton->MouseEnter += gcnew System::EventHandler(this, &MyForm::Control_MouseEnter);
+			this->loginButton->MouseLeave += gcnew System::EventHandler(this, &MyForm::Control_MouseLeave);
 			// 
 			// pignatImg
 			// 
@@ -158,23 +168,23 @@ namespace Winforms_PignatFinal {
 			this->pignatImg->MouseEnter += gcnew System::EventHandler(this, &MyForm::Control_MouseEnter);
 			this->pignatImg->MouseLeave += gcnew System::EventHandler(this, &MyForm::Control_MouseLeave);
 			// 
-			// textBox1
+			// passwordTextBox
 			// 
-			this->textBox1->BackColor = System::Drawing::Color::White;
-			this->textBox1->BorderStyle = System::Windows::Forms::BorderStyle::None;
-			this->textBox1->Font = (gcnew System::Drawing::Font(L"Cambria", 25, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->passwordTextBox->BackColor = System::Drawing::Color::White;
+			this->passwordTextBox->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->passwordTextBox->Font = (gcnew System::Drawing::Font(L"Cambria", 25, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->textBox1->ForeColor = System::Drawing::Color::Black;
-			this->textBox1->Location = System::Drawing::Point(67, 417);
-			this->textBox1->MaxLength = 20;
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->PasswordChar = '*';
-			this->textBox1->Size = System::Drawing::Size(307, 40);
-			this->textBox1->TabIndex = 1;
-			this->textBox1->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
-			this->textBox1->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::TextBox_KeyDown);
-			this->textBox1->MouseEnter += gcnew System::EventHandler(this, &MyForm::TextBox_MouseEnter);
-			this->textBox1->MouseLeave += gcnew System::EventHandler(this, &MyForm::TextBox_MouseLeave);
+			this->passwordTextBox->ForeColor = System::Drawing::Color::Black;
+			this->passwordTextBox->Location = System::Drawing::Point(67, 417);
+			this->passwordTextBox->MaxLength = 20;
+			this->passwordTextBox->Name = L"passwordTextBox";
+			this->passwordTextBox->PasswordChar = '*';
+			this->passwordTextBox->Size = System::Drawing::Size(307, 40);
+			this->passwordTextBox->TabIndex = 1;
+			this->passwordTextBox->TextAlign = System::Windows::Forms::HorizontalAlignment::Center;
+			this->passwordTextBox->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyForm::TextBox_KeyDown);
+			this->passwordTextBox->MouseEnter += gcnew System::EventHandler(this, &MyForm::TextBox_MouseEnter);
+			this->passwordTextBox->MouseLeave += gcnew System::EventHandler(this, &MyForm::TextBox_MouseLeave);
 			// 
 			// BackgroundTimer
 			// 
@@ -243,19 +253,19 @@ namespace Winforms_PignatFinal {
 			this->label2->Text = L"Mot de Passe";
 			this->label2->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
 			// 
-			// label3
+			// incorrectTxt
 			// 
-			this->label3->BackColor = System::Drawing::Color::Transparent;
-			this->label3->Font = (gcnew System::Drawing::Font(L"Cambria", 20, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->incorrectTxt->BackColor = System::Drawing::Color::Transparent;
+			this->incorrectTxt->Font = (gcnew System::Drawing::Font(L"Cambria", 20, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label3->ForeColor = System::Drawing::Color::Red;
-			this->label3->Location = System::Drawing::Point(28, 505);
-			this->label3->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
-			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(386, 67);
-			this->label3->TabIndex = 10;
-			this->label3->Text = L"Identifiant ou mot de passe incorrect !";
-			this->label3->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
+			this->incorrectTxt->ForeColor = System::Drawing::Color::Red;
+			this->incorrectTxt->Location = System::Drawing::Point(27, 505);
+			this->incorrectTxt->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
+			this->incorrectTxt->Name = L"incorrectTxt";
+			this->incorrectTxt->Size = System::Drawing::Size(386, 67);
+			this->incorrectTxt->TabIndex = 10;
+			this->incorrectTxt->Text = L"Identifiant ou mot de passe incorrect !";
+			this->incorrectTxt->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
 			// backgroundImage
 			// 
@@ -276,14 +286,14 @@ namespace Winforms_PignatFinal {
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(1215, 681);
-			this->Controls->Add(this->label3);
+			this->Controls->Add(this->incorrectTxt);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->pictureBox2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->pictureBox1);
-			this->Controls->Add(this->textBox1);
+			this->Controls->Add(this->passwordTextBox);
 			this->Controls->Add(this->pignatImg);
-			this->Controls->Add(this->button1);
+			this->Controls->Add(this->loginButton);
 			this->Controls->Add(this->loginTextBox);
 			this->Controls->Add(this->backgroundImage);
 			this->Cursor = System::Windows::Forms::Cursors::Default;
@@ -291,7 +301,8 @@ namespace Winforms_PignatFinal {
 			this->MaximizeBox = false;
 			this->MinimizeBox = false;
 			this->Name = L"MyForm";
-			this->Text = L"Pignat";
+			this->Text = L"On peut appuyer sur la touche \"entrée\" pour se connecter. C\'est un détail que j\'a"
+				L"i du coder moi meme.";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pignatImg))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
@@ -303,7 +314,43 @@ namespace Winforms_PignatFinal {
 #pragma endregion
 
 
+		std::string ConvertStringToStdString(String^ input)
+		{
+			msclr::interop::marshal_context context;
+			const char* converted = context.marshal_as<const char*>(input);
+			std::string result(converted);
+			return result;
+		}
+
+
 		/**********-------------Login------------**********/
+
+		CBdDPVC^ bdd = gcnew CBdDPVC;
+
+		void tryLogin()
+		{
+			bdd->connecter();
+
+			String^ login = loginTextBox->Text;
+			String^ password = passwordTextBox->Text;
+
+			std::string login_s = ConvertStringToStdString(login);
+			std::string password_s = ConvertStringToStdString(password);
+			CPersonnel personnel(login_s, password_s, CPersonnel::Qualite::INCONNU);
+
+			if (bdd->estUnOperateurAutorise(personnel))
+			{
+				incorrectTxt->Text = "";
+				MessageBox::Show("Bienvenue Opérateur");
+			}
+			else
+			{
+				incorrectTxt->Text = "Identifiant ou mot de passe incorrect";
+				MessageBox::Show("Identifiant ou mot de passe incorrect");
+			}
+		}
+
+		/**********-------------Text Boxes------------**********/
 		System::Collections::Generic::Dictionary<Control^, float>^ originalFontSizes = gcnew System::Collections::Generic::Dictionary<Control^, float>();
 
 private: System::Void TextBox_MouseEnter(System::Object^ sender, System::EventArgs^ e)
@@ -337,12 +384,12 @@ private: System::Void TextBox_MouseLeave(System::Object^ sender, System::EventAr
 	
 }
 
-	   private: System::Void TextBox_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e)
+private: System::Void TextBox_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e)
 	   {
 		   if (e->KeyCode == Keys::Enter)
 		   {
-			   e->SuppressKeyPress = true; 
-			   MessageBox::Show("bouton entr\202e press\202");
+			   if (loginTextBox->Text != "" && passwordTextBox->Text != "")
+				   tryLogin();
 		   }
 	   }
 
@@ -464,6 +511,12 @@ private: System::Void TextBox_MouseLeave(System::Object^ sender, System::EventAr
 
 		backgroundImage->Image = backgroundImages[currentImageIndex];
 	}
+
+
+		   /*---------------BACKGROUND IMAGE-------------------*/
+private: System::Void loginButton_Click(System::Object^ sender, System::EventArgs^ e) {
+	tryLogin();
+}
 
 };
 }
