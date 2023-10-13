@@ -3,6 +3,7 @@
 #include "BdDPVC.h"
 #include "Personnel.h"
 #include <msclr/marshal.h>
+#include "AppCore.h"
 
 namespace Winforms_PignatFinal {
 
@@ -341,13 +342,17 @@ namespace Winforms_PignatFinal {
 			if (bdd->estUnOperateurAutorise(personnel))
 			{
 				incorrectTxt->Text = "";
-				MessageBox::Show("Bienvenue Opérateur");
+				this->Hide(); // Cachez le formulaire actuel
+				AppCore^ form2 = gcnew AppCore();
+				form2->StartPosition = FormStartPosition::Manual; // Définir la position de départ sur Manuelle
+				form2->Location = this->Location;
+				form2->ShowDialog();
 			}
 			else
 			{
 				incorrectTxt->Text = "Identifiant ou mot de passe incorrect";
 				MessageBox::Show("Identifiant ou mot de passe incorrect");
-			}
+			}	
 		}
 
 		/**********-------------Text Boxes------------**********/
