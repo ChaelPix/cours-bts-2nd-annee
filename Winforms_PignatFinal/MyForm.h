@@ -126,21 +126,22 @@ namespace Winforms_PignatFinal {
 			// 
 			// button1
 			// 
-			this->button1->BackColor = System::Drawing::Color::Transparent;
+			this->button1->BackColor = System::Drawing::Color::White;
 			this->button1->CausesValidation = false;
 			this->button1->Cursor = System::Windows::Forms::Cursors::Hand;
 			this->button1->FlatAppearance->BorderSize = 0;
-			this->button1->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->button1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->button1->Font = (gcnew System::Drawing::Font(L"Cambria", 15, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button1->ForeColor = System::Drawing::Color::White;
+			this->button1->ForeColor = System::Drawing::Color::Black;
 			this->button1->Location = System::Drawing::Point(219, 885);
 			this->button1->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(207, 58);
 			this->button1->TabIndex = 2;
-			this->button1->Text = L"S\'identifier";
+			this->button1->Text = L"Connexion";
 			this->button1->UseVisualStyleBackColor = false;
+			this->button1->MouseEnter += gcnew System::EventHandler(this, &MyForm::Control_MouseEnter);
+			this->button1->MouseLeave += gcnew System::EventHandler(this, &MyForm::Control_MouseLeave);
 			// 
 			// pignatImg
 			// 
@@ -401,7 +402,7 @@ private: System::Void TextBox_MouseLeave(System::Object^ sender, System::EventAr
 	int currentImageIndex = 0;
 	int imageIndexStep = 1;
 	int timeBreak = 0;
-	int glowMaxBreak = 5;
+	int glowMaxBreak = 15;
 
 
 	private: void InitbackgroundImages()
