@@ -193,7 +193,7 @@ namespace Winforms_PignatFinal {
 			// BackgroundTimer
 			// 
 			this->BackgroundTimer->Enabled = true;
-			this->BackgroundTimer->Interval = 75;
+			this->BackgroundTimer->Interval = 100;
 			this->BackgroundTimer->Tick += gcnew System::EventHandler(this, &MyForm::BackgroundTimer_Tick);
 			// 
 			// pictureBox1
@@ -492,7 +492,7 @@ private: System::Void TextBox_KeyDown(System::Object^ sender, System::Windows::F
 	int currentImageIndex = 0;
 	int imageIndexStep = 1;
 	int timeBreak = 0;
-	int glowMaxBreak = 15;
+	int glowMaxBreak = 10;
 
 
 	private: void InitbackgroundImages()
