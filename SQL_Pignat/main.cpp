@@ -7,6 +7,7 @@
 #include <cppconn/statement.h>
 #include <cppconn/prepared_statement.h>
 #include <vector>
+#include <Windows.h>
 
 #include "Personnel.h"
 #include "Formule.h"
@@ -602,26 +603,6 @@ int TestClasseBDD()
         }
 
         //---------
-        std::cout << std::endl << "Liste des OF a traiter : " << std::endl << std::endl;
-        listeOf.clear();
-        listeOf = bdd.getReferencesOFaTraiter();
-        std::string refOF;
-
-        if (listeOf.size() == 0)
-        {
-            std::cout << "Retestez la classe avec une OF en 'X'";
-            std::string s;
-            std::cin >> s;
-            return 0;
-        }
-
-        for (size_t i = 0; i < listeOf.size(); i++)
-        {
-            std::cout << listeOf.at(i) << std::endl;
-        }
-        refOF = listeOf.at(0); 
-
-        //---------
         std::cout << std::endl << "Liste des types de Formules : " << std::endl << std::endl;
         listeOf.clear();
         listeOf = bdd.getTypesFormule();
@@ -630,10 +611,59 @@ int TestClasseBDD()
             std::cout << listeOf.at(i) << std::endl;
         }
 
+        //---------
+        std::cout << std::endl << "Liste des OF a traiter : " << std::endl << std::endl;
+        listeOf.clear();
+        listeOf = bdd.getReferencesOFaTraiter();
+        
+        if (listeOf.size() == 0)
+        {
+            std::cout << "Retestez la classe avec une OF en 'X'";
+            std::string s;
+            std::cin >> s;
+            bdd.deconnecter();
+            return -1;
+        }
+
+        for (size_t i = 0; i < listeOf.size(); i++)
+        {
+            std::cout << listeOf.at(i) << std::endl;
+        }
+      
+        
         //------------
-        std::cout << std::endl << "INFOS REF OF : " << refOF << std::endl;
+        std::string refOF;
+
+        std::cout << "Choisir une OF a traiter : ";
+        std::cin >> refOF;
+
+        bool refExiste = false;
+        for (int i = 0; i < listeOf.size(); i++)
+        {
+            if (refOF == listeOf.at(i))
+                refExiste = true;
+        }
+
+        if (!refExiste)
+        {
+            std::cout << "OF INCORRECTE, AU REVOIR";
+            std::string s;
+            std::cin >> s;
+            bdd.deconnecter();
+            return -1;
+        }
+
+        std::cout << std::endl << "QUANTITES REF OF : " << refOF << std::endl;
         COrdreFabrication of = bdd.getOrdreFabrication(refOF);
-        std::cout << std::endl << "Login du personnel de l'of : " << of.getPreparateur().getLogin() << std::endl;
+       
+        CFormule formule = of.getFormule();
+
+        std::cout << "Quantite Totale : " << of.getQuantite()  << "kg" << std::endl;
+        std::cout << "% de pvc : " << formule.getPvcBase() << " - quantit\202 : " << of.getQuantite() * (formule.getPvcBase() / 100.0) << "kg" << std::endl;
+        std::cout << "% de plastifiant : " << formule.getPlastifiant() << " - quantit\202 : " << of.getQuantite() * (formule.getPlastifiant() / 100.0) << "kg" << std::endl;
+        std::cout << "% de lubrifiant : " << formule.getLubrifiant() << " - quantit\202 : " << of.getQuantite() * (formule.getLubrifiant() / 100.0) << "kg" << std::endl;
+        std::cout << "Temps Malaxage : " << formule.getDureeMalaxage() << std::endl;
+        std::cout << "Temps Refroidissement : " << formule.getDureeRefroidissement() << std::endl << std::endl;
 
         //------------
         CPersonnel personnel = bdd.getPersonnel(login);
@@ -641,8 +671,9 @@ int TestClasseBDD()
         std::cout << "MAJ en ETAT EN COURS" << std::endl;
         of = bdd.getOrdreFabrication(refOF);
         std::cout << "Nouvel etat : " << of.getEtat() << std::endl << std::endl;
-
+        Sleep(5000);
         //------------
+        
         bdd.majHeureFin(of);
         std::cout << "MAJ en ETAT FINI" << std::endl;
         of = bdd.getOrdreFabrication(refOF);

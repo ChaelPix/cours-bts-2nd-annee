@@ -160,7 +160,6 @@ bool CBdDPVC::majEtatEnCours(COrdreFabrication& of, CPersonnel operateur)
 	int idOf = getIdOF(of);
 	stmt->executeUpdate("UPDATE ordrefabrication SET etat = 'E', id_Personnel = '" + std::to_string(idPersonnel) + "' WHERE id_OrdreFabrication = '" + std::to_string(idOf) + "'");
 	isSuccess = true;
-	std::cout << "\n 3 : ";
 	of.setEtat(COrdreFabrication::E);
 
 	return isSuccess;
@@ -255,7 +254,6 @@ int CBdDPVC::getIdPersonnel(CPersonnel user) {
 	if (res->next())
 	{
 		int uId = res->getInt("id_Personnel");
-		std::cout << uId;
 		return uId;
 	}
 
