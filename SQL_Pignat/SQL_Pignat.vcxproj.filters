@@ -32,11 +32,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="mysql_connector\lib\mysqlcppconn.lib" />
-    <Library Include="mysql_connector\lib\mysqlcppconn-static.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="mysql_connector\lib\mysqlcppconn.dll" />
+    <Library Include="..\_LIB_mysql_connector\lib\mysqlcppconn-static.lib" />
+    <Library Include="..\_LIB_mysql_connector\lib\mysqlcppconn.lib" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BdDPVC.h">
@@ -51,5 +48,8 @@
     <ClInclude Include="Personnel.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\_LIB_mysql_connector\lib\mysqlcppconn.dll" />
   </ItemGroup>
 </Project>

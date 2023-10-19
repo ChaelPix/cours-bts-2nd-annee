@@ -74,7 +74,7 @@
     <PublicIncludeDirectories>$(PublicIncludeDirectories)</PublicIncludeDirectories>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\Users\beaujardt\source\repos\ChaelPix\cours-bts-2nd-annee\SQL_Pignat\mysql_connector\include;C:\Users\beaujardt\source\repos\ChaelPix\cours-bts-2nd-annee\SQL_Pignat\boost_1_64_0;$(IncludePath)</IncludePath>
+    <IncludePath>..\_LIB_boost_1_64_0;..\_LIB_mysql_connector\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -144,17 +144,17 @@
     <ClCompile Include="Personnel.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="mysql_connector\lib\mysqlcppconn-static.lib" />
-    <Library Include="mysql_connector\lib\mysqlcppconn.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="mysql_connector\lib\mysqlcppconn.dll" />
+    <Library Include="..\_LIB_mysql_connector\lib\mysqlcppconn-static.lib" />
+    <Library Include="..\_LIB_mysql_connector\lib\mysqlcppconn.lib" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BdDPVC.h" />
     <ClInclude Include="Formule.h" />
     <ClInclude Include="OrdreFabrication.h" />
     <ClInclude Include="Personnel.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\_LIB_mysql_connector\lib\mysqlcppconn.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

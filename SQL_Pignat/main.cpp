@@ -544,11 +544,11 @@ int TestClassePersonnel()
 
 int TestClasseFormule()
 {
-    CFormule formule(CFormule::RIGIDE, 100.0, 50.0, 25.0, 15, 30);
+    CFormule formule(CFormule::Type::RIGIDE, 100.0, 50.0, 25.0, 15, 30);
     std::cout << "=== CFormule Test ===" << std::endl;
     std::cout << formule.toString() << std::endl;
 
-    formule.setType(CFormule::SOUPLE);
+    formule.setType(CFormule::Type::SOUPLE);
     formule.setPvcBase(120.0);
     std::cout << "=== CFormule Modified Test ===" << std::endl;
     std::cout << formule.toString() << std::endl;
@@ -560,7 +560,7 @@ int TestClasseFormule()
 
 int TestClasseOrdreFabrication()
 {
-    CFormule formule(CFormule::RIGIDE, 1.0, 1.0, 1.0, 10, 10);
+    CFormule formule(CFormule::Type::RIGIDE, 1.0, 1.0, 1.0, 10, 10);
     CPersonnel preparateur("yolo", "12345", CPersonnel::Qualite::PREPARATEUR);
 
     COrdreFabrication ordre("REF123", formule, 100.0, COrdreFabrication::E, "12:00", preparateur);
@@ -578,16 +578,84 @@ int TestClasseBDD()
 
     bdd.connecter();
 
-    CPersonnel user("op1", "123abc", CPersonnel::Qualite::OPERATEUR);
+    std::cout << "Entrez Login : ";
+    std::string login;
+    std::cin >> login;
 
-    std::string ss;
+    std::cout << "Entrez MDP : ";
+    std::string mdp;
+    std::cin >> mdp;
+
+
+    CPersonnel user(login, mdp, CPersonnel::Qualite::OPERATEUR);
+
     if (bdd.estUnOperateurAutorise(user))
-        ss = "hello";
+    {
+        std::cout << "Bienvenue" << std::endl << std::endl
+            << "Liste des OF : " << std::endl << std::endl;
+
+        //---------
+        std::vector<std::string> listeOf = bdd.getListeReferencesOF();
+        for (size_t i = 0; i < listeOf.size(); i++)
+        {
+            std::cout << listeOf.at(i) << std::endl;
+        }
+
+        //---------
+        std::cout << std::endl << "Liste des OF a traiter : " << std::endl << std::endl;
+        listeOf.clear();
+        listeOf = bdd.getReferencesOFaTraiter();
+        std::string refOF;
+
+        if (listeOf.size() == 0)
+        {
+            std::cout << "Retestez la classe avec une OF en 'X'";
+            std::string s;
+            std::cin >> s;
+            return 0;
+        }
+
+        for (size_t i = 0; i < listeOf.size(); i++)
+        {
+            std::cout << listeOf.at(i) << std::endl;
+        }
+        refOF = listeOf.at(0); 
+
+        //---------
+        std::cout << std::endl << "Liste des types de Formules : " << std::endl << std::endl;
+        listeOf.clear();
+        listeOf = bdd.getTypesFormule();
+        for (size_t i = 0; i < listeOf.size(); i++)
+        {
+            std::cout << listeOf.at(i) << std::endl;
+        }
+
+        //------------
+        std::cout << std::endl << "INFOS REF OF : " << refOF << std::endl;
+        COrdreFabrication of = bdd.getOrdreFabrication(refOF);
+        std::cout << std::endl << "Login du personnel de l'of : " << of.getPreparateur().getLogin() << std::endl;
+
+        //------------
+        CPersonnel personnel = bdd.getPersonnel(login);
+        bdd.majEtatEnCours(of, personnel);
+        std::cout << "MAJ en ETAT EN COURS" << std::endl;
+        of = bdd.getOrdreFabrication(refOF);
+        std::cout << "Nouvel etat : " << of.getEtat() << std::endl << std::endl;
+
+        //------------
+        bdd.majHeureFin(of);
+        std::cout << "MAJ en ETAT FINI" << std::endl;
+        of = bdd.getOrdreFabrication(refOF);
+        std::cout << "Nouvel etat : " << of.getEtat() << " : " << of.getHeureFin() << std::endl << std::endl;
+
+        //------------
+        bdd.deconnecter();
+        std::cout << "D\202connect\202";
+    }
     else
-        ss = "bye";
-
-    std::cout <<  ss << std::endl;
-
+    {
+        std::cout << "Problème Identification d'Op\202rateur" << std::endl;
+    }
 
     std::string s;
     std::cin >> s;

@@ -9,7 +9,7 @@ class CFormule
 {
 public:
 	// Pour limiter le choix du type (et les erreurs)
-	enum Type {SOUPLE, RIGIDE};
+	enum class Type {SOUPLE, RIGIDE};
 	CFormule();
 	CFormule(Type type, double pvcBase, double plastifiant,
 				double lubrifiant, unsigned short dureeMalaxage,

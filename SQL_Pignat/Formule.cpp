@@ -7,7 +7,7 @@ CFormule::CFormule()
 CFormule::CFormule(Type type, double pvcBase, double plastifiant,
     double lubrifiant, unsigned short dureeMalaxage,
     unsigned short dureeRefroidissement)
-    : m_type(type == SOUPLE ? "SOUPLE" : "RIGIDE"), m_pvcBase(pvcBase),
+    : m_type(type == CFormule::Type::SOUPLE ? "SOUPLE" : "RIGIDE"), m_pvcBase(pvcBase),
     m_plastifiant(plastifiant), m_lubrifiant(lubrifiant),
     m_dureeMalaxage(dureeMalaxage),
     m_dureeRefroidissement(dureeRefroidissement) {}
@@ -15,7 +15,7 @@ CFormule::CFormule(Type type, double pvcBase, double plastifiant,
 
 #pragma region Set/Get
 void CFormule::setType(Type type) {
-    m_type = (type == SOUPLE ? "SOUPLE" : "RIGIDE");
+    m_type = (type == CFormule::Type::SOUPLE ? "SOUPLE" : "RIGIDE");
 }
 
 void CFormule::setPvcBase(double pvcBase) {

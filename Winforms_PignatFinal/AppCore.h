@@ -18,10 +18,9 @@ namespace Winforms_PignatFinal {
 		AppCore(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: ajoutez ici le code du constructeur
-			//
+
 			InitbackgroundImages();
+			UpdateREFOF();
 		}
 #pragma region OSEF
 	protected:
@@ -581,7 +580,10 @@ namespace Winforms_PignatFinal {
 
 
 		/*---------------Code BDD-------------------*/
+		void UpdateREFOF()
+		{
 
+		}
 
 		/*---------------RESPONSIVE ANIM-------------------*/
 #pragma region RESPONSIVE_ANIM
