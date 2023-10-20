@@ -36,6 +36,9 @@
     <ClCompile Include="AppCore.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="CEsMelangeur.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyForm.h">
@@ -54,6 +57,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AppCore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EsMelangeur.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NIDAQmx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -127,5 +136,6 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\_LIB_mysql_connector\lib\mysqlcppconn.lib" />
+    <Library Include="NIDAQmx.lib" />
   </ItemGroup>
 </Project>

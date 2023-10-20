@@ -314,7 +314,6 @@ namespace Winforms_PignatFinal {
 		}
 #pragma endregion
 
-
 		std::string ConvertStringToStdString(String^ input)
 		{
 			msclr::interop::marshal_context context;
@@ -323,7 +322,6 @@ namespace Winforms_PignatFinal {
 			return result;
 		}
 
-
 		/**********-------------Login------------**********/
 
 		CBdDPVC^ bdd = gcnew CBdDPVC;
@@ -331,12 +329,14 @@ namespace Winforms_PignatFinal {
 		void tryLogin()
 		{
 
-			this->Hide(); // Cachez le formulaire actuel
-			AppCore^ form2 = gcnew AppCore();
+			this->Enabled = false;
+			this->Visible = false;
+			AppCore^ form2 = gcnew AppCore(this);
 			form2->StartPosition = FormStartPosition::Manual; // Définir la position de départ sur Manuelle
 			form2->Location = this->Location;
 			form2->ShowDialog();
 			return;
+
 
 			if (!bdd->connecter())
 			{
@@ -355,7 +355,7 @@ namespace Winforms_PignatFinal {
 			{
 				incorrectTxt->Text = "";
 				this->Hide(); // Cachez le formulaire actuel
-				AppCore^ form2 = gcnew AppCore();
+				AppCore^ form2 = gcnew AppCore(this);
 				form2->StartPosition = FormStartPosition::Manual; // Définir la position de départ sur Manuelle
 				form2->Location = this->Location;
 				form2->ShowDialog();
