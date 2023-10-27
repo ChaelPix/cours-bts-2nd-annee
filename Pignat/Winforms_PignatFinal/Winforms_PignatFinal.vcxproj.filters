@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\backgroundImgs">
+      <UniqueIdentifier>{ca3d4598-788d-4895-8940-3bf0c48d58ad}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MyForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BdDPVC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Formule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OrdreFabrication.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Personnel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AppCore.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CEsMelangeur.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MyForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BdDPVC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Formule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OrdreFabrication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Personnel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AppCore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EsMelangeur.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NIDAQmx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="fond_1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 0.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 2.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 4.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 6.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 8.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 10.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 12.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 14.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 16.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 18.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 20.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 22.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 24.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 26.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 28.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 30.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 32.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 34.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 36.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 38.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+    <Image Include="ressources\animated_background\Layer 40.jpg">
+      <Filter>Resource Files\backgroundImgs</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\_LIB_mysql_connector\lib\mysqlcppconn.lib" />
+    <Library Include="NIDAQmx.lib" />
+  </ItemGroup>
+</Project>
