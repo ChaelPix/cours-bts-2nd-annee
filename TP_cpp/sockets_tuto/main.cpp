@@ -1,146 +1,97 @@
-#include <winsock2.h>
-#include <ws2tcpip.h>
+﻿#include <winsock2.h>
+#include<ctime>
+#include <sstream>
 #include <iostream>
 #include <string>
-#include <vector>      
-#include <sstream>   
-
-#include "TrameAnalyzer.h"
-
+#include <chrono>
 using namespace std;
 
 typedef unsigned int uint;
 typedef unsigned short ushort;
 typedef unsigned char uchar;
 
-ushort NUM_PORT = 12345;
-const ushort DIMMAX = 150; // Taille max des tableaux
-string IP_SERVEUR = "";
+const ushort PORT_NUM = 55555;
 
-
-std::vector<std::string> split(const std::string& s, char delimiter)
+int main(void)
 {
-    std::vector<std::string> tokens;
-    std::string token;
-    std::istringstream tokenStream(s);
-    while (std::getline(tokenStream, token, delimiter))
-    {
-        tokens.push_back(token);
-    }
-    return tokens;
-}
-
-int main(int argc, char* argv[])
-{
-
-    if (argc < 3)
-    {
-        std::cout << "Erreur : Entrez IP (x.x.x.x) puis le Port !";
-        return -1;
-    }
-
-    /*---------IP Verif--------*/
-    std::string ip = argv[1];
-
-    std::vector<string> ipSplit = split(ip, '.');
-
-    if (ipSplit.size() != 4)
-    {
-        std::cout << "Erreur : L'adresse IP n'est pas en format x.x.x.x !";
-        return -1;
-    }
-
-    for (int i = 0; i < ipSplit.size(); i++)
-    {
-        try
-        {
-            std::stoi(ipSplit.at(i));
-            IP_SERVEUR += ipSplit.at(i) + ".";
-        }
-        catch (const std::invalid_argument& e)
-        {
-            std::cout << "Erreur : L'adresse IP a un probleme au " << i+1 << "e nombre";
-            return -1;
-        }
-    }
-
-    IP_SERVEUR.erase(IP_SERVEUR.size() - 1); //retire le dernier point
-
-
-    /*---------Port Verif--------*/
-    try
-    {
-        NUM_PORT = std::stoi(argv[2]);
-    }
-    catch (const std::invalid_argument& e)
-    {
-        std::cout << "Erreur : Port doit etre un nombre entier";
-        return -1;
-    }
-
-    std::cout << "Adr serveur : " << IP_SERVEUR << " : " << NUM_PORT << std::endl;
-
-    uint n = 0, noctets;
-
-    // Particularit�s Windows
     WORD nVersion = MAKEWORD(2, 2);
     WSADATA donneeWS;
 
-    struct sockaddr_in  adr_serveur; // @ internet du serveur
+    struct sockaddr_in   adr_serveur;       // @ internet du serveur
+    struct sockaddr_in   adr_client;        // @ internet du client
 
-    uint  ids_client;   // id du socket client                  
-    // tableau contenant les messages provenant du serveur  
-    char trame_lect[DIMMAX + 1];
+    uint ids_ecoute;        // id du socket d'écoute du serveur
+    uint ids_connect;       // id du socket de connection
+    uint nb_car_emis;       // nb car émis par send
+
+    int addr_len;          // taille de l'@ internet 
 
     // initialisation du winsock
     WSAStartup(nVersion, &donneeWS);
 
-    cout << "--- DEBUT du prog" << endl << endl;
+    cout << "--- DEBUT du prog " << endl;
 
-    // Cr�ation du socket client
-    if ((ids_client = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET)
+    // Création du socket d'écoute
+    if ((ids_ecoute = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET)
     {
         cout << "Echec creation Socket ! " << endl;
         exit(1);
     }
 
-    // Mise en place de l'@ inet et demande de connexion au serveur 
-    adr_serveur.sin_family = AF_INET;                  // Domaine d'@ 
-    adr_serveur.sin_port = htons(NUM_PORT);          // N� du port 
-    inet_pton(AF_INET, IP_SERVEUR.c_str(), &adr_serveur.sin_addr) <= 0;
+    // RAZ de la structure contenant @ inet serveur
+    memset(&adr_serveur, 0, sizeof(adr_serveur));
+    // Mise en forme de l'@ du socket d'écoute et attachement du socket
+    adr_serveur.sin_family = AF_INET;            // Domain d'@ 
+    adr_serveur.sin_port = htons(PORT_NUM);    // N° du port 
+    adr_serveur.sin_addr.s_addr = htonl(INADDR_ANY);  // n'importe quel
+    // interface réseau
 
-    if (connect(ids_client, (struct sockaddr*)&adr_serveur, sizeof(adr_serveur)) < 0)
+    if (bind(ids_ecoute, (struct sockaddr*)&adr_serveur,
+        sizeof(adr_serveur)) == SOCKET_ERROR)
     {
-        cout << "Echec connexion ! " << endl;
+        cout << "Echec Attachement Socket ! " << endl;
         exit(1);
     }
 
-    // Re�oit l'heure du serveur
-    noctets = recv(ids_client, trame_lect, DIMMAX, 0);
-    trame_lect[noctets] = '\0';
+    // Mise à disposition du socket (service) (1: une connection au max)
+    if (listen(ids_ecoute, 1) == SOCKET_ERROR)
+    {
+        cout << "Echec Lecture ! " << endl;
+        exit(1);
+    }
 
-    // Affichage des donn�es re�ues
-    cout << "Longueur de la chaine recue = " << noctets << endl;
-    cout << "Trame recue du serveur = " << trame_lect << endl;
+    // Acceptation d'une connexion cliente, création d'un nouveau socket qui 
+    // sera utilisé pour l'émission et la réception des caractères 
+    // @ inet du clietnt est récupérée
+    addr_len = sizeof(adr_client);
+    ids_connect = accept(ids_ecoute, (struct sockaddr*)&adr_client, &addr_len);
 
-    // fermeture le socket ouvert
-    closesocket(ids_client); // � la place de close() sous Linux
+
+    time_t tempsCourant = time(nullptr); // obtenir l'heure actuelle
+    struct tm timeinfo; 
+    localtime_s(&timeinfo, &tempsCourant);
+    char buffer[26]; 
+    asctime_s(buffer, sizeof(buffer), &timeinfo);
+
+    std::string message(buffer); 
+
+    if ((nb_car_emis = send(ids_connect, message.c_str(),
+        message.size() + 1, 0)) == SOCKET_ERROR)
+    {
+        cout << "Echec transmission " << endl;
+        exit(1);
+    }
+    cout << "nb car emis par ce serveur : " << nb_car_emis << endl;
+    cout << "trame transmise par ce serveur: " << message << endl;
+
+    // fermeture des sockets ouverts
+    closesocket(ids_ecoute);
+    closesocket(ids_connect);
 
     // Fermeture de winsock
     WSACleanup();
 
-    //---- Traitement de la trame 
-    TrameAnalyzer trameAnalyse(trame_lect);
-
-    std::cout << "Date : " << trameAnalyse.getDate() << std::endl
-        << "Temp : " << trameAnalyse.getTemp() << std::endl
-        << "Humidite : " << trameAnalyse.getHumidite() << std::endl
-        << "Humidite Corigee : " << trameAnalyse.gethumiditeCorrigee() << std::endl;
-
-    //----
-
     cout << "--- FIN du prog" << endl;
-
     cin.get();
     return 0;
 }
