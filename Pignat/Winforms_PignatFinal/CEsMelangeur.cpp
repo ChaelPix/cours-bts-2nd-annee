@@ -25,11 +25,10 @@ void CEsMelangeur::lancerCycleFabrication(int masse_pvc_base, int masse_plastifi
 	while (running)
 	{
 		lireEntrees();
-		system("cls");
 
 		switch (nEtat) {
 		case Etats::AttenteMarche:
-			std::cout << "Apuyez sur Marche pour commencer";
+			//std::cout << "Apuyez sur Marche pour commencer";
 			if (m_marche)
 				nEtat = Etats::VersementPvc;
 			break;
@@ -37,49 +36,48 @@ void CEsMelangeur::lancerCycleFabrication(int masse_pvc_base, int masse_plastifi
 		case Etats::VersementPvc:
 			if((m_poids >= masse_pvc_base))
 				nEtat = Etats::VersementPlastifiant;
-			std::cout << "Poids (g) : " << getPoids() << "/" << masse_pvc_base;
+			//std::cout << "Poids (g) : " << getPoids() << "/" << masse_pvc_base;
 			break;
 
 		case Etats::VersementPlastifiant:
 			if(m_poids >= masse_pvc_base + masse_plastifiant)
 				nEtat = Etats::VersementLubrifiant;
-			std::cout << "Poids (g) : " << getPoids() << "/" << masse_pvc_base + masse_plastifiant;
+			//std::cout << "Poids (g) : " << getPoids() << "/" << masse_pvc_base + masse_plastifiant;
 			break;
 
 		case Etats::VersementLubrifiant:
 			if (m_poids >= masse_pvc_base + masse_plastifiant + masse_lubrifiant)
 				nEtat = Etats::Malaxage;
-			std::cout << "Poids (g) : " << getPoids() << "/" << masse_pvc_base + masse_plastifiant + masse_lubrifiant;
+			//std::cout << "Poids (g) : " << getPoids() << "/" << masse_pvc_base + masse_plastifiant + masse_lubrifiant;
 			break;
 
 		case Etats::Malaxage:
 			if(duree_malax >= temps_malaxage)
 				nEtat = Etats::Vidange;
-			std::cout << "Malax : " << duree_malax << " / " << temps_malaxage << "s";
+			//std::cout << "Malax : " << duree_malax << " / " << temps_malaxage << "s";
 			break;
 
 		case Etats::Vidange:
 			if (m_poids <= 20)
 				nEtat = Etats::Refroidissement;
-			std::cout << "Poids (g) : " << getPoids();
+			//std::cout << "Poids (g) : " << getPoids();
 			break;
 
 		case Etats::Refroidissement:
 			if (duree_refroid >= temps_refroidissement)
 				nEtat = Etats::Evacuation;
-			std::cout << "Refroidissement : " << duree_refroid << " / " << temps_refroidissement << "s";
+			//std::cout << "Refroidissement : " << duree_refroid << " / " << temps_refroidissement << "s";
 			break;
 
 		case Etats::Evacuation:
 			if (m_capteur_niveau_bas == 0)
 				nEtat = Etats::Fin;
-			std::cout << "Evacuation";
+			//std::cout << "Evacuation";
 			break;
 
 		default:
 			running = false;
 		}
-
 
 		m_vanne_pvc_base = (nEtat == Etats::VersementPvc);
 		m_vanne_plastifiant = (nEtat == Etats::VersementPlastifiant);
@@ -160,6 +158,7 @@ int32 CEsMelangeur::initEsMelangeur()
 		return -6;
 	}
 
+
 	//Analog In
 	TaskHandle tempLAHandle;
 	if (DAQmxCreateTask("", &tempLAHandle) < 0)
@@ -207,36 +206,36 @@ int32 CEsMelangeur::fermerEsMelangeur()
 	//Digital out
 	if (DAQmxStopTask(m_tache_ecriture_tor) < 0)
 	{
-		std::cout << "ERROR Stop Task" << std::endl;
+		//std::cout << "ERROR Stop Task" << std::endl;
 		return -11;
 	}
 	if (DAQmxClearTask(m_tache_ecriture_tor) < 0)
 	{
-		std::cout << "ERROR Clear Task" << std::endl;
+		//std::cout << "ERROR Clear Task" << std::endl;
 		return -12;
 	}
 
 	//Digital In
 	if (DAQmxStopTask(m_tache_lecture_tor) < 0)
 	{
-		std::cout << "ERROR Stop Task" << std::endl;
+		//std::cout << "ERROR Stop Task" << std::endl;
 		return -13;
 	}
 	if (DAQmxClearTask(m_tache_lecture_tor) < 0)
 	{
-		std::cout << "ERROR Clear Task" << std::endl;
+		//std::cout << "ERROR Clear Task" << std::endl;
 		return -14;
 	}
 
 	//Analog In
 	if (DAQmxStopTask(m_tache_lecture_ana) < 0)
 	{
-		std::cout << "ERROR Stop Task" << std::endl;
+		//std::cout << "ERROR Stop Task" << std::endl;
 		return -15;
 	}
 	if (DAQmxClearTask(m_tache_lecture_ana) < 0)
 	{
-		std::cout << "ERROR Clear Task" << std::endl;
+		//std::cout << "ERROR Clear Task" << std::endl;
 		return -16;
 	}
 

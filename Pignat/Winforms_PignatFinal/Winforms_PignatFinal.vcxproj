@@ -74,10 +74,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>..\_LIB_boost_1_64_0;..\_LIB_mysql_connector\include</IncludePath>
+    <IncludePath>..\..\___LIBS\LIB_boost_1_64_0;..\..\___LIBS\LIB_mysql_connector\include</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>..\_LIB_boost_1_64_0;..\_LIB_mysql_connector\include</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>..\..\___LIBS\LIB_mysql_connector\include;..\..\___LIBS\LIB_boost_1_64_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -186,7 +189,7 @@
     <Image Include="ressources\animated_background\Layer 8.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\_LIB_mysql_connector\lib\mysqlcppconn.lib" />
+    <Library Include="..\..\___LIBS\LIB_mysql_connector\lib\mysqlcppconn.lib" />
     <Library Include="NIDAQmx.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

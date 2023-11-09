@@ -20,7 +20,7 @@ namespace Winforms_PignatFinal {
 	/// </summary>
 	public ref class AppCore : public System::Windows::Forms::Form
 	{
-
+		CEsMelangeur^ pignat = gcnew CEsMelangeur;
 		System::Windows::Forms::Form^ parentForm;
 		bool isOn = false;
 	public:
@@ -30,6 +30,7 @@ namespace Winforms_PignatFinal {
 
 			InitializeComponent();
 			bdd->connecter();
+			InitPignat();
 			InitbackgroundImages();
 			table_InfosOF->Visible = false;
 			txt_InfosOF->Visible = false;
@@ -299,6 +300,7 @@ namespace Winforms_PignatFinal {
 			this->btn_lancerFabrication->TabIndex = 13;
 			this->btn_lancerFabrication->Text = L"Lancer Fabrication";
 			this->btn_lancerFabrication->UseVisualStyleBackColor = false;
+			this->btn_lancerFabrication->Click += gcnew System::EventHandler(this, &AppCore::LancerCycle);
 			this->btn_lancerFabrication->MouseEnter += gcnew System::EventHandler(this, &AppCore::Control_MouseEnter);
 			this->btn_lancerFabrication->MouseLeave += gcnew System::EventHandler(this, &AppCore::Control_MouseLeave);
 			// 
@@ -609,12 +611,12 @@ namespace Winforms_PignatFinal {
 			return result;
 		}
 
-		CEsMelangeur^ pignat;
+		
 
 		void InitPignat()
 		{
 			pignat->initEsMelangeur();
-			pignat->
+			pignat->majSorties();
 		}
 
 		/*---------------Code BDD-------------------*/
@@ -669,8 +671,15 @@ namespace Winforms_PignatFinal {
 			btn_lancerFabrication->Visible = true;
 		}
 
-		void LancerCycle()
+		System::Void LancerCycle(System::Object^ sender, System::EventArgs^ e)
 		{
+			table_InfosOF->Visible = false;
+			txt_InfosOF->Visible = false;
+			btn_lancerFabrication->Visible = false;
+			txt_OF->Visible = false;
+			listOF->Visible = false;
+
+			return;
 			int masse_pvc_base = 0, masse_plastifiant = 0, masse_lubrifiant = 0, temps_malaxage = 0, temps_refroidissement = 0;
 
 			masse_pvc_base = System::Int32::Parse(txt_quantitePVC->Text);
@@ -680,10 +689,7 @@ namespace Winforms_PignatFinal {
 			temps_malaxage = System::Int32::Parse(txt_tempsMelange->Text);
 			temps_refroidissement = System::Int32::Parse(txt_tempsRefroidissement->Text);
 
-
-
-			//pignat.lancerCycleFabrication(masse_pvc_base, masse_plastifiant, masse_lubrifiant, temps_malaxage, temps_refroidissement);
-				  
+			pignat->lancerCycleFabrication(masse_pvc_base, masse_plastifiant, masse_lubrifiant, temps_malaxage, temps_refroidissement);			  
 		}
 
 		/*---------------RESPONSIVE ANIM-------------------*/

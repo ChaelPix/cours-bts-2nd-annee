@@ -135,7 +135,7 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\_LIB_mysql_connector\lib\mysqlcppconn.lib" />
     <Library Include="NIDAQmx.lib" />
+    <Library Include="..\..\___LIBS\LIB_mysql_connector\lib\mysqlcppconn.lib" />
   </ItemGroup>
 </Project>
