@@ -328,23 +328,11 @@ namespace Winforms_PignatFinal {
 
 		void tryLogin()
 		{
-
-			this->Enabled = false;
-			this->Visible = false;
-			CPersonnel debug("op1", "123abc", CPersonnel::Qualite::OPERATEUR);
-			AppCore^ form2 = gcnew AppCore(this, &debug);
-			form2->StartPosition = FormStartPosition::Manual; // Définir la position de départ sur Manuelle
-			form2->Location = this->Location;
-			form2->ShowDialog();
-			return;
-
-
 			if (!bdd->connecter())
 			{
 				incorrectTxt->Text = "Erreur connexion BDD";
 				return;
 			}
-
 			String^ login = loginTextBox->Text;
 			String^ password = passwordTextBox->Text;
 
@@ -355,16 +343,24 @@ namespace Winforms_PignatFinal {
 			if (bdd->estUnOperateurAutorise(personnel))
 			{
 				incorrectTxt->Text = "";
-				this->Hide(); // Cachez le formulaire actuel
+
+				this->Enabled = false;
+				this->Visible = false;
 				AppCore^ form2 = gcnew AppCore(this, &personnel);
-				form2->StartPosition = FormStartPosition::Manual; // Définir la position de départ sur Manuelle
+				form2->StartPosition = FormStartPosition::Manual; 
 				form2->Location = this->Location;
 				form2->ShowDialog();
+
+				//this->Hide(); // Cachez le formulaire actuel
+				//AppCore^ form2 = gcnew AppCore(this, &personnel);
+				//form2->StartPosition = FormStartPosition::Manual; // Définir la position de départ sur Manuelle
+				//form2->Location = this->Location;
+				//form2->ShowDialog();
 			}
 			else
 			{
 				incorrectTxt->Text = "Identifiant ou mot de passe incorrect";
-				MessageBox::Show("Identifiant ou mot de passe incorrect");
+				//MessageBox::Show("Identifiant ou mot de passe incorrect");
 			}	
 		}
 
@@ -533,6 +529,7 @@ private: System::Void TextBox_KeyDown(System::Object^ sender, System::Windows::F
 
 		   /*---------------BACKGROUND IMAGE-------------------*/
 private: System::Void loginButton_Click(System::Object^ sender, System::EventArgs^ e) {
+	incorrectTxt->Text = "Clique";
 	tryLogin();
 }
 

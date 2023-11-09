@@ -109,8 +109,9 @@ namespace Winforms_PignatFinal {
 	private: System::Windows::Forms::Label^ txt_tempsMelange;
 
 	private: System::Windows::Forms::Label^ txt_quantitePlastifiant;
+	private: System::Windows::Forms::Label^ txt_deconnecter;
 
-	private: System::Windows::Forms::Label^ label18;
+
 	private: System::Windows::Forms::Timer^ OfUpdateTimer;
 
 
@@ -163,7 +164,7 @@ namespace Winforms_PignatFinal {
 			this->label11 = (gcnew System::Windows::Forms::Label());
 			this->label12 = (gcnew System::Windows::Forms::Label());
 			this->label13 = (gcnew System::Windows::Forms::Label());
-			this->label18 = (gcnew System::Windows::Forms::Label());
+			this->txt_deconnecter = (gcnew System::Windows::Forms::Label());
 			this->OfUpdateTimer = (gcnew System::Windows::Forms::Timer(this->components));
 			this->pignatUpdateTimer = (gcnew System::Windows::Forms::Timer(this->components));
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pignatImg))->BeginInit();
@@ -241,7 +242,7 @@ namespace Winforms_PignatFinal {
 			this->txt_InfosOF->Location = System::Drawing::Point(212, 314);
 			this->txt_InfosOF->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->txt_InfosOF->Name = L"txt_InfosOF";
-			this->txt_InfosOF->Size = System::Drawing::Size(425, 49);
+			this->txt_InfosOF->Size = System::Drawing::Size(430, 86);
 			this->txt_InfosOF->TabIndex = 11;
 			this->txt_InfosOF->Text = L"Infos de $REF_OF_X ($TYPE) :";
 			// 
@@ -564,16 +565,16 @@ namespace Winforms_PignatFinal {
 			this->label13->Text = L"s";
 			this->label13->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
-			// label18
+			// txt_deconnecter
 			// 
-			this->label18->Font = (gcnew System::Drawing::Font(L"Cambria", 8.25F, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point,
+			this->txt_deconnecter->Font = (gcnew System::Drawing::Font(L"Cambria", 8.25F, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label18->Location = System::Drawing::Point(227, 644);
-			this->label18->Name = L"label18";
-			this->label18->Size = System::Drawing::Size(96, 32);
-			this->label18->TabIndex = 16;
-			this->label18->Text = L"se déconnecter";
-			this->label18->TextAlign = System::Drawing::ContentAlignment::BottomCenter;
+			this->txt_deconnecter->Location = System::Drawing::Point(227, 644);
+			this->txt_deconnecter->Name = L"txt_deconnecter";
+			this->txt_deconnecter->Size = System::Drawing::Size(96, 32);
+			this->txt_deconnecter->TabIndex = 16;
+			this->txt_deconnecter->Text = L"se déconnecter";
+			this->txt_deconnecter->TextAlign = System::Drawing::ContentAlignment::BottomCenter;
 			// 
 			// OfUpdateTimer
 			// 
@@ -593,8 +594,9 @@ namespace Winforms_PignatFinal {
 			this->BackColor = System::Drawing::Color::White;
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(1218, 685);
+			this->ControlBox = false;
 			this->Controls->Add(this->btn_deconnexion);
-			this->Controls->Add(this->label18);
+			this->Controls->Add(this->txt_deconnecter);
 			this->Controls->Add(this->table_InfosOF);
 			this->Controls->Add(this->btn_lancerFabrication);
 			this->Controls->Add(this->txt_InfosOF);
@@ -602,6 +604,8 @@ namespace Winforms_PignatFinal {
 			this->Controls->Add(this->txt_OF);
 			this->Controls->Add(this->pignatImg);
 			this->Controls->Add(this->backgroundImage);
+			this->MaximizeBox = false;
+			this->MinimizeBox = false;
 			this->Name = L"AppCore";
 			this->Text = L"AppCore";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pignatImg))->EndInit();
@@ -694,15 +698,13 @@ namespace Winforms_PignatFinal {
 		Etats nEtat = Etats::AttenteMarche;
 		int duree_refroid = 0;
 		int duree_malax = 0;
+		int differenceToDisablePvcFd = 10;
 		bool running = false;
 		float masse_pvc_base, masse_plastifiant, masse_lubrifiant, temps_malaxage, temps_refroidissement;
 
 		System::Void LancerCycle(System::Object^ sender, System::EventArgs^ e)
 		{
-			btn_lancerFabrication->Visible = false;
-			txt_OF->Visible = false;
-			listOF->Visible = false;
-			table_InfosOF->Visible = false;
+			ShowHideMenu(false);
 
 			Single::TryParse(txt_quantitePVC->Text, masse_pvc_base);
 			Single::TryParse(txt_quantiteLubrifiant->Text, masse_lubrifiant);
@@ -731,7 +733,7 @@ namespace Winforms_PignatFinal {
 				break;
 
 			case Etats::VersementPvc:
-				txt_InfosOF->Text = "Versement Pvc : " + pignat->getPoids() + " g / " + masse_pvc_base;
+				txt_InfosOF->Text = "Versement Pvc : \n\t" + pignat->getPoids() + " / " + masse_pvc_base + "g";
 
 				if ((pignat->getPoids() >= masse_pvc_base))
 					nEtat = Etats::VersementPlastifiant;
@@ -739,7 +741,7 @@ namespace Winforms_PignatFinal {
 				break;
 
 			case Etats::VersementPlastifiant:
-				txt_InfosOF->Text = "Versement Plastifiant : " + pignat->getPoids() + " g / " + (masse_pvc_base + masse_plastifiant);
+				txt_InfosOF->Text = "Versement Plastifiant : \n\t" + pignat->getPoids() + " / " + (masse_pvc_base + masse_plastifiant) + "g";
 
 				if (pignat->getPoids() >= masse_pvc_base + masse_plastifiant)
 					nEtat = Etats::VersementLubrifiant;
@@ -747,7 +749,7 @@ namespace Winforms_PignatFinal {
 				break;
 
 			case Etats::VersementLubrifiant:
-				txt_InfosOF->Text = "Versement Lubrifiant : " + pignat->getPoids() + " g / " + (masse_pvc_base + masse_plastifiant + masse_lubrifiant);
+				txt_InfosOF->Text = "Versement Lubrifiant : \n\t" + pignat->getPoids() + " / " + (masse_pvc_base + masse_plastifiant + masse_lubrifiant) + "g";
 
 				if (pignat->getPoids() >= masse_pvc_base + masse_plastifiant + masse_lubrifiant)
 				{
@@ -757,7 +759,7 @@ namespace Winforms_PignatFinal {
 				break;
 
 			case Etats::Malaxage:
-				txt_InfosOF->Text = "Malaxage : " + duree_malax + " s / " + temps_malaxage;
+				txt_InfosOF->Text = "Malaxage : \n\t" + duree_malax + " / " + temps_malaxage + "s";
 
 				if (duree_malax >= temps_malaxage)
 				{
@@ -768,7 +770,7 @@ namespace Winforms_PignatFinal {
 				break;
 
 			case Etats::Vidange:
-				txt_InfosOF->Text = "Vidange : " + pignat->getPoids();
+				txt_InfosOF->Text = "Vidange : \n\tPoids Restant : " + pignat->getPoids() + "g";
 				
 				if (pignat->getPoids() <= 20)
 				{
@@ -778,7 +780,7 @@ namespace Winforms_PignatFinal {
 				break;
 
 			case Etats::Refroidissement:
-				txt_InfosOF->Text = "Malaxage : " + duree_refroid + " s / " + temps_refroidissement;
+				txt_InfosOF->Text = "Refroidissement : \n\t" + duree_refroid + " / " + temps_refroidissement + "s";
 				
 				if (duree_refroid >= temps_refroidissement)
 				{
@@ -789,10 +791,14 @@ namespace Winforms_PignatFinal {
 				break;
 
 			case Etats::Evacuation:
-				txt_InfosOF->Text = "Evacuation...";
+				txt_InfosOF->Text = "Evacuation du bac...";
 
 				if (pignat->getCapteurNiveauBas() == 0)
+				{
 					nEtat = Etats::Fin;
+					FinCycle();
+					
+				}
 				
 				break;
 
@@ -801,6 +807,7 @@ namespace Winforms_PignatFinal {
 			}
 
 			pignat->setVannePVCBase(nEtat == Etats::VersementPvc);
+			pignat->setVannePVCBaseFD(nEtat == Etats::VersementPvc && pignat->getPoids() < masse_pvc_base - differenceToDisablePvcFd);
 			pignat->setVannePlastifiant(nEtat == Etats::VersementPlastifiant);
 			pignat->setVanneLubrifiant(nEtat == Etats::VersementLubrifiant);
 			if (nEtat == Etats::Malaxage)
@@ -818,6 +825,32 @@ namespace Winforms_PignatFinal {
 			pignat->majSorties();				  
 
 		}		
+
+		void FinCycle()
+		{
+			txt_InfosOF->Text = "Fin !";
+			bdd->majHeureFin(*ordreFabrication);
+			UpdateREFOF();
+			pignatUpdateTimer->Enabled = false;
+			OfUpdateTimer->Enabled = true;
+
+			Sleep(1000);
+			ShowHideMenu(true);
+			
+		
+		}
+
+		void ShowHideMenu(bool action)
+		{
+			btn_lancerFabrication->Visible = action;
+			txt_OF->Visible = action;
+			listOF->Visible = action;
+			table_InfosOF->Visible = action;
+			btn_deconnexion->Visible = action;
+			txt_deconnecter->Visible = action;
+
+
+		}
 
 		/*---------------RESPONSIVE ANIM-------------------*/
 #pragma region RESPONSIVE_ANIM

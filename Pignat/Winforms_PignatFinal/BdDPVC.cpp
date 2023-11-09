@@ -54,7 +54,7 @@ bool CBdDPVC::estUnOperateurAutorise(CPersonnel user) {
 	std::string requete = "SELECT COUNT(*) FROM personnel WHERE login = '" + user.getLogin() + "' AND password = '" + user.getPassword() + "' AND qualite = 'OPERATEUR'";
 	sql::ResultSet* res = stmt->executeQuery(requete);
 
-	if (res->rowsCount() > 0)
+	if (res->next() && res->getInt(1) > 0)
 		estOperateur = true;
 
 	delete res;
