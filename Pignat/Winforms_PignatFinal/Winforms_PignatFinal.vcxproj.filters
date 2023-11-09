@@ -65,6 +65,9 @@
     <ClInclude Include="NIDAQmx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="fond_1.bmp">
@@ -137,5 +140,13 @@
   <ItemGroup>
     <Library Include="NIDAQmx.lib" />
     <Library Include="..\..\___LIBS\LIB_mysql_connector\lib\mysqlcppconn.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Winforms_PignatFinal.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="Resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

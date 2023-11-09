@@ -28,6 +28,9 @@ namespace Winforms_PignatFinal {
 		CPersonnel* operateur;
 
 	private: System::Windows::Forms::Timer^ pignatUpdateTimer;
+	private: System::Windows::Forms::Timer^ finCycleTimer;
+	private: System::Windows::Forms::Label^ txt_tousOrdresOk;
+
 
 		   bool isOn = false;
 	public:
@@ -167,6 +170,8 @@ namespace Winforms_PignatFinal {
 			this->txt_deconnecter = (gcnew System::Windows::Forms::Label());
 			this->OfUpdateTimer = (gcnew System::Windows::Forms::Timer(this->components));
 			this->pignatUpdateTimer = (gcnew System::Windows::Forms::Timer(this->components));
+			this->finCycleTimer = (gcnew System::Windows::Forms::Timer(this->components));
+			this->txt_tousOrdresOk = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pignatImg))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox5))->BeginInit();
@@ -239,7 +244,7 @@ namespace Winforms_PignatFinal {
 				static_cast<System::Byte>(0)));
 			this->txt_InfosOF->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
 			this->txt_InfosOF->ImageAlign = System::Drawing::ContentAlignment::MiddleLeft;
-			this->txt_InfosOF->Location = System::Drawing::Point(212, 314);
+			this->txt_InfosOF->Location = System::Drawing::Point(212, 326);
 			this->txt_InfosOF->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
 			this->txt_InfosOF->Name = L"txt_InfosOF";
 			this->txt_InfosOF->Size = System::Drawing::Size(430, 86);
@@ -587,6 +592,26 @@ namespace Winforms_PignatFinal {
 			this->pignatUpdateTimer->Interval = 1;
 			this->pignatUpdateTimer->Tick += gcnew System::EventHandler(this, &AppCore::majCycleFabrication);
 			// 
+			// finCycleTimer
+			// 
+			this->finCycleTimer->Interval = 3500;
+			this->finCycleTimer->Tick += gcnew System::EventHandler(this, &AppCore::finCycleTimer_Tick);
+			// 
+			// txt_tousOrdresOk
+			// 
+			this->txt_tousOrdresOk->BackColor = System::Drawing::Color::Transparent;
+			this->txt_tousOrdresOk->Font = (gcnew System::Drawing::Font(L"Cambria", 10));
+			this->txt_tousOrdresOk->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
+			this->txt_tousOrdresOk->ImageAlign = System::Drawing::ContentAlignment::MiddleLeft;
+			this->txt_tousOrdresOk->Location = System::Drawing::Point(251, 239);
+			this->txt_tousOrdresOk->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
+			this->txt_tousOrdresOk->Name = L"txt_tousOrdresOk";
+			this->txt_tousOrdresOk->Size = System::Drawing::Size(242, 27);
+			this->txt_tousOrdresOk->TabIndex = 17;
+			this->txt_tousOrdresOk->Text = L"Tous les ordres sont traités !";
+			this->txt_tousOrdresOk->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
+			this->txt_tousOrdresOk->Visible = false;
+			// 
 			// AppCore
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -595,6 +620,7 @@ namespace Winforms_PignatFinal {
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(1218, 685);
 			this->ControlBox = false;
+			this->Controls->Add(this->txt_tousOrdresOk);
 			this->Controls->Add(this->btn_deconnexion);
 			this->Controls->Add(this->txt_deconnecter);
 			this->Controls->Add(this->table_InfosOF);
@@ -607,7 +633,7 @@ namespace Winforms_PignatFinal {
 			this->MaximizeBox = false;
 			this->MinimizeBox = false;
 			this->Name = L"AppCore";
-			this->Text = L"AppCore";
+			this->Text = L"Panneau des Ordres de Fabrication";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pignatImg))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox5))->EndInit();
@@ -644,6 +670,7 @@ namespace Winforms_PignatFinal {
 			std::vector<std::string> listeOf_std = bdd->getReferencesOFaTraiter();
 			int selectedIndex = listOF->SelectedIndex; // Stockez l'index sélectionné
 			listOF->Items->Clear();
+
 			for (int i = 0; i < listeOf_std.size(); i++)
 			{
 				listOF->Items->Add(gcnew String(listeOf_std.at(i).c_str()));
@@ -652,9 +679,11 @@ namespace Winforms_PignatFinal {
 			if (selectedIndex >= 0 && selectedIndex < listOF->Items->Count)
 			{
 				listOF->SelectedIndex = selectedIndex;
+				txt_tousOrdresOk->Visible = false;
 			}
 			else
 			{
+				txt_tousOrdresOk->Visible = true;
 				table_InfosOF->Visible = false;
 				txt_InfosOF->Visible = false;
 				btn_lancerFabrication->Visible = false;
@@ -665,6 +694,9 @@ namespace Winforms_PignatFinal {
 		COrdreFabrication* ordreFabrication;
 
 		private: System::Void listOF_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+
+			if (listOF->SelectedIndex < 0 || listOF->SelectedIndex >= listOF->Items->Count)
+				return;
 
 			String^ refOf = listOF->SelectedItem->ToString();
 			std::string refOf_string = ConvertStringToStdString(refOf);
@@ -713,6 +745,7 @@ namespace Winforms_PignatFinal {
 			temps_malaxage = System::Int32::Parse(txt_tempsMelange->Text);
 			temps_refroidissement = System::Int32::Parse(txt_tempsRefroidissement->Text);
 
+			nEtat = Etats::AttenteMarche;
 			running = true;
 			pignatUpdateTimer->Enabled = true;
 			OfUpdateTimer->Enabled = false;
@@ -729,11 +762,14 @@ namespace Winforms_PignatFinal {
 				txt_InfosOF->Text = "Attente Bouton Marche...";
 
 				if (pignat->getMarche())
+				{
+					pignat->setVoyantRouge(true);
 					nEtat = Etats::VersementPvc;
+				}
 				break;
 
 			case Etats::VersementPvc:
-				txt_InfosOF->Text = "Versement Pvc : \n\t" + pignat->getPoids() + " / " + masse_pvc_base + "g";
+				txt_InfosOF->Text = "Versement Pvc : \n   " + pignat->getPoids() + " / " + masse_pvc_base + "g";
 
 				if ((pignat->getPoids() >= masse_pvc_base))
 					nEtat = Etats::VersementPlastifiant;
@@ -741,7 +777,7 @@ namespace Winforms_PignatFinal {
 				break;
 
 			case Etats::VersementPlastifiant:
-				txt_InfosOF->Text = "Versement Plastifiant : \n\t" + pignat->getPoids() + " / " + (masse_pvc_base + masse_plastifiant) + "g";
+				txt_InfosOF->Text = "Versement Plastifiant : \n   " + pignat->getPoids() + " / " + (masse_pvc_base + masse_plastifiant) + "g";
 
 				if (pignat->getPoids() >= masse_pvc_base + masse_plastifiant)
 					nEtat = Etats::VersementLubrifiant;
@@ -749,7 +785,7 @@ namespace Winforms_PignatFinal {
 				break;
 
 			case Etats::VersementLubrifiant:
-				txt_InfosOF->Text = "Versement Lubrifiant : \n\t" + pignat->getPoids() + " / " + (masse_pvc_base + masse_plastifiant + masse_lubrifiant) + "g";
+				txt_InfosOF->Text = "Versement Lubrifiant : \n   " + pignat->getPoids() + " / " + (masse_pvc_base + masse_plastifiant + masse_lubrifiant) + "g";
 
 				if (pignat->getPoids() >= masse_pvc_base + masse_plastifiant + masse_lubrifiant)
 				{
@@ -759,7 +795,7 @@ namespace Winforms_PignatFinal {
 				break;
 
 			case Etats::Malaxage:
-				txt_InfosOF->Text = "Malaxage : \n\t" + duree_malax + " / " + temps_malaxage + "s";
+				txt_InfosOF->Text = "Malaxage : \n   " + duree_malax + " / " + temps_malaxage + "s";
 
 				if (duree_malax >= temps_malaxage)
 				{
@@ -770,7 +806,7 @@ namespace Winforms_PignatFinal {
 				break;
 
 			case Etats::Vidange:
-				txt_InfosOF->Text = "Vidange : \n\tPoids Restant : " + pignat->getPoids() + "g";
+				txt_InfosOF->Text = "Vidange : \n   Poids Restant : " + pignat->getPoids() + "g";
 				
 				if (pignat->getPoids() <= 20)
 				{
@@ -780,7 +816,7 @@ namespace Winforms_PignatFinal {
 				break;
 
 			case Etats::Refroidissement:
-				txt_InfosOF->Text = "Refroidissement : \n\t" + duree_refroid + " / " + temps_refroidissement + "s";
+				txt_InfosOF->Text = "Refroidissement : \n   " + duree_refroid + " / " + temps_refroidissement + "s";
 				
 				if (duree_refroid >= temps_refroidissement)
 				{
@@ -793,17 +829,24 @@ namespace Winforms_PignatFinal {
 			case Etats::Evacuation:
 				txt_InfosOF->Text = "Evacuation du bac...";
 
-				if (pignat->getCapteurNiveauBas() == 0)
+				if (!pignat->getCapteurNiveauBas())
 				{
 					nEtat = Etats::Fin;
-					FinCycle();
-					
 				}
 				
 				break;
 
+			case Etats::Fin:
+				txt_InfosOF->Text = "Fin !";
+				finCycleTimer->Enabled = true;
+
 			default:
 				running = false;
+			}
+
+			if (!pignat->getArret())
+			{
+				nEtat = Etats::Fin;	
 			}
 
 			pignat->setVannePVCBase(nEtat == Etats::VersementPvc);
@@ -823,23 +866,33 @@ namespace Winforms_PignatFinal {
 			pignat->setMalaxeur(nEtat == Etats::Malaxage || nEtat == Etats::VersementLubrifiant);
 
 			pignat->majSorties();				  
-
+			
 		}		
 
 		void FinCycle()
 		{
-			txt_InfosOF->Text = "Fin !";
+			running = false;
 			bdd->majHeureFin(*ordreFabrication);
 			UpdateREFOF();
 			pignatUpdateTimer->Enabled = false;
-			OfUpdateTimer->Enabled = true;
+			pignat->setVoyantRouge(false);
 
-			Sleep(1000);
-			ShowHideMenu(true);
-			
-		
+			ordreFabrication = nullptr;
+
+			listOF->Visible = true;
+			txt_OF->Visible = true;
+			listOF->SelectedIndex = -1;
+			btn_deconnexion->Visible = true;
+			txt_deconnecter->Visible = true;	
+
+
+			OfUpdateTimer->Enabled = true;
 		}
 
+		private: System::Void finCycleTimer_Tick(System::Object^ sender, System::EventArgs^ e) {
+			finCycleTimer->Enabled = false;
+			FinCycle();
+		}
 		void ShowHideMenu(bool action)
 		{
 			btn_lancerFabrication->Visible = action;
@@ -848,8 +901,6 @@ namespace Winforms_PignatFinal {
 			table_InfosOF->Visible = action;
 			btn_deconnexion->Visible = action;
 			txt_deconnecter->Visible = action;
-
-
 		}
 
 		/*---------------RESPONSIVE ANIM-------------------*/
@@ -989,6 +1040,7 @@ private: System::Void OfUpdateTimer_Tick(System::Object^ sender, System::EventAr
 		   GC::WaitForPendingFinalizers();
 		   delete this;
 	   }
+
 
 
 };
