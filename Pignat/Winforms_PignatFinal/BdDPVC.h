@@ -114,6 +114,7 @@ private:
 	int getIdFormule(CFormule formule);
 	int getIdPersonnel(CPersonnel user);
 	int getIdOF(COrdreFabrication of);
+
 };
 
 #endif

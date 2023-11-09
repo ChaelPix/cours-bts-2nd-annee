@@ -6,6 +6,7 @@
 #include "EsMelangeur.h"
 #include <msclr/marshal.h>
 #include <Windows.h>
+#include <thread>
 namespace Winforms_PignatFinal {
 
 	using namespace System;
@@ -14,6 +15,7 @@ namespace Winforms_PignatFinal {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::Threading;
 
 	/// <summary>
 	/// Description résumée de AppCore
@@ -22,12 +24,18 @@ namespace Winforms_PignatFinal {
 	{
 		CEsMelangeur^ pignat = gcnew CEsMelangeur;
 		System::Windows::Forms::Form^ parentForm;
-		bool isOn = false;
+
+		CPersonnel* operateur;
+
+	private: System::Windows::Forms::Timer^ pignatUpdateTimer;
+
+		   bool isOn = false;
 	public:
-		AppCore(System::Windows::Forms::Form^ parentForm)
+		AppCore(System::Windows::Forms::Form^ parentForm, CPersonnel* operateur)
 		{
 			this->parentForm = parentForm;
 
+			this->operateur = operateur;
 			InitializeComponent();
 			bdd->connecter();
 			InitPignat();
@@ -157,6 +165,7 @@ namespace Winforms_PignatFinal {
 			this->label13 = (gcnew System::Windows::Forms::Label());
 			this->label18 = (gcnew System::Windows::Forms::Label());
 			this->OfUpdateTimer = (gcnew System::Windows::Forms::Timer(this->components));
+			this->pignatUpdateTimer = (gcnew System::Windows::Forms::Timer(this->components));
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pignatImg))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox5))->BeginInit();
@@ -332,11 +341,11 @@ namespace Winforms_PignatFinal {
 			this->table_InfosOF->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				10.13299F)));
 			this->table_InfosOF->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				55.13784F)));
+				52.63158F)));
 			this->table_InfosOF->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				23.80952F)));
+				21.80451F)));
 			this->table_InfosOF->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
-				9.523809F)));
+				14.28571F)));
 			this->table_InfosOF->Controls->Add(this->txt_tempsRefroidissement, 2, 4);
 			this->table_InfosOF->Controls->Add(this->txt_tempsMelange, 2, 3);
 			this->table_InfosOF->Controls->Add(this->txt_quantitePlastifiant, 2, 2);
@@ -357,7 +366,7 @@ namespace Winforms_PignatFinal {
 			this->table_InfosOF->Controls->Add(this->label11, 3, 2);
 			this->table_InfosOF->Controls->Add(this->label12, 3, 3);
 			this->table_InfosOF->Controls->Add(this->label13, 3, 4);
-			this->table_InfosOF->Location = System::Drawing::Point(236, 360);
+			this->table_InfosOF->Location = System::Drawing::Point(235, 360);
 			this->table_InfosOF->Margin = System::Windows::Forms::Padding(2);
 			this->table_InfosOF->Name = L"table_InfosOF";
 			this->table_InfosOF->RowCount = 5;
@@ -367,15 +376,15 @@ namespace Winforms_PignatFinal {
 			this->table_InfosOF->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 20)));
 			this->table_InfosOF->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 20)));
 			this->table_InfosOF->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Absolute, 20)));
-			this->table_InfosOF->Size = System::Drawing::Size(402, 192);
+			this->table_InfosOF->Size = System::Drawing::Size(407, 192);
 			this->table_InfosOF->TabIndex = 15;
 			// 
 			// txt_tempsRefroidissement
 			// 
 			this->txt_tempsRefroidissement->Font = (gcnew System::Drawing::Font(L"Cambria", 15.25F, System::Drawing::FontStyle::Bold));
-			this->txt_tempsRefroidissement->Location = System::Drawing::Point(267, 151);
+			this->txt_tempsRefroidissement->Location = System::Drawing::Point(260, 151);
 			this->txt_tempsRefroidissement->Name = L"txt_tempsRefroidissement";
-			this->txt_tempsRefroidissement->Size = System::Drawing::Size(87, 32);
+			this->txt_tempsRefroidissement->Size = System::Drawing::Size(80, 32);
 			this->txt_tempsRefroidissement->TabIndex = 21;
 			this->txt_tempsRefroidissement->Text = L"00";
 			this->txt_tempsRefroidissement->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -383,9 +392,9 @@ namespace Winforms_PignatFinal {
 			// txt_tempsMelange
 			// 
 			this->txt_tempsMelange->Font = (gcnew System::Drawing::Font(L"Cambria", 15.25F, System::Drawing::FontStyle::Bold));
-			this->txt_tempsMelange->Location = System::Drawing::Point(267, 114);
+			this->txt_tempsMelange->Location = System::Drawing::Point(260, 114);
 			this->txt_tempsMelange->Name = L"txt_tempsMelange";
-			this->txt_tempsMelange->Size = System::Drawing::Size(87, 32);
+			this->txt_tempsMelange->Size = System::Drawing::Size(80, 32);
 			this->txt_tempsMelange->TabIndex = 20;
 			this->txt_tempsMelange->Text = L"00";
 			this->txt_tempsMelange->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -393,9 +402,9 @@ namespace Winforms_PignatFinal {
 			// txt_quantitePlastifiant
 			// 
 			this->txt_quantitePlastifiant->Font = (gcnew System::Drawing::Font(L"Cambria", 15.25F, System::Drawing::FontStyle::Bold));
-			this->txt_quantitePlastifiant->Location = System::Drawing::Point(267, 77);
+			this->txt_quantitePlastifiant->Location = System::Drawing::Point(260, 77);
 			this->txt_quantitePlastifiant->Name = L"txt_quantitePlastifiant";
-			this->txt_quantitePlastifiant->Size = System::Drawing::Size(87, 32);
+			this->txt_quantitePlastifiant->Size = System::Drawing::Size(80, 32);
 			this->txt_quantitePlastifiant->TabIndex = 19;
 			this->txt_quantitePlastifiant->Text = L"000";
 			this->txt_quantitePlastifiant->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -403,9 +412,9 @@ namespace Winforms_PignatFinal {
 			// txt_quantiteLubrifiant
 			// 
 			this->txt_quantiteLubrifiant->Font = (gcnew System::Drawing::Font(L"Cambria", 15.25F, System::Drawing::FontStyle::Bold));
-			this->txt_quantiteLubrifiant->Location = System::Drawing::Point(267, 40);
+			this->txt_quantiteLubrifiant->Location = System::Drawing::Point(260, 40);
 			this->txt_quantiteLubrifiant->Name = L"txt_quantiteLubrifiant";
-			this->txt_quantiteLubrifiant->Size = System::Drawing::Size(87, 32);
+			this->txt_quantiteLubrifiant->Size = System::Drawing::Size(80, 32);
 			this->txt_quantiteLubrifiant->TabIndex = 18;
 			this->txt_quantiteLubrifiant->Text = L"000";
 			this->txt_quantiteLubrifiant->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -414,7 +423,7 @@ namespace Winforms_PignatFinal {
 			// 
 			this->label9->Font = (gcnew System::Drawing::Font(L"Cambria", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label9->Location = System::Drawing::Point(363, 3);
+			this->label9->Location = System::Drawing::Point(349, 3);
 			this->label9->Name = L"label9";
 			this->label9->Size = System::Drawing::Size(33, 32);
 			this->label9->TabIndex = 13;
@@ -424,9 +433,9 @@ namespace Winforms_PignatFinal {
 			// txt_quantitePVC
 			// 
 			this->txt_quantitePVC->Font = (gcnew System::Drawing::Font(L"Cambria", 15.25F, System::Drawing::FontStyle::Bold));
-			this->txt_quantitePVC->Location = System::Drawing::Point(267, 3);
+			this->txt_quantitePVC->Location = System::Drawing::Point(260, 3);
 			this->txt_quantitePVC->Name = L"txt_quantitePVC";
-			this->txt_quantitePVC->Size = System::Drawing::Size(87, 32);
+			this->txt_quantitePVC->Size = System::Drawing::Size(80, 32);
 			this->txt_quantitePVC->TabIndex = 12;
 			this->txt_quantitePVC->Text = L"000";
 			this->txt_quantitePVC->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
@@ -461,7 +470,7 @@ namespace Winforms_PignatFinal {
 			// 
 			this->label3->Font = (gcnew System::Drawing::Font(L"Cambria", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label3->Location = System::Drawing::Point(48, 3);
+			this->label3->Location = System::Drawing::Point(49, 3);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(96, 32);
 			this->label3->TabIndex = 7;
@@ -472,7 +481,7 @@ namespace Winforms_PignatFinal {
 			// 
 			this->label4->Font = (gcnew System::Drawing::Font(L"Cambria", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label4->Location = System::Drawing::Point(48, 40);
+			this->label4->Location = System::Drawing::Point(49, 40);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(91, 32);
 			this->label4->TabIndex = 8;
@@ -483,7 +492,7 @@ namespace Winforms_PignatFinal {
 			// 
 			this->label5->Font = (gcnew System::Drawing::Font(L"Cambria", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label5->Location = System::Drawing::Point(48, 77);
+			this->label5->Location = System::Drawing::Point(49, 77);
 			this->label5->Name = L"label5";
 			this->label5->Size = System::Drawing::Size(91, 32);
 			this->label5->TabIndex = 9;
@@ -494,7 +503,7 @@ namespace Winforms_PignatFinal {
 			// 
 			this->label6->Font = (gcnew System::Drawing::Font(L"Cambria", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label6->Location = System::Drawing::Point(48, 114);
+			this->label6->Location = System::Drawing::Point(49, 114);
 			this->label6->Name = L"label6";
 			this->label6->Size = System::Drawing::Size(156, 32);
 			this->label6->TabIndex = 10;
@@ -504,9 +513,9 @@ namespace Winforms_PignatFinal {
 			// label7
 			// 
 			this->label7->Font = (gcnew System::Drawing::Font(L"Cambria", 14.25F));
-			this->label7->Location = System::Drawing::Point(48, 151);
+			this->label7->Location = System::Drawing::Point(49, 151);
 			this->label7->Name = L"label7";
-			this->label7->Size = System::Drawing::Size(210, 32);
+			this->label7->Size = System::Drawing::Size(202, 32);
 			this->label7->TabIndex = 11;
 			this->label7->Text = L"Temps Refroidissement";
 			this->label7->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
@@ -515,7 +524,7 @@ namespace Winforms_PignatFinal {
 			// 
 			this->label10->Font = (gcnew System::Drawing::Font(L"Cambria", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label10->Location = System::Drawing::Point(363, 40);
+			this->label10->Location = System::Drawing::Point(349, 40);
 			this->label10->Name = L"label10";
 			this->label10->Size = System::Drawing::Size(33, 32);
 			this->label10->TabIndex = 14;
@@ -526,7 +535,7 @@ namespace Winforms_PignatFinal {
 			// 
 			this->label11->Font = (gcnew System::Drawing::Font(L"Cambria", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label11->Location = System::Drawing::Point(363, 77);
+			this->label11->Location = System::Drawing::Point(349, 77);
 			this->label11->Name = L"label11";
 			this->label11->Size = System::Drawing::Size(33, 32);
 			this->label11->TabIndex = 15;
@@ -537,7 +546,7 @@ namespace Winforms_PignatFinal {
 			// 
 			this->label12->Font = (gcnew System::Drawing::Font(L"Cambria", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label12->Location = System::Drawing::Point(363, 114);
+			this->label12->Location = System::Drawing::Point(349, 114);
 			this->label12->Name = L"label12";
 			this->label12->Size = System::Drawing::Size(33, 32);
 			this->label12->TabIndex = 16;
@@ -548,7 +557,7 @@ namespace Winforms_PignatFinal {
 			// 
 			this->label13->Font = (gcnew System::Drawing::Font(L"Cambria", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label13->Location = System::Drawing::Point(363, 151);
+			this->label13->Location = System::Drawing::Point(349, 151);
 			this->label13->Name = L"label13";
 			this->label13->Size = System::Drawing::Size(33, 32);
 			this->label13->TabIndex = 17;
@@ -571,6 +580,11 @@ namespace Winforms_PignatFinal {
 			this->OfUpdateTimer->Enabled = true;
 			this->OfUpdateTimer->Interval = 5000;
 			this->OfUpdateTimer->Tick += gcnew System::EventHandler(this, &AppCore::OfUpdateTimer_Tick);
+			// 
+			// pignatUpdateTimer
+			// 
+			this->pignatUpdateTimer->Interval = 1;
+			this->pignatUpdateTimer->Tick += gcnew System::EventHandler(this, &AppCore::majCycleFabrication);
 			// 
 			// AppCore
 			// 
@@ -621,7 +635,6 @@ namespace Winforms_PignatFinal {
 
 		/*---------------Code BDD-------------------*/
 		CBdDPVC^ bdd = gcnew CBdDPVC;
-
 		void UpdateREFOF()
 		{		
 			std::vector<std::string> listeOf_std = bdd->getReferencesOFaTraiter();
@@ -645,7 +658,8 @@ namespace Winforms_PignatFinal {
 			}
 				
 		}
-		
+		COrdreFabrication* ordreFabrication;
+
 		private: System::Void listOF_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
 
 			String^ refOf = listOF->SelectedItem->ToString();
@@ -653,6 +667,9 @@ namespace Winforms_PignatFinal {
 
 
 			COrdreFabrication of = bdd->getOrdreFabrication(refOf_string);
+			
+			ordreFabrication = new COrdreFabrication(of);
+
 			CFormule formule = of.getFormule();
 
 			String^ type = gcnew String(formule.getType().c_str());
@@ -671,26 +688,136 @@ namespace Winforms_PignatFinal {
 			btn_lancerFabrication->Visible = true;
 		}
 
+
+			   /*---------------Gestion CYCLE-------------------*/
+		enum class Etats { AttenteMarche, VersementPvc, VersementPlastifiant, VersementLubrifiant, Malaxage, Vidange, Refroidissement, Evacuation, Fin };
+		Etats nEtat = Etats::AttenteMarche;
+		int duree_refroid = 0;
+		int duree_malax = 0;
+		bool running = false;
+		float masse_pvc_base, masse_plastifiant, masse_lubrifiant, temps_malaxage, temps_refroidissement;
+
 		System::Void LancerCycle(System::Object^ sender, System::EventArgs^ e)
 		{
-			table_InfosOF->Visible = false;
-			txt_InfosOF->Visible = false;
 			btn_lancerFabrication->Visible = false;
 			txt_OF->Visible = false;
 			listOF->Visible = false;
+			table_InfosOF->Visible = false;
 
-			return;
-			int masse_pvc_base = 0, masse_plastifiant = 0, masse_lubrifiant = 0, temps_malaxage = 0, temps_refroidissement = 0;
-
-			masse_pvc_base = System::Int32::Parse(txt_quantitePVC->Text);
-			masse_plastifiant = System::Int32::Parse(txt_quantiteLubrifiant->Text);
-			masse_lubrifiant = System::Int32::Parse(txt_quantitePlastifiant->Text);
+			Single::TryParse(txt_quantitePVC->Text, masse_pvc_base);
+			Single::TryParse(txt_quantiteLubrifiant->Text, masse_lubrifiant);
+			Single::TryParse(txt_quantitePlastifiant->Text, masse_plastifiant);
 
 			temps_malaxage = System::Int32::Parse(txt_tempsMelange->Text);
 			temps_refroidissement = System::Int32::Parse(txt_tempsRefroidissement->Text);
 
-			pignat->lancerCycleFabrication(masse_pvc_base, masse_plastifiant, masse_lubrifiant, temps_malaxage, temps_refroidissement);			  
+			running = true;
+			pignatUpdateTimer->Enabled = true;
+			OfUpdateTimer->Enabled = false;
+
+			bdd->majEtatEnCours(*ordreFabrication, *operateur);
 		}
+
+		System::Void majCycleFabrication(System::Object^ sender, System::EventArgs^ e)
+		{
+			pignat->lireEntrees();
+
+			switch (nEtat) {
+			case Etats::AttenteMarche:
+				txt_InfosOF->Text = "Attente Bouton Marche...";
+
+				if (pignat->getMarche())
+					nEtat = Etats::VersementPvc;
+				break;
+
+			case Etats::VersementPvc:
+				txt_InfosOF->Text = "Versement Pvc : " + pignat->getPoids() + " g / " + masse_pvc_base;
+
+				if ((pignat->getPoids() >= masse_pvc_base))
+					nEtat = Etats::VersementPlastifiant;
+
+				break;
+
+			case Etats::VersementPlastifiant:
+				txt_InfosOF->Text = "Versement Plastifiant : " + pignat->getPoids() + " g / " + (masse_pvc_base + masse_plastifiant);
+
+				if (pignat->getPoids() >= masse_pvc_base + masse_plastifiant)
+					nEtat = Etats::VersementLubrifiant;
+
+				break;
+
+			case Etats::VersementLubrifiant:
+				txt_InfosOF->Text = "Versement Lubrifiant : " + pignat->getPoids() + " g / " + (masse_pvc_base + masse_plastifiant + masse_lubrifiant);
+
+				if (pignat->getPoids() >= masse_pvc_base + masse_plastifiant + masse_lubrifiant)
+				{
+					nEtat = Etats::Malaxage;
+					pignatUpdateTimer->Interval = 1000;
+				}
+				break;
+
+			case Etats::Malaxage:
+				txt_InfosOF->Text = "Malaxage : " + duree_malax + " s / " + temps_malaxage;
+
+				if (duree_malax >= temps_malaxage)
+				{
+					nEtat = Etats::Vidange;
+					pignatUpdateTimer->Interval = 1;
+				}
+				
+				break;
+
+			case Etats::Vidange:
+				txt_InfosOF->Text = "Vidange : " + pignat->getPoids();
+				
+				if (pignat->getPoids() <= 20)
+				{
+					nEtat = Etats::Refroidissement;
+					pignatUpdateTimer->Interval = 1000;
+				}
+				break;
+
+			case Etats::Refroidissement:
+				txt_InfosOF->Text = "Malaxage : " + duree_refroid + " s / " + temps_refroidissement;
+				
+				if (duree_refroid >= temps_refroidissement)
+				{
+					nEtat = Etats::Evacuation; 
+					pignatUpdateTimer->Interval = 1;
+				}
+				
+				break;
+
+			case Etats::Evacuation:
+				txt_InfosOF->Text = "Evacuation...";
+
+				if (pignat->getCapteurNiveauBas() == 0)
+					nEtat = Etats::Fin;
+				
+				break;
+
+			default:
+				running = false;
+			}
+
+			pignat->setVannePVCBase(nEtat == Etats::VersementPvc);
+			pignat->setVannePlastifiant(nEtat == Etats::VersementPlastifiant);
+			pignat->setVanneLubrifiant(nEtat == Etats::VersementLubrifiant);
+			if (nEtat == Etats::Malaxage)
+			{
+				duree_malax++;
+			}
+			pignat->setVanneVidange(nEtat == Etats::Vidange);
+			if (nEtat == Etats::Refroidissement)
+			{
+				duree_refroid++;
+			}
+			pignat->setEvacuation(nEtat == Etats::Evacuation);
+			pignat->setMalaxeur(nEtat == Etats::Malaxage || nEtat == Etats::VersementLubrifiant);
+
+			pignat->majSorties();				  
+
+		}		
 
 		/*---------------RESPONSIVE ANIM-------------------*/
 #pragma region RESPONSIVE_ANIM
@@ -829,5 +956,7 @@ private: System::Void OfUpdateTimer_Tick(System::Object^ sender, System::EventAr
 		   GC::WaitForPendingFinalizers();
 		   delete this;
 	   }
+
+
 };
 }

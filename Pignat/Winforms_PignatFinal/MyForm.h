@@ -331,7 +331,8 @@ namespace Winforms_PignatFinal {
 
 			this->Enabled = false;
 			this->Visible = false;
-			AppCore^ form2 = gcnew AppCore(this);
+			CPersonnel debug("op1", "123abc", CPersonnel::Qualite::OPERATEUR);
+			AppCore^ form2 = gcnew AppCore(this, &debug);
 			form2->StartPosition = FormStartPosition::Manual; // Définir la position de départ sur Manuelle
 			form2->Location = this->Location;
 			form2->ShowDialog();
@@ -355,7 +356,7 @@ namespace Winforms_PignatFinal {
 			{
 				incorrectTxt->Text = "";
 				this->Hide(); // Cachez le formulaire actuel
-				AppCore^ form2 = gcnew AppCore(this);
+				AppCore^ form2 = gcnew AppCore(this, &personnel);
 				form2->StartPosition = FormStartPosition::Manual; // Définir la position de départ sur Manuelle
 				form2->Location = this->Location;
 				form2->ShowDialog();
