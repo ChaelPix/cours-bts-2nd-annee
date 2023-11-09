@@ -163,7 +163,7 @@ namespace Winforms_PignatFinal {
 			this->pignatImg->BackColor = System::Drawing::Color::Transparent;
 			this->pignatImg->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pignatImg.Image")));
 			this->pignatImg->Location = System::Drawing::Point(59, 56);
-			this->pignatImg->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->pignatImg->Margin = System::Windows::Forms::Padding(2);
 			this->pignatImg->Name = L"pignatImg";
 			this->pignatImg->Size = System::Drawing::Size(330, 81);
 			this->pignatImg->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
@@ -200,7 +200,7 @@ namespace Winforms_PignatFinal {
 			this->pictureBox1->BackColor = System::Drawing::Color::Transparent;
 			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
 			this->pictureBox1->Location = System::Drawing::Point(67, 231);
-			this->pictureBox1->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->pictureBox1->Margin = System::Windows::Forms::Padding(2);
 			this->pictureBox1->Name = L"pictureBox1";
 			this->pictureBox1->Size = System::Drawing::Size(43, 49);
 			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
@@ -233,7 +233,7 @@ namespace Winforms_PignatFinal {
 			this->pictureBox2->BackColor = System::Drawing::Color::Transparent;
 			this->pictureBox2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox2.Image")));
 			this->pictureBox2->Location = System::Drawing::Point(67, 354);
-			this->pictureBox2->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->pictureBox2->Margin = System::Windows::Forms::Padding(2);
 			this->pictureBox2->Name = L"pictureBox2";
 			this->pictureBox2->Size = System::Drawing::Size(43, 49);
 			this->pictureBox2->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
@@ -316,6 +316,7 @@ namespace Winforms_PignatFinal {
 			this->Controls->Add(this->backgroundImage);
 			this->Cursor = System::Windows::Forms::Cursors::Default;
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::Fixed3D;
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->MaximizeBox = false;
 			this->MinimizeBox = false;
 			this->Name = L"MyForm";

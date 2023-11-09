@@ -74,7 +74,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>..\..\___LIBS\LIB_boost_1_64_0;..\..\___LIBS\LIB_mysql_connector\include</IncludePath>
+    <IncludePath>..\..\___LIBS\LIB_boost_1_64_0;..\..\___LIBS\LIB_mysql_connector\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>..\_LIB_boost_1_64_0;..\_LIB_mysql_connector\include</IncludePath>
@@ -188,13 +188,13 @@
     <Image Include="ressources\animated_background\Layer 40.jpg" />
     <Image Include="ressources\animated_background\Layer 6.jpg" />
     <Image Include="ressources\animated_background\Layer 8.jpg" />
+    <Image Include="ressources\ico.ico" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\..\___LIBS\LIB_mysql_connector\lib\mysqlcppconn.lib" />
     <Library Include="NIDAQmx.lib" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resource.rc" />
     <ResourceCompile Include="Winforms_PignatFinal.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
