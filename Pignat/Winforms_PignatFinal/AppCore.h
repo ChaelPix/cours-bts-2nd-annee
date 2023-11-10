@@ -679,17 +679,17 @@ namespace Winforms_PignatFinal {
 			if (selectedIndex >= 0 && selectedIndex < listOF->Items->Count)
 			{
 				listOF->SelectedIndex = selectedIndex;
-				txt_tousOrdresOk->Visible = false;
 			}
 			else
 			{
-				txt_tousOrdresOk->Visible = true;
 				table_InfosOF->Visible = false;
 				txt_InfosOF->Visible = false;
 				btn_lancerFabrication->Visible = false;
 				listOF->SelectedIndex = -1;
 			}
 				
+
+			txt_tousOrdresOk->Visible = listOF->Items->Count == 0;
 		}
 		COrdreFabrication* ordreFabrication;
 
