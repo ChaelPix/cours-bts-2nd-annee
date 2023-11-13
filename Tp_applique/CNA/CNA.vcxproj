@@ -36,11 +36,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="busi2c.cpp" />
+    <ClCompile Include="hatGrovePi.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MCP4725.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="busi2c.h" />
+    <ClInclude Include="hatGrovePi.h" />
     <ClInclude Include="MCP4725.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

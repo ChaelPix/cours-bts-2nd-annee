@@ -1,77 +1,72 @@
 #include <iostream>
-#include <unistd.h>
-#include <cmath>
 #include <vector>
+#include <algorithm>
+#include <limits>
+#include <ctime>
+#include <chrono>
+#include <unistd.h>
 #include "busi2c.h"
 #include "MCP4725.h"
+
+#include "hatGrovePi.h"
+
 using namespace std;
-
-std::vector<double> CalculSignalSinus(){
-	 double amplitude = 1.5;
-	 double decalage = 1.65;
-	 double frequence = 50.0;
-	 double omega = 2.0 * M_PI * frequence;
-	 int echantillonsParPeriode = 20;
-	 double tauxEchantillonnage = echantillonsParPeriode * frequence;
-	 double dt = 1.0 / tauxEchantillonnage;
-
-	std::vector<double> valeursSinus(echantillonsParPeriode);
-
-	for (int i = 0; i < echantillonsParPeriode; ++i) {
-		double t = i * dt;
-		valeursSinus[i] = decalage + amplitude * sin(omega * t);
-	}
-
-	for (int i = 0; i < echantillonsParPeriode; ++i) {
-		std::cout << "valeursSinus[" << i << "] = " << valeursSinus[i] << std::endl;
-	}
-
-	return valeursSinus;
-}
 
 int main(int argc, char** argv)
 {
-	std::cout << "--- Debut du programme steferer ---" << endl;
+	cout << "--- Debut prog" << endl;
 	BusI2C bus("/dev/i2c-1");
 	MCP4725 cna(&bus);
 	if (!cna.init()) {
-		std::cout << cna.getLastError() << endl;
+		cout << cna.getLastError() << endl;
 		bus.closeBus();
 		return 0;
 	}
-
 	usleep(100);
-	double valeur = 0.1;
-	double y = 0.3;
+	hatGrovePi h;
+	if (!h.init()) {
+		cout << h.getLastError() << endl;
+		return 0;
+	}
+	unsigned short val; // variable pour la lecture du CAN : attention valeur en mV
+	cna.setValVRefVDD(3.3);
+	double xn, xn1, xn2, yn, yn1, yn2;
+	xn = xn1 = xn2 = yn = yn1 = yn2 = 0.0;
 
-	int f = 20000;
-	double vMax = 0.3;
-	double vMin = 0.1;
+	const int sleepTemps = 200;
 
-	double step = 0.01 ;
-	double pauseParStep = f * step * (vMax - vMin) * 10;
-
-	std::vector<double> valeurSignal = CalculSignalSinus();
-	int i = 0;
-
+	double a0 = 1;
+	double a1 = -1.618;
+	double a2 = 1;
+	double b1 = 1.4;
+	double b2 = -0.878;
 
 	while (true) {
-		y = valeurSignal[i] / 10;
 
-		i++;
-		if (i >= valeurSignal.size())
-			i = 0;
+		h.readChannelmV(0, val);
 
-		if (!cna.writeAnalog(y)) {
-			std::cout << cna.getLastError() << endl;
-			bus.closeBus();
-			return 0;
+		yn2 = yn1;
+		yn1 = yn;
+		xn2 = xn1;
+		xn1 = xn;
+		xn = val / 1000.0;
+
+		yn = (a0 * xn + a1 * xn1 + a2 * xn2 + b1 * yn1 + b2 * yn2) / 100;
+		yn += 1;
+		std::cout << yn << std::endl;
+		
+
+		if (!cna.writeAnalog(yn)) {
+				cout << cna.getLastError() << endl;
+				bus.closeBus();
+				return 0;
 		}
-		usleep(f / valeurSignal.size());
+
+		usleep(sleepTemps);
 	}
 
 	bus.closeBus();
-	std::cout << "--- Fin programme ---" << endl;
+	h.end();
+	cout << "--- Fin prog" << endl;
 	return 0;
 }
-
