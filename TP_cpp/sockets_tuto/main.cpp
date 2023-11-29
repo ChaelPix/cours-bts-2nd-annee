@@ -93,6 +93,8 @@ void ClientRoom(uint ids_connect)
 {
      clientQueue.push(ids_connect);
   
+
+
     // Attente d'un match
     while (clientQueue.size() < 2) {
         this_thread::sleep_for(chrono::seconds(1));
